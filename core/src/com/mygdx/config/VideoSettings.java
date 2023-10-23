@@ -7,6 +7,18 @@ public class VideoSettings {
 	private int cols;
 	private int spriteSize;
 	
+	
+	public VideoSettings() {
+		
+	}
+	
+	public VideoSettings(int rows , int cols, int spriteSize) {
+		this.rows = rows;
+		this.cols = cols;
+		this.spriteSize = spriteSize;
+	}
+	
+	
 	public void setRows(int rows) {
 		this.rows = rows; 
 	}
@@ -33,7 +45,6 @@ public class VideoSettings {
 	public void setTitle(String title) {
 		Gdx.graphics.setTitle(title);
 	}
-	
-	
+
 	
 }

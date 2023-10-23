@@ -7,24 +7,36 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.mygdx.config.VideoSettings;
+import com.mygdx.gameField.GameField;
 
 
 public class MyGdxGame extends ApplicationAdapter {
 	
-	VideoSettings videoConfig = new VideoSettings();
+	int rows = 12;
+	int cols = 12;
+	int spriteSize = 32;
+	
+	
+	VideoSettings videoConfig = new VideoSettings(rows,cols,spriteSize);
+	GameField field = new GameField(rows,cols);
 	
 	
 	@Override
 	public void create () {
 		
-		videoConfig.setRows(12);
-		videoConfig.setCols(12);
-		videoConfig.setSpriteSize(32);
-		
-       
         videoConfig.setWindowedMode();
         videoConfig.setResizable(false);
         videoConfig.setTitle("Campo Minado");
+           
+        field.fillMatrixes();
+        int[][] matrix = field.getMatrix();
+        for (int row = 0; row < matrix.length; row++) {
+            for (int col = 0; col < matrix[row].length; col++) {
+                System.out.print(matrix[row][col] + " ");
+            }
+            System.out.println(); 
+        }
+        
         
 	}
 
