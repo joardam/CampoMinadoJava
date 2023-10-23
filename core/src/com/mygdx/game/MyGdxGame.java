@@ -6,24 +6,25 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.mygdx.config.VideoSettings;
 
 
 public class MyGdxGame extends ApplicationAdapter {
-	int rows = 12;
-	int cols = 12;
-	int spriteSize = 32;
-
+	
+	VideoSettings videoConfig = new VideoSettings();
 	
 	
 	@Override
 	public void create () {
-		int videoSizex = rows * spriteSize;
-        int videoSizey = cols * spriteSize;
-        
-        
-        Gdx.graphics.setWindowedMode(videoSizex,videoSizey);
-        Gdx.graphics.setResizable(false);
-        Gdx.graphics.setTitle("Campo Minado");
+		
+		videoConfig.setRows(12);
+		videoConfig.setCols(12);
+		videoConfig.setSpriteSize(32);
+		
+       
+        videoConfig.setWindowedMode();
+        videoConfig.setResizable(false);
+        videoConfig.setTitle("Campo Minado");
         
 	}
 
