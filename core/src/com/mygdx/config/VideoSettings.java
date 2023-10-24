@@ -45,6 +45,7 @@ public class VideoSettings {
 	public void setTitle(String title) {
 		Gdx.graphics.setTitle(title);
 	}
-
+	
+	
 	
 }

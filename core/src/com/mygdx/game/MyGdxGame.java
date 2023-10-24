@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.mygdx.config.VideoSettings;
+import com.mygdx.draw.FieldDraw;
 import com.mygdx.gameField.GameField;
 
 
@@ -16,27 +17,25 @@ public class MyGdxGame extends ApplicationAdapter {
 	int cols = 12;
 	int spriteSize = 32;
 	
+	SpriteBatch sprite;
+	Texture texture;
 	
 	VideoSettings videoConfig = new VideoSettings(rows,cols,spriteSize);
 	GameField field = new GameField(rows,cols);
-	
+	FieldDraw draw =  new FieldDraw(field,spriteSize);
 	
 	@Override
 	public void create () {
+		
+		sprite = new SpriteBatch();
+		texture = new Texture("newsprites.jpg");
+		
 		
         videoConfig.setWindowedMode();
         videoConfig.setResizable(false);
         videoConfig.setTitle("Campo Minado");
            
         field.fillMatrixes();
-        int[][] matrix = field.getMatrix();
-        for (int row = 0; row < matrix.length; row++) {
-            for (int col = 0; col < matrix[row].length; col++) {
-                System.out.print(matrix[row][col] + " ");
-            }
-            System.out.println(); 
-        }
-        
         
 	}
 
@@ -45,9 +44,10 @@ public class MyGdxGame extends ApplicationAdapter {
 		Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
-        SpriteBatch spriteBatch = new SpriteBatch();
-        spriteBatch.begin();
-        spriteBatch.end();
+      
+        sprite.begin();
+        draw.drawField(sprite, texture);
+        sprite.end();
 		
 	}
 	
