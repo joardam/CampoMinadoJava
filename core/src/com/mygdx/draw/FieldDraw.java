@@ -1,8 +1,10 @@
 package com.mygdx.draw;
 
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.mygdx.config.VideoSettings;
 import com.mygdx.gameField.GameField;
 
 public class FieldDraw {
@@ -31,14 +33,9 @@ public class FieldDraw {
 				int renderY = col * spriteSize;
 				
 				TextureRegion region = new TextureRegion(texture,x,y,width,height);
-				sprite.draw(region,renderX, renderY);
-								
-		
+				sprite.draw(region,renderX, renderY);					
 			}
 		}
-		
-	
-	
 	}
 	
 	

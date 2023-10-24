@@ -1,11 +1,19 @@
 package com.mygdx.config;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 
 public class VideoSettings {
 	private int rows;
 	private int cols;
 	private int spriteSize;
+	private Viewport viewport;
+    private OrthographicCamera camera;
+    
+    int videoSizex;
+	int videoSizey;
 	
 	
 	public VideoSettings() {
@@ -16,6 +24,11 @@ public class VideoSettings {
 		this.rows = rows;
 		this.cols = cols;
 		this.spriteSize = spriteSize;
+		
+		this.videoSizex = rows * spriteSize;
+		this.videoSizey = cols * spriteSize;
+		
+		
 	}
 	
 	
@@ -33,8 +46,7 @@ public class VideoSettings {
 	
 	
 	public void setWindowedMode() {
-		int videoSizex = rows * spriteSize;
-		int videoSizey = cols * spriteSize;
+		
 		Gdx.graphics.setWindowedMode(videoSizex,videoSizey);
 	}
 	
@@ -46,6 +58,18 @@ public class VideoSettings {
 		Gdx.graphics.setTitle(title);
 	}
 	
+	public void setFixElements() {
+		camera = new OrthographicCamera();
+		camera.setToOrtho(false, videoSizex, videoSizey);
+		camera.update();
+		viewport = new ScreenViewport(camera);
+	}
 	
+	public void resizeScreen(int width,int height) {
+		viewport.update(width, height);
+	}	
 	
+	public OrthographicCamera getCamera() {
+		return this.camera;
+	}
 }
