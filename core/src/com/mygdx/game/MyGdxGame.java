@@ -9,6 +9,7 @@ import com.mygdx.config.SpriteConfig;
 import com.mygdx.config.VideoSettings;
 import com.mygdx.draw.FieldDraw;
 import com.mygdx.gameField.GameField;
+import com.mygdx.mouseTrack.MouseTrack;
 
 
 public class MyGdxGame extends ApplicationAdapter {
@@ -21,9 +22,13 @@ public class MyGdxGame extends ApplicationAdapter {
 	SpriteBatch sprite;
 	Texture texture;
 	
+	
 	VideoSettings videoConfig = new VideoSettings(rows,cols,spriteSize);
 	GameField field = new GameField(rows,cols);
 	FieldDraw draw =  new FieldDraw(field,spriteSize);
+
+	MouseTrack mouse = new MouseTrack(spriteSize,rows,cols);
+	
 	
 	@Override
 	public void create () {
@@ -39,7 +44,7 @@ public class MyGdxGame extends ApplicationAdapter {
         videoConfig.setResizable(false);
         videoConfig.setTitle("Campo Minado");
            
-        field.fillMatrixes();
+        field.fillCells();
         
 	}
 	
@@ -55,6 +60,12 @@ public class MyGdxGame extends ApplicationAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
         SpriteConfig.setProjectionMatrix(sprite,videoConfig);
+        mouse.setMousePosition();
+        
+        
+        if(mouse.eventMouseLeftClickOnce()) {
+        	System.out.print("clicou");
+        }
         
         sprite.begin();
         draw.drawField(sprite, texture);

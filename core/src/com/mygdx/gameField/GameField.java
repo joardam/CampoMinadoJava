@@ -1,11 +1,13 @@
 package com.mygdx.gameField;
 
+import com.mygdx.utils.Utils;
+
 public class GameField  {
 	int rows;
 	int cols;
 	int[][] matrix ;
 	int[][] sMatrix ;
-	
+	FieldCell[][] cells;
 	
 	public GameField(int rows , int cols) {
 		this.rows = rows;
@@ -14,27 +16,55 @@ public class GameField  {
 		sMatrix = new int[this.rows][this.cols];
 	}
 	
-	
 
 	
-
-	public void fillMatrixes() {
+	
+	public void fillCells() {
+		cells = new FieldCell[this.rows - 2][this.cols - 2];
+		int arrayPosX = 0;
+		int arrayPosY = 0;
 		
-		for (int row = 1; row <= rows - 2; row++) {
-			for (int col = 1; col <= cols - 2; col++) {
-				this.matrix[row][col] = 10;
+		for(FieldCell[] cellsByCol: cells) {
+			for(FieldCell cellInCol : cellsByCol) {
+				int posX = arrayPosX + 1;
+				int posY = arrayPosY + 1;
+				
+				cells[arrayPosX][arrayPosY] =  new FieldCell();
+				cells[arrayPosX][arrayPosY].setPosition(posX, posY);
+				arrayPosY++;
 			}
+		arrayPosY = 0;
+		arrayPosX++;
 		}
 		
-		for (int row = 1; row <= rows - 2; row++) {
-			for (int col = 1; col <= cols - 2; col++) {
-				this.sMatrix[row][col] = 10;
+	}
+	
+	public void placeBombs(){
+		
+		int apparentCellsRows = rows - 2;
+		int apparentCellsCols = cols - 2;
+		int bombsQuantity = 6;
+
+		for (int i = 0; i < (bombsQuantity); i++) {
+
+			int bombX = Utils.randomBetween(1, apparentCellsRows) - 1;
+			int bombY = Utils.randomBetween(1, apparentCellsCols) - 1;
+
+			if (cells[bombX][bombY].getInnerTexture() == 9) {
+				i--;
+				continue;
 			}
+			else {
+				cells[bombX][bombY].setInnerTexture(9);
+			
+			};
+
 		}
 	}
 	
-	public int[][] getMatrix(){
-		return this.matrix;
+	
+	public FieldCell[][] getCells(){
+		return this.cells;
 	}
 	
 	public int getRows(){

@@ -5,6 +5,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.mygdx.config.VideoSettings;
+import com.mygdx.gameField.FieldCell;
+import com.mygdx.gameField.FieldCell.CellPosition;
 import com.mygdx.gameField.GameField;
 
 public class FieldDraw {
@@ -16,27 +18,43 @@ public class FieldDraw {
 		this.spriteSize = spriteSize;
 	}
 	
-	public void drawField(SpriteBatch sprite , Texture texture) {
-		int[][] matrix = field.getMatrix();
-		int apparentRows = field.getRows() - 2;
-		int apparentCols = field.getCols() - 2;
-		
-		for (int row = 1; (row <= apparentRows); row++) {
-			for (int col = 1; col <= (apparentCols); col++) {
+	
+	
+	public void drawField(SpriteBatch sprite, Texture texture) {
+		FieldCell[][] cells = field.getCells();
+		for(FieldCell[] cellsByCol: cells) {
+			for(FieldCell cellInCol : cellsByCol) {
+				CellPosition position;
+				int posX;
+				int posY;
+				int innerTexture;
 				
-				int x = matrix[row][col] * spriteSize;
+				innerTexture = cellInCol.getInnerTexture();
+				
+				position = cellInCol.getCellPosition();
+				
+				posX = position.getPosX();
+				posY = position.getPosY();
+				
+				
+				int x = innerTexture * spriteSize;
 				int y = 0;
 				int width = spriteSize;
 				int height = spriteSize;
 				
-				int renderX = row * spriteSize;
-				int renderY = col * spriteSize;
+				int renderX = posX * spriteSize;
+				int renderY = posY * spriteSize;
 				
 				TextureRegion region = new TextureRegion(texture,x,y,width,height);
-				sprite.draw(region,renderX, renderY);					
+				sprite.draw(region,renderX, renderY);
+				
+				
 			}
+		
 		}
+		
 	}
+	
 	
 	
 }
