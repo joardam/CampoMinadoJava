@@ -3,17 +3,13 @@ package com.mygdx.gameField;
 import com.mygdx.utils.Utils;
 
 public class GameField  {
-	int rows;
-	int cols;
-	int[][] matrix ;
-	int[][] sMatrix ;
-	FieldCell[][] cells;
+	private int rows;
+	private int cols;
+	private FieldCell[][] cells;
 	
 	public GameField(int rows , int cols) {
 		this.rows = rows;
 		this.cols = cols;
-		matrix = new int[this.rows][this.cols];
-		sMatrix = new int[this.rows][this.cols];
 	}
 	
 

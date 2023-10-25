@@ -10,8 +10,8 @@ import com.mygdx.gameField.FieldCell.CellPosition;
 import com.mygdx.gameField.GameField;
 
 public class FieldDraw {
-	GameField field;
-	int spriteSize;
+	private GameField field;
+	private int spriteSize;
 	
 	public FieldDraw(GameField field,int spriteSize){
 		this.field = field;

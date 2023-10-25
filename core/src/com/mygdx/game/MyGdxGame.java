@@ -14,20 +14,20 @@ import com.mygdx.mouseTrack.MouseTrack;
 
 public class MyGdxGame extends ApplicationAdapter {
 	
-	int rows = 12;
-	int cols = 12;
-	int spriteSize = 32;
+	private int rows = 12;
+	private int cols = 12;
+	private int spriteSize = 32;
 	
   
-	SpriteBatch sprite;
-	Texture texture;
+	private SpriteBatch sprite;
+	private Texture texture;
 	
 	
-	VideoSettings videoConfig = new VideoSettings(rows,cols,spriteSize);
-	GameField field = new GameField(rows,cols);
-	FieldDraw draw =  new FieldDraw(field,spriteSize);
+	private VideoSettings videoConfig = new VideoSettings(rows,cols,spriteSize);
+	private GameField field = new GameField(rows,cols);
+	private FieldDraw draw =  new FieldDraw(field,spriteSize);
 
-	MouseTrack mouse = new MouseTrack(spriteSize,rows,cols);
+	private MouseTrack mouse = new MouseTrack(spriteSize,rows,cols);
 	
 	
 	@Override

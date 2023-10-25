@@ -5,15 +5,15 @@ import com.badlogic.gdx.Input;
 
 public class MouseTrack {
 	
-	int rows;
-	int cols;
+	private int rows;
+	private int cols;
 	
-	int spriteSize;
-	float mouseX;
-	float mouseY;
+	private int spriteSize;
+	private float mouseX;
+	private float mouseY;
 	
-	int mouseCollumX ;
-	int mouseCollumY ;
+	private int mouseCollumX ;
+	private int mouseCollumY ;
 	private boolean mouseLeftButtonDown = false;
 	
 	

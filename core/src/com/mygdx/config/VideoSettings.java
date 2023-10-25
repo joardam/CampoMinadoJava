@@ -12,8 +12,8 @@ public class VideoSettings {
 	private Viewport viewport;
     private OrthographicCamera camera;
     
-    int videoSizex;
-	int videoSizey;
+    private int videoSizex;
+	private int videoSizey;
 	
 	
 	public VideoSettings() {

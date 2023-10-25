@@ -1,10 +1,10 @@
 package com.mygdx.gameField;
 
 public class FieldCell {
-	CellPosition position;
-	int innerTexture = 0;
-	boolean coveredStatus = true;
-	boolean flagStatus = false;
+	private CellPosition position;
+	private int innerTexture = 0;
+	private boolean coveredStatus = true;
+	private boolean flagStatus = false;
 	
 	
 	public FieldCell() {
