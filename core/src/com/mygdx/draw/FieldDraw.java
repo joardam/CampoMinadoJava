@@ -27,7 +27,7 @@ public class FieldDraw {
 				int posY;
 				int innerTexture;
 				
-				innerTexture = cellInCol.getInnerTexture();
+				int textureId = CellTextureManager.getTextureByCell(cellInCol);
 				
 				position = cellInCol.getCellPosition();
 				
@@ -35,7 +35,7 @@ public class FieldDraw {
 				posY = position.getPosY();
 				
 				
-				int x = innerTexture * spriteSize;
+				int x = textureId * spriteSize;
 				int y = 0;
 				int width = spriteSize;
 				int height = spriteSize;

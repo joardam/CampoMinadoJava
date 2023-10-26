@@ -9,6 +9,8 @@ import com.mygdx.config.SpriteConfig;
 import com.mygdx.config.VideoSettings;
 import com.mygdx.draw.FieldDraw;
 import com.mygdx.gameField.GameField;
+import com.mygdx.gameField.cell.CellStructureManager;
+import com.mygdx.gameField.cell.FieldCell;
 import com.mygdx.mouseTrack.MouseTrack;
 
 
@@ -45,6 +47,7 @@ public class MyGdxGame extends ApplicationAdapter {
         videoConfig.setTitle("Campo Minado");
            
         field.fillCells();
+        field.placeBombs();
         
 	}
 	
@@ -64,7 +67,12 @@ public class MyGdxGame extends ApplicationAdapter {
         
         
         if(mouse.eventMouseLeftClickOnce()) {
-        	System.out.print("clicou");
+        	int coluna = mouse.getMouseCordinates().getCordinateX();
+        	int linha  = mouse.getMouseCordinates().getCordinateY();
+        	
+        	FieldCell cells = field.getCells()[coluna - 1][linha - 1];
+        	CellStructureManager.UncoverCell(cells);
+        	
         }
         
         sprite.begin();

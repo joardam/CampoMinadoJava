@@ -1,6 +1,8 @@
 package com.mygdx.gameField;
 
 import com.mygdx.gameField.cell.FieldCell;
+import com.mygdx.gameField.cell.MinedCell;
+import com.mygdx.gameField.cell.SafeCell;
 import com.mygdx.utils.Utils;
 
 public class GameField  {
@@ -16,6 +18,7 @@ public class GameField  {
 
 	
 	
+	
 	public void fillCells() {
 		cells = new FieldCell[this.rows - 2][this.cols - 2];
 		int arrayPosX = 0;
@@ -26,7 +29,7 @@ public class GameField  {
 				int posX = arrayPosX + 1;
 				int posY = arrayPosY + 1;
 				
-				cells[arrayPosX][arrayPosY] =  new FieldCell();
+				cells[arrayPosX][arrayPosY] =  new SafeCell();
 				cells[arrayPosX][arrayPosY].setPosition(posX, posY);
 				arrayPosY++;
 			}
@@ -44,15 +47,15 @@ public class GameField  {
 
 		for (int i = 0; i < (bombsQuantity); i++) {
 
-			int bombX = Utils.randomBetween(1, apparentCellsRows) - 1;
-			int bombY = Utils.randomBetween(1, apparentCellsCols) - 1;
+			int bombX = Utils.randomBetween(1, apparentCellsRows);
+			int bombY = Utils.randomBetween(1, apparentCellsCols);
 
-			if (cells[bombX][bombY].getInnerTexture() == 9) {
+			if (cells[bombX - 1][bombY - 1] instanceof MinedCell) {
 				i--;
 				continue;
 			}
 			else {
-				cells[bombX][bombY].setInnerTexture(9);
+				cells[bombX -1 ][bombY - 1] = new MinedCell(bombX,bombY);
 			
 			};
 

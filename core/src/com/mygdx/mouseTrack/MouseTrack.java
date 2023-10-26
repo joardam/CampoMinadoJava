@@ -12,8 +12,9 @@ public class MouseTrack {
 	private float mouseX;
 	private float mouseY;
 	
-	private int mouseCollumX ;
-	private int mouseCollumY ;
+	
+	
+	private MouseCordinates mouseCordinates = new MouseCordinates();
 	private boolean mouseLeftButtonDown = false;
 	
 	
@@ -23,19 +24,30 @@ public class MouseTrack {
 		this.cols = cols;
 	}
 	
+	
+	public MouseCordinates getMouseCordinates() {
+		return this.mouseCordinates;
+	}
+	
 	public void setMousePosition(){
 		this.mouseX = Gdx.input.getX();
 		this.mouseY = Gdx.graphics.getHeight() - Gdx.input.getY();
 		
-		this.mouseCollumX = (int) mouseX / spriteSize;
-		this.mouseCollumY = (int) mouseY / spriteSize;
+		
+		this.mouseCordinates.setCordinateX((int) mouseX / spriteSize);
+		this.mouseCordinates.setCordinateY((int) mouseY / spriteSize);
+		
+		
+		
+		
+	
 	}
 	
 	
 	
-	public static boolean mousePositionInFieldBound(int mouseCollumX , int mouseCollumY , int rows , int cols) {
-		if(((mouseCollumX >= 1) && (mouseCollumX  <= (cols - 2)))
-			&& ((mouseCollumY >= 1) && (mouseCollumY <= (rows -2)))) {
+	public static boolean mousePositionInFieldBound(MouseCordinates mouseCordinates, int rows , int cols) {
+		if(((mouseCordinates.getCordinateX() >= 1) && (mouseCordinates.getCordinateX() <= (cols - 2)))
+			&& ((mouseCordinates.getCordinateY() >= 1) && (mouseCordinates.getCordinateY() <= (rows -2)))) {
 			return true;	
 		}
 			return false;
@@ -45,7 +57,7 @@ public class MouseTrack {
 		
 		if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)&&
 				!mouseLeftButtonDown &&
-				MouseTrack.mousePositionInFieldBound(mouseCollumX, mouseCollumY, rows, cols)) {
+				MouseTrack.mousePositionInFieldBound(mouseCordinates, rows, cols)) {
 			
 			this.mouseLeftButtonDown = true;			
 			return true;

@@ -7,9 +7,7 @@ import com.mygdx.gameField.cell.State.Covered.CoveredCellState;
 
 public class FieldCell {
 	private CellPosition position;
-	private int innerTexture = 0;
 	private CellState cellState = new CoveredCellState();
-	
 	private boolean blockedToChangeState = false;
 	
 	
@@ -17,10 +15,9 @@ public class FieldCell {
 		
 	}
 	
-	public FieldCell(CellPosition position, int innerTexture) {
+	public FieldCell(CellPosition position) {
 		this.position = position;
-		this.innerTexture = innerTexture;
-		
+	
 	}
 	
 	
@@ -28,10 +25,6 @@ public class FieldCell {
 		this.position = new CellPosition(x,y);
 	}
 
-	
-	public void setInnerTexture(int innerTexture) {
-		this.innerTexture = innerTexture;
-	}
 	
 	public void setCellStateCovered() {
 		this.cellState = new CoveredCellState();
@@ -50,9 +43,7 @@ public class FieldCell {
 		return this.position;
 	}
 	
-	public int getInnerTexture() {
-		return this.innerTexture;
-	}
+	
 	
 	public CellState getCellState() {
 		return this.cellState;
