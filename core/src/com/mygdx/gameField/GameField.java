@@ -1,5 +1,6 @@
 package com.mygdx.gameField;
 
+import com.mygdx.gameField.cell.FieldCell;
 import com.mygdx.utils.Utils;
 
 public class GameField  {
