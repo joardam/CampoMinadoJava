@@ -2,7 +2,7 @@ package com.mygdx.mouseTrack;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-
+import com.mygdx.utils.*;
 public class MouseTrack {
 	
 	private int rows;
@@ -14,8 +14,9 @@ public class MouseTrack {
 	
 	
 	
-	private MouseCordinates mouseCordinates = new MouseCordinates();
+	private Coordinates mouseCoordinates = new Coordinates();
 	private boolean mouseLeftButtonDown = false;
+	private boolean mouseRightButtonDown = false;
 	
 	
 	public MouseTrack(int spriteSize , int rows, int cols) {
@@ -25,19 +26,16 @@ public class MouseTrack {
 	}
 	
 	
-	public MouseCordinates getMouseCordinates() {
-		return this.mouseCordinates;
+	public Coordinates getMouseCordinates() {
+		return this.mouseCoordinates;
 	}
 	
 	public void setMousePosition(){
 		this.mouseX = Gdx.input.getX();
 		this.mouseY = Gdx.graphics.getHeight() - Gdx.input.getY();
-		
-		
-		this.mouseCordinates.setCordinateX((int) mouseX / spriteSize);
-		this.mouseCordinates.setCordinateY((int) mouseY / spriteSize);
-		
-		
+	
+		this.mouseCoordinates.setCoordinateX(((int) mouseX / spriteSize));
+		this.mouseCoordinates.setCoordinateY(((int) mouseY / spriteSize));
 		
 		
 	
@@ -45,9 +43,9 @@ public class MouseTrack {
 	
 	
 	
-	public static boolean mousePositionInFieldBound(MouseCordinates mouseCordinates, int rows , int cols) {
-		if(((mouseCordinates.getCordinateX() >= 1) && (mouseCordinates.getCordinateX() <= (cols - 2)))
-			&& ((mouseCordinates.getCordinateY() >= 1) && (mouseCordinates.getCordinateY() <= (rows -2)))) {
+	public static boolean mousePositionInFieldBound(Coordinates mouseCordinates, int rows , int cols) {
+		if(((mouseCordinates.getCoordinateX() >= 1) && (mouseCordinates.getCoordinateX() <= (rows - 2)))
+			&& ((mouseCordinates.getCoordinateY() >= 1) && (mouseCordinates.getCoordinateY() <= (cols -2)))) {
 			return true;	
 		}
 			return false;
@@ -57,7 +55,7 @@ public class MouseTrack {
 		
 		if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)&&
 				!mouseLeftButtonDown &&
-				MouseTrack.mousePositionInFieldBound(mouseCordinates, rows, cols)) {
+				MouseTrack.mousePositionInFieldBound(mouseCoordinates, rows, cols)) {
 			
 			this.mouseLeftButtonDown = true;			
 			return true;
@@ -67,5 +65,21 @@ public class MouseTrack {
         }
 		return false;
 	}
+	
+public boolean eventMouseRightClickOnce(){
+		
+		if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT)&&
+				!mouseRightButtonDown &&
+				MouseTrack.mousePositionInFieldBound(mouseCoordinates, rows, cols)) {
+			
+			this.mouseRightButtonDown = true;			
+			return true;
+			
+		} else if (!Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
+            this.mouseRightButtonDown = false;
+        }
+		return false;
+	}
+	
 	
 }

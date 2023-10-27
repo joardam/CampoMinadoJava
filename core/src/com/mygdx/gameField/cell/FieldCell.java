@@ -1,28 +1,28 @@
 package com.mygdx.gameField.cell;
-import com.mygdx.gameField.cell.State.CellState;
-import com.mygdx.gameField.cell.State.*;
-import com.mygdx.gameField.cell.State.Covered.CoveredCellState;
+import com.mygdx.gameField.cell.state.*;
+import com.mygdx.gameField.cell.state.covered.CoveredCellAndFlaggedState;
+import com.mygdx.gameField.cell.state.covered.CoveredCellState;
+import com.mygdx.utils.Coordinates;
 
 
 
 public class FieldCell {
-	private CellPosition position;
+	private Coordinates position;
 	private CellState cellState = new CoveredCellState();
-	private boolean blockedToChangeState = false;
 	
 	
 	public FieldCell() {
 		
 	}
 	
-	public FieldCell(CellPosition position) {
+	public FieldCell(Coordinates position) {
 		this.position = position;
 	
 	}
 	
 	
 	public void setPosition(int x ,int y){
-		this.position = new CellPosition(x,y);
+		this.position = new Coordinates(x,y);
 	}
 
 	
@@ -30,16 +30,17 @@ public class FieldCell {
 		this.cellState = new CoveredCellState();
 	}
 	
+	public void setCellStateCoveredAndFlagged() {
+		this.cellState = new CoveredCellAndFlaggedState();
+		
+	}
+	
 	public void setCellStateUncovered() {
 		this.cellState = new UncoveredCellState();
-		this.blockedToChangeState = true;
 	}
 	
-	public boolean getBlockedToChangeState() {
-		return this.blockedToChangeState;
-	}
 	
-	public CellPosition getCellPosition() {
+	public Coordinates getCellPosition() {
 		return this.position;
 	}
 	
@@ -51,22 +52,6 @@ public class FieldCell {
 	
 	
 	
-	public class CellPosition {
-		private int x;
-		private int y;
-		
-		public CellPosition(int x, int y) {
-			this.x = x;
-			this.y = y;
-		}
-		
-		public int getPosX() {
-			return this.x;
-		}
-		public int getPosY() {
-			return this.y;
-		}
-		
-	}
+	
 	
 }

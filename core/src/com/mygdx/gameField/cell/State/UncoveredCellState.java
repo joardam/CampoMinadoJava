@@ -1,4 +1,4 @@
-package com.mygdx.gameField.cell.State;
+package com.mygdx.gameField.cell.state;
 
 public class UncoveredCellState extends CellState {
 	

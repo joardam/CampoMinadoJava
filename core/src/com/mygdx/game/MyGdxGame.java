@@ -8,9 +8,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.config.SpriteConfig;
 import com.mygdx.config.VideoSettings;
 import com.mygdx.draw.FieldDraw;
+import com.mygdx.gameField.FieldCellsInteractionManager;
 import com.mygdx.gameField.GameField;
-import com.mygdx.gameField.cell.CellStructureManager;
-import com.mygdx.gameField.cell.FieldCell;
 import com.mygdx.mouseTrack.MouseTrack;
 
 
@@ -41,13 +40,13 @@ public class MyGdxGame extends ApplicationAdapter {
 		sprite = new SpriteBatch();
 		texture = new Texture("newsprites.jpg");
 		
-		
         videoConfig.setWindowedMode();
         videoConfig.setResizable(false);
         videoConfig.setTitle("Campo Minado");
            
         field.fillCells();
         field.placeBombs();
+        field.placeCountersInSafeCells();
         
 	}
 	
@@ -67,12 +66,11 @@ public class MyGdxGame extends ApplicationAdapter {
         
         
         if(mouse.eventMouseLeftClickOnce()) {
-        	int coluna = mouse.getMouseCordinates().getCordinateX();
-        	int linha  = mouse.getMouseCordinates().getCordinateY();
-        	
-        	FieldCell cells = field.getCells()[coluna - 1][linha - 1];
-        	CellStructureManager.UncoverCell(cells);
-        	
+        	FieldCellsInteractionManager.tryToUncoverThisCell(mouse, field);
+        }
+        
+        if(mouse.eventMouseRightClickOnce()) {
+        	FieldCellsInteractionManager.tryToToggleFlagThisCell(mouse, field);
         }
         
         sprite.begin();

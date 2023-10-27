@@ -1,9 +1,9 @@
 package com.mygdx.draw;
 
-import com.mygdx.gameField.cell.FieldCell;
+import com.mygdx.gameField.cell.FieldCell; 
 import com.mygdx.gameField.cell.*;
-import com.mygdx.gameField.cell.State.Covered.*;
-import com.mygdx.gameField.cell.State.*;
+import com.mygdx.gameField.cell.state.*;
+import com.mygdx.gameField.cell.state.covered.*;
 
 public class CellTextureManager {
 	

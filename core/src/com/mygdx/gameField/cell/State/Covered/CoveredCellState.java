@@ -1,21 +1,9 @@
-package com.mygdx.gameField.cell.State.Covered;
+package com.mygdx.gameField.cell.state.covered;
 
-import com.mygdx.gameField.cell.State.CellState;
+import com.mygdx.gameField.cell.state.CellState;
 
 public class CoveredCellState extends CellState {
-	private boolean blockedToUncover = false;
-	
-	public CoveredCellState() {
-		
-	}
-	
-	public void setBlockedToUncover(boolean blockedToUncover) {
-		this.blockedToUncover = blockedToUncover;
-	}
-	
-	public boolean getBlockedToUncover() {
-		return this.blockedToUncover;
-	}
-	
 	
 }
+	
+	

@@ -20,30 +20,23 @@ public class GameField  {
 	
 	
 	public void fillCells() {
-		cells = new FieldCell[this.rows - 2][this.cols - 2];
-		int arrayPosX = 0;
-		int arrayPosY = 0;
-		
-		for(FieldCell[] cellsByCol: cells) {
-			for(FieldCell cellInCol : cellsByCol) {
-				int posX = arrayPosX + 1;
-				int posY = arrayPosY + 1;
-				
-				cells[arrayPosX][arrayPosY] =  new SafeCell();
-				cells[arrayPosX][arrayPosY].setPosition(posX, posY);
-				arrayPosY++;
-			}
-		arrayPosY = 0;
-		arrayPosX++;
-		}
-		
+	    cells = new FieldCell[rows - 2][cols - 2];
+
+	    for (int arrayPosX = 0; arrayPosX < cells.length; arrayPosX++) {
+	        for (int arrayPosY = 0; arrayPosY < cells[arrayPosX].length; arrayPosY++) {
+	            int posX = arrayPosX + 1;
+	            int posY = arrayPosY + 1;
+	            cells[arrayPosX][arrayPosY] = new SafeCell(posX, posY);
+	        }
+	    }
 	}
+
 	
 	public void placeBombs(){
 		
 		int apparentCellsRows = rows - 2;
 		int apparentCellsCols = cols - 2;
-		int bombsQuantity = 6;
+		int bombsQuantity = 16;
 
 		for (int i = 0; i < (bombsQuantity); i++) {
 
@@ -55,12 +48,53 @@ public class GameField  {
 				continue;
 			}
 			else {
-				cells[bombX -1 ][bombY - 1] = new MinedCell(bombX,bombY);
+				cells[bombX - 1][bombY - 1] = new MinedCell(bombX,bombY);
 			
 			};
 
 		}
 	}
+	
+	
+	
+	public void placeCountersInSafeCells() {
+	    for (int i = 0; i < cells.length; i++) {
+	        for (int j = 0; j < cells[i].length; j++) {
+	            FieldCell currentCell = cells[i][j];
+
+	            if (currentCell instanceof SafeCell) {
+	                int bombCount = countNearbyBombs(i, j);
+	                ((SafeCell) currentCell).setNearBombs(bombCount);
+	            }
+	        }
+	    }
+	}
+
+	private int countNearbyBombs(int x, int y) {
+	    int bombCount = 0;
+
+	    for (int k = -1; k <= 1; k++) {
+	        for (int l = -1; l <= 1; l++) {
+	            if (k == 0 && l == 0) continue;
+
+	            int loopX = x + k;
+	            int loopY = y + l;
+
+	            if (Utils.isIn2DArrayBound(loopX, loopY, cells.length, cells[0].length)) {
+	                if (cells[loopX][loopY] instanceof MinedCell) {
+	                    bombCount++;
+	                }
+	            }
+	        }
+	    }
+
+	    return bombCount;
+	}
+
+	
+	
+	
+	
 	
 	
 	public FieldCell[][] getCells(){

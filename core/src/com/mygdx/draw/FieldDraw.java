@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.mygdx.gameField.cell.FieldCell;
-import com.mygdx.gameField.cell.FieldCell.CellPosition;
+import com.mygdx.utils.Coordinates;
 import com.mygdx.gameField.GameField;
 
 public class FieldDraw {
@@ -22,17 +22,16 @@ public class FieldDraw {
 		FieldCell[][] cells = field.getCells();
 		for(FieldCell[] cellsByCol: cells) {
 			for(FieldCell cellInCol : cellsByCol) {
-				CellPosition position;
+				Coordinates position;
 				int posX;
 				int posY;
-				int innerTexture;
 				
 				int textureId = CellTextureManager.getTextureByCell(cellInCol);
 				
 				position = cellInCol.getCellPosition();
 				
-				posX = position.getPosX();
-				posY = position.getPosY();
+				posX = position.getCoordinateX();
+				posY = position.getCoordinateY();
 				
 				
 				int x = textureId * spriteSize;

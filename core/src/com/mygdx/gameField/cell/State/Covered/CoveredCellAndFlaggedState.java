@@ -1,7 +1,4 @@
-package com.mygdx.gameField.cell.State.Covered;
+package com.mygdx.gameField.cell.state.covered;
 
 public class CoveredCellAndFlaggedState extends CoveredCellState {
-	public CoveredCellAndFlaggedState() {
-		super.setBlockedToUncover(true);
-	}
 }
