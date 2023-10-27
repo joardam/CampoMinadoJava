@@ -39,8 +39,8 @@ public class FieldDraw {
 				int width = spriteSize;
 				int height = spriteSize;
 				
-				int renderX = posX * spriteSize;
-				int renderY = posY * spriteSize;
+				int renderX = (posX + 1 ) * spriteSize;
+				int renderY = (posY + 1 ) * spriteSize;
 				
 				TextureRegion region = new TextureRegion(texture,x,y,width,height);
 				sprite.draw(region,renderX, renderY);

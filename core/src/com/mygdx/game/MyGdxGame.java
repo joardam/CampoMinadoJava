@@ -16,7 +16,7 @@ import com.mygdx.mouseTrack.MouseTrack;
 public class MyGdxGame extends ApplicationAdapter {
 	
 	private int rows = 12;
-	private int cols = 12;
+	private int cols = 18;
 	private int spriteSize = 32;
 	
   

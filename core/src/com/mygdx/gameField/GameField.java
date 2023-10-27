@@ -24,8 +24,8 @@ public class GameField  {
 
 	    for (int arrayPosX = 0; arrayPosX < cells.length; arrayPosX++) {
 	        for (int arrayPosY = 0; arrayPosY < cells[arrayPosX].length; arrayPosY++) {
-	            int posX = arrayPosX + 1;
-	            int posY = arrayPosY + 1;
+	            int posX = arrayPosX;
+	            int posY = arrayPosY;
 	            cells[arrayPosX][arrayPosY] = new SafeCell(posX, posY);
 	        }
 	    }
@@ -36,19 +36,19 @@ public class GameField  {
 		
 		int apparentCellsRows = rows - 2;
 		int apparentCellsCols = cols - 2;
-		int bombsQuantity = 7;
+		int bombsQuantity = 12;
 
 		for (int i = 0; i < (bombsQuantity); i++) {
 
-			int bombX = Utils.randomBetween(1, apparentCellsRows);
-			int bombY = Utils.randomBetween(1, apparentCellsCols);
+			int bombX = Utils.randomBetween(0, apparentCellsRows - 1);
+			int bombY = Utils.randomBetween(0, apparentCellsCols - 1);
 
-			if (cells[bombX - 1][bombY - 1] instanceof MinedCell) {
+			if (cells[bombX][bombY] instanceof MinedCell) {
 				i--;
 				continue;
 			}
 			else {
-				cells[bombX - 1][bombY - 1] = new MinedCell(bombX,bombY);
+				cells[bombX][bombY] = new MinedCell(bombX,bombY);
 			
 			};
 

@@ -14,7 +14,7 @@ public class MouseTrack {
 	
 	
 	
-	private Coordinates mouseCoordinates = new Coordinates();
+	private Coordinates mouseCoordinatesToField = new Coordinates();
 	private boolean mouseLeftButtonDown = false;
 	private boolean mouseRightButtonDown = false;
 	
@@ -27,15 +27,15 @@ public class MouseTrack {
 	
 	
 	public Coordinates getMouseCordinates() {
-		return this.mouseCoordinates;
+		return this.mouseCoordinatesToField;
 	}
 	
 	public void setMousePosition(){
 		this.mouseX = Gdx.input.getX();
 		this.mouseY = Gdx.graphics.getHeight() - Gdx.input.getY();
 	
-		this.mouseCoordinates.setCoordinateX(((int) mouseX / spriteSize));
-		this.mouseCoordinates.setCoordinateY(((int) mouseY / spriteSize));
+		this.mouseCoordinatesToField.setCoordinateX(((int) mouseX / spriteSize) - 1);
+		this.mouseCoordinatesToField.setCoordinateY(((int) mouseY / spriteSize) - 1);
 		
 	}
 	
@@ -44,7 +44,7 @@ public class MouseTrack {
 		
 		if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)&&
 				!mouseLeftButtonDown &&
-				Utils.isIn2DArrayBound(mouseCoordinates.getCoordinateX() - 1, mouseCoordinates.getCoordinateY() - 1, rows - 2, cols - 2)) {
+				Utils.isIn2DArrayBound(mouseCoordinatesToField.getCoordinateX(), mouseCoordinatesToField.getCoordinateY(), rows - 2, cols - 2)) {
 			
 			this.mouseLeftButtonDown = true;			
 			return true;
@@ -59,7 +59,7 @@ public class MouseTrack {
 		
 		if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT)&&
 				!mouseRightButtonDown &&
-				Utils.isIn2DArrayBound(mouseCoordinates.getCoordinateX() - 1, mouseCoordinates.getCoordinateY() - 1, rows - 2, cols - 2)) {
+				Utils.isIn2DArrayBound(mouseCoordinatesToField.getCoordinateX(), mouseCoordinatesToField.getCoordinateY(), rows - 2, cols - 2)) {
 			
 			this.mouseRightButtonDown = true;			
 			return true;
