@@ -15,7 +15,6 @@ public class VideoSettings {
     private int videoSizex;
 	private int videoSizey;
 	
-	
 	public VideoSettings() {
 		
 	}
@@ -27,7 +26,6 @@ public class VideoSettings {
 		
 		this.videoSizex = rows * spriteSize;
 		this.videoSizey = cols * spriteSize;
-		
 		
 	}
 	

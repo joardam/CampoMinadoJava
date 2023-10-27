@@ -27,4 +27,9 @@ public class CellStructureManager {
 			}
 		}
 	}
+	
+	public static void forceUncoverCell(FieldCell cell) {
+		cell.setCellStateUncovered();
+	}
+	
 }
