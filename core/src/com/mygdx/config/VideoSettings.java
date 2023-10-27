@@ -6,9 +6,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 public class VideoSettings {
-	private int rows;
-	private int cols;
-	private int spriteSize;
+	
 	private Viewport viewport;
     private OrthographicCamera camera;
     
@@ -20,27 +18,13 @@ public class VideoSettings {
 	}
 	
 	public VideoSettings(int rows , int cols, int spriteSize) {
-		this.rows = rows;
-		this.cols = cols;
-		this.spriteSize = spriteSize;
 		
-		this.videoSizex = rows * spriteSize;
-		this.videoSizey = cols * spriteSize;
+		
+		this.videoSizex = (rows + 2) * spriteSize;
+		this.videoSizey = (cols + 2) * spriteSize;
 		
 	}
 	
-	
-	public void setRows(int rows) {
-		this.rows = rows; 
-	}
-	
-	public void setCols(int cols) {
-		this.cols = cols;
-	}
-	
-	public void setSpriteSize(int spriteSize) {
-		this.spriteSize = spriteSize;
-	}
 	
 	
 	public void setWindowedMode() {

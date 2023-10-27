@@ -20,7 +20,7 @@ public class GameField  {
 	
 	
 	public void fillCells() {
-	    cells = new FieldCell[rows - 2][cols - 2];
+	    cells = new FieldCell[rows][cols];
 
 	    for (int arrayPosX = 0; arrayPosX < cells.length; arrayPosX++) {
 	        for (int arrayPosY = 0; arrayPosY < cells[arrayPosX].length; arrayPosY++) {
@@ -40,8 +40,8 @@ public class GameField  {
 
 		for (int i = 0; i < (bombsQuantity); i++) {
 
-			int bombX = Utils.randomBetween(0, apparentCellsRows - 1);
-			int bombY = Utils.randomBetween(0, apparentCellsCols - 1);
+			int bombX = Utils.randomBetween(0, rows - 1);
+			int bombY = Utils.randomBetween(0, cols - 1);
 
 			if (cells[bombX][bombY] instanceof MinedCell) {
 				i--;

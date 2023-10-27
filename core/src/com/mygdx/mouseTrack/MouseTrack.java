@@ -44,7 +44,7 @@ public class MouseTrack {
 		
 		if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)&&
 				!mouseLeftButtonDown &&
-				Utils.isIn2DArrayBound(mouseCoordinatesToField.getCoordinateX(), mouseCoordinatesToField.getCoordinateY(), rows - 2, cols - 2)) {
+				Utils.isIn2DArrayBound(mouseCoordinatesToField.getCoordinateX(), mouseCoordinatesToField.getCoordinateY(), rows, cols)) {
 			
 			this.mouseLeftButtonDown = true;			
 			return true;
@@ -59,7 +59,7 @@ public class MouseTrack {
 		
 		if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT)&&
 				!mouseRightButtonDown &&
-				Utils.isIn2DArrayBound(mouseCoordinatesToField.getCoordinateX(), mouseCoordinatesToField.getCoordinateY(), rows - 2, cols - 2)) {
+				Utils.isIn2DArrayBound(mouseCoordinatesToField.getCoordinateX(), mouseCoordinatesToField.getCoordinateY(), rows, cols)) {
 			
 			this.mouseRightButtonDown = true;			
 			return true;
