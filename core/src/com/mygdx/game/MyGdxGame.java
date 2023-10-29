@@ -50,6 +50,8 @@ public class MyGdxGame extends ApplicationAdapter {
         
 	}
 	
+	
+	
 	@Override
 	public void resize(int width, int height) {
 		videoConfig.resizeScreen(width, height);

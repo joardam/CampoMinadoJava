@@ -33,9 +33,7 @@ public class GameField  {
 
 	
 	public void placeBombs(){
-		
-		int apparentCellsRows = rows - 2;
-		int apparentCellsCols = cols - 2;
+
 		int bombsQuantity = 12;
 
 		for (int i = 0; i < (bombsQuantity); i++) {
@@ -91,8 +89,6 @@ public class GameField  {
 	    return bombCount;
 	}
 
-	
-	
 	
 	
 	public FieldCell[][] getCells(){
