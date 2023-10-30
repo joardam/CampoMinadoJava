@@ -26,7 +26,14 @@ public class Coordinates{
 		this.coordinateX = coordinateX;
 	}
 	
+	
 	public void setCoordinateY(int coordinateY){
+		this.coordinateY = coordinateY;
+	}
+	
+	
+	public void setCoordinates(int coordinateX,int coordinateY){
+		this.coordinateX = coordinateX;
 		this.coordinateY = coordinateY;
 	}
 	

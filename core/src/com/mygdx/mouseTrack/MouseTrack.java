@@ -18,6 +18,11 @@ public class MouseTrack {
 	private boolean mouseLeftButtonDown = false;
 	private boolean mouseRightButtonDown = false;
 	
+	public MouseTrack() {
+		
+	}
+	
+	
 	
 	public MouseTrack(int spriteSize , int rows, int cols) {
 		this.spriteSize = spriteSize;		
