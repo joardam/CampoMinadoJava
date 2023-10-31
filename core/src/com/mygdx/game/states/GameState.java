@@ -1,17 +1,16 @@
 package com.mygdx.game.states;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.config.SpriteConfig;
 import com.mygdx.config.VideoSettings;
 import com.mygdx.draw.FieldDraw;
 import com.mygdx.draw.TextDraw;
-import com.mygdx.gameField.FieldCellsInteractionManager;
+import com.mygdx.gameField.GameplayManager;
 import com.mygdx.gameField.GameField;
 import com.mygdx.gameField.texts.Texts;
 import com.mygdx.mouseTrack.MouseTrack;
-import com.mygdx.players.Player;
+import com.mygdx.players.Players;
 
 public class GameState extends State {
 	
@@ -23,11 +22,10 @@ public class GameState extends State {
 	private Texture texture = new Texture("newsprites.jpg");
 	private FieldDraw draw =  new FieldDraw(field,spriteSize);
 	private VideoSettings videoConfig = new VideoSettings(rows,cols,spriteSize);
+	private GameplayManager gameplayManager = new GameplayManager();
 	
 	
-	private Player player1 = new Player(1);
-	private Player player2 = new Player(2);
-	
+	private Players players = new Players();
 	private Texts playersTexts = new Texts();
 	
 	
@@ -50,10 +48,25 @@ public class GameState extends State {
 	    field.placeBombs();
 	    field.placeCountersInSafeCells();
 		
-	    playersTexts.addText("player1" , "Player 1:");
-	    playersTexts.getText("player1").setSize(24);
-	    playersTexts.getText("player1").setColor(1,1,1,1);
-	    playersTexts.getText("player1").setTextPosition(130, 635);
+	    players.addPlayer("player1");
+	    players.addPlayer("player2");
+	    players.addPlayer("player3");
+	    
+	    
+	    playersTexts.addText("player1" , "Player 1:" , 24);
+	    playersTexts.getText("player1").setColor(0, 0, 1, 1);
+	    playersTexts.getText("player1").setTextPosition(175, 635);
+
+	    playersTexts.addText("player2" , "Player 2: " , 24);
+	    playersTexts.getText("player2").setColor(1, 0, 0, 1); 
+	    playersTexts.getText("player2").setTextPosition(175, 635);
+	    
+	    playersTexts.addText("player3" , "Player 3: " , 24);
+	    playersTexts.getText("player3").setColor(1, 1, 0, 1); 
+	    playersTexts.getText("player3").setTextPosition(175, 635);
+	    
+	    
+	    
 	    
 	}
 	
@@ -68,11 +81,12 @@ public class GameState extends State {
 	@Override 
 	public void handleInput() {
 		if(mouse.eventMouseLeftClickOnce()) {
-        	FieldCellsInteractionManager.tryToUncoverThisCell(mouse, field);
+        	gameplayManager.tryToUncoverThisCell(mouse, field ,players);
+        	
         }
         
         if(mouse.eventMouseRightClickOnce()) {
-        	FieldCellsInteractionManager.tryToToggleFlagThisCell(mouse, field);
+        	gameplayManager.tryToToggleFlagThisCell(mouse, field);
         }
 	}
 	
@@ -88,7 +102,9 @@ public class GameState extends State {
 		sprite.begin();
         draw.drawField(sprite, texture);
         
-        TextDraw.draw(sprite, playersTexts.getText("player1"));
+        TextDraw.draw(sprite, playersTexts.getText(
+        		players.getPlayerStringTextByIndex(
+        				gameplayManager.getRounds().getPlayerIdInRound())));
         
         sprite.end();
 	}

@@ -10,6 +10,8 @@ public class GameField  {
 	private int cols;
 	private FieldCell[][] cells;
 	
+	
+	
 	public GameField(int rows , int cols) {
 		this.rows = rows;
 		this.cols = cols;
@@ -34,7 +36,7 @@ public class GameField  {
 	
 	public void placeBombs(){
 
-		int bombsQuantity = 12;
+		int bombsQuantity = 20;
 
 		for (int i = 0; i < (bombsQuantity); i++) {
 
@@ -95,13 +97,7 @@ public class GameField  {
 		return this.cells;
 	}
 	
-	public int getRows(){
-		return this.rows;
-	}
 	
-	public int getCols() {
-		return this.cols;
-	}
 	
 	
 	

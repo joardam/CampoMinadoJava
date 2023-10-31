@@ -7,9 +7,7 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFont
 
 public class TextManager {
 	
-	private FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("font.ttf"));
-    private FreeTypeFontParameter parameter = new FreeTypeFontParameter();
-    private BitmapFont font;
+	
     
     
     

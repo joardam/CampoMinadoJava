@@ -6,12 +6,28 @@ import com.mygdx.gameField.cell.MinedCell;
 import com.mygdx.gameField.cell.SafeCell;
 import com.mygdx.gameField.cell.state.UncoveredCellState;
 import com.mygdx.gameField.cell.state.covered.CoveredCellAndFlaggedState;
+import com.mygdx.gameField.round.Rounds;
 import com.mygdx.mouseTrack.MouseTrack;
+import com.mygdx.players.Player;
+import com.mygdx.players.Players;
 import com.mygdx.utils.Utils;
 
-public class FieldCellsInteractionManager {
+public class GameplayManager {
 
-    public static void tryToUncoverThisCell(MouseTrack mouse, GameField field) {
+	private Rounds rounds = new Rounds();
+	
+	private boolean gameOverStatus = false;
+	
+	Player looser;
+	
+	public GameplayManager() {
+		
+		
+	}
+	
+	
+	
+    public void tryToUncoverThisCell(MouseTrack mouse, GameField field ,Players players) {
         int posX = mouse.getMouseCordinates().getCoordinateX();
         int posY = mouse.getMouseCordinates().getCoordinateY();
 
@@ -26,6 +42,8 @@ public class FieldCellsInteractionManager {
         }
         if (cell instanceof MinedCell && !(cell.getCellState() instanceof CoveredCellAndFlaggedState)) {
             explodeField(cell, cells);
+            this.gameOverStatus = true;
+            looser = players.getPlayerByIndex(rounds.getPlayerIdInRound());
         }
 
         if (cell instanceof SafeCell && ((SafeCell) cell).getNearBombs() == 0 ) {
@@ -33,9 +51,14 @@ public class FieldCellsInteractionManager {
             uncoverFlood(cells, posX, posY, virtualArrayForFieldCheck);
         }
         
+        if (!(gameOverStatus)) {
+        	this.rounds.passPlayerRound(players);
+        	}
+        
+        
     }
 
-    public static void tryToToggleFlagThisCell(MouseTrack mouse, GameField field) {
+    public void tryToToggleFlagThisCell(MouseTrack mouse, GameField field) {
         int posX = mouse.getMouseCordinates().getCoordinateX();
         int posY = mouse.getMouseCordinates().getCoordinateY();
 
@@ -43,7 +66,7 @@ public class FieldCellsInteractionManager {
         CellStructureManager.ToggleFlagCell(cell);
     }
 
-    public static void explodeField(FieldCell cell, FieldCell[][] cells) {
+    public  void explodeField(FieldCell cell, FieldCell[][] cells) {
         for (int i = 0; i < cells.length; i++) {
             for (int j = 0; j < cells[i].length; j++) {
                 if (!(cells[i][j].getCellState() instanceof UncoveredCellState)) {
@@ -53,7 +76,7 @@ public class FieldCellsInteractionManager {
         }
     }
 
-    public static void uncoverFlood(FieldCell[][] cells, int arrayPosX, int arrayPosY, boolean[][] virtualArrayForFieldCheck) {
+    public  void uncoverFlood(FieldCell[][] cells, int arrayPosX, int arrayPosY, boolean[][] virtualArrayForFieldCheck) {
         if (!Utils.isIn2DArrayBound(arrayPosX, arrayPosY, cells.length, cells[0].length) ||
                 virtualArrayForFieldCheck[arrayPosX][arrayPosY] ||
                 (cells[arrayPosX][arrayPosY] instanceof MinedCell)) {
@@ -109,7 +132,7 @@ public class FieldCellsInteractionManager {
         }
     }
 
-    public static void loopEdges(boolean[][] virtualArrayForFieldCheck, FieldCell[][] cells, int x, int y) {
+    public  void loopEdges(boolean[][] virtualArrayForFieldCheck, FieldCell[][] cells, int x, int y) {
         for (int k = -1; k <= 1; k++) {
             for (int l = -1; l <= 1; l++) {
                 int loopX = x + k;
@@ -120,4 +143,17 @@ public class FieldCellsInteractionManager {
             k++;
         }
     }
+    
+    public boolean getGameOverStatus() {
+    	return this.gameOverStatus;
+    }
+
+
+
+	public Rounds getRounds() {
+		return rounds;
+	}
+    
+    
+    
 }
