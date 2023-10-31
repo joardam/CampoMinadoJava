@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 
 public class Players {
+	
 	private HashMap<String, Player> playerMap = new HashMap<String, Player>();
 	
 	public Players() {
@@ -41,8 +42,11 @@ public class Players {
 	public String getPlayerStringTextByIndex(int index) {
 		 String[] keys = playerMap.keySet().toArray(new String[0]);
 		 return keys[index];
-		 
-		 
+			 
+	}
+	
+	public HashMap<String, Player> getHashMap(){
+		return this.playerMap;
 	}
 	
 	

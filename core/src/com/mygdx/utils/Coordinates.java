@@ -32,9 +32,9 @@ public class Coordinates{
 	}
 	
 	
-	public void setCoordinates(int coordinateX,int coordinateY){
-		this.coordinateX = coordinateX;
-		this.coordinateY = coordinateY;
+	public void setCoordinates(int x,int y){
+		this.coordinateX = x;
+		this.coordinateY = y;
 	}
 	
 	public int getCoordinateX() {

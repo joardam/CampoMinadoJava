@@ -6,6 +6,7 @@ import com.mygdx.gameField.cell.MinedCell;
 import com.mygdx.gameField.cell.SafeCell;
 import com.mygdx.gameField.cell.state.UncoveredCellState;
 import com.mygdx.gameField.cell.state.covered.CoveredCellAndFlaggedState;
+import com.mygdx.gameField.cell.state.covered.CoveredCellState;
 import com.mygdx.gameField.round.Rounds;
 import com.mygdx.mouseTrack.MouseTrack;
 import com.mygdx.players.Player;
@@ -25,35 +26,37 @@ public class GameplayManager {
 		
 	}
 	
-	
-	
     public void tryToUncoverThisCell(MouseTrack mouse, GameField field ,Players players) {
-        int posX = mouse.getMouseCordinates().getCoordinateX();
-        int posY = mouse.getMouseCordinates().getCoordinateY();
+        int posX = (int)mouse.getMouseCordinates().getCoordinateX();
+        int posY = (int)mouse.getMouseCordinates().getCoordinateY();
 
         FieldCell[][] cells = field.getCells();
         FieldCell cell = cells[posX][posY];
-        CellStructureManager.UncoverCell(cell);
-        
-        
+       
         
         if(cell.getCellState() instanceof CoveredCellAndFlaggedState) {
         	return;
         }
+        
         if (cell instanceof MinedCell && !(cell.getCellState() instanceof CoveredCellAndFlaggedState)) {
             explodeField(cell, cells);
             this.gameOverStatus = true;
             looser = players.getPlayerByIndex(rounds.getPlayerIdInRound());
         }
-
-        if (cell instanceof SafeCell && ((SafeCell) cell).getNearBombs() == 0 ) {
+        
+        if (!(gameOverStatus) && !(cell.getCellState() instanceof UncoveredCellState)) {
+        	this.rounds.passPlayerRound(players);
+        	}
+        
+        
+        if (cell instanceof SafeCell ) {
             boolean[][] virtualArrayForFieldCheck = new boolean[cells.length][cells[0].length];
             uncoverFlood(cells, posX, posY, virtualArrayForFieldCheck);
         }
         
-        if (!(gameOverStatus)) {
-        	this.rounds.passPlayerRound(players);
-        	}
+        
+        
+        
         
         
     }

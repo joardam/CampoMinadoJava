@@ -6,23 +6,11 @@ import com.mygdx.gameField.cell.SafeCell;
 import com.mygdx.utils.Utils;
 
 public class GameField  {
-	private int rows;
-	private int cols;
+	
 	private FieldCell[][] cells;
 	
-	
-	
-	public GameField(int rows , int cols) {
-		this.rows = rows;
-		this.cols = cols;
-	}
-	
-
-	
-	
-	
-	public void fillCells() {
-	    cells = new FieldCell[rows][cols];
+	public void fillCells(int cols, int rows) {
+	    cells = new FieldCell[cols][rows];
 
 	    for (int arrayPosX = 0; arrayPosX < cells.length; arrayPosX++) {
 	        for (int arrayPosY = 0; arrayPosY < cells[arrayPosX].length; arrayPosY++) {
@@ -40,8 +28,8 @@ public class GameField  {
 
 		for (int i = 0; i < (bombsQuantity); i++) {
 
-			int bombX = Utils.randomBetween(0, rows - 1);
-			int bombY = Utils.randomBetween(0, cols - 1);
+			int bombX = Utils.randomBetween(0, cells.length - 1);
+			int bombY = Utils.randomBetween(0, cells[0].length - 1);
 
 			if (cells[bombX][bombY] instanceof MinedCell) {
 				i--;

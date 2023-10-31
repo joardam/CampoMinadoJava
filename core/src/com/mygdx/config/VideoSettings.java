@@ -17,11 +17,11 @@ public class VideoSettings {
 		
 	}
 	
-	public VideoSettings(int rows , int cols, int spriteSize) {
+	public VideoSettings(int cols , int rows, int spriteSize) {
 		
 		
-		this.videoSizex = (rows + 2) * spriteSize;
-		this.videoSizey = (cols + 2) * spriteSize;
+		this.videoSizex = (cols + 2) * spriteSize;
+		this.videoSizey = (rows + 2) * spriteSize;
 		
 	}
 	

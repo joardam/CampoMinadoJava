@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
-import com.mygdx.utils.Coordinates;
+import com.mygdx.utils.*;
 
 public class Text {
 
@@ -12,7 +12,7 @@ public class Text {
     private FreeTypeFontParameter parameter = new FreeTypeFontParameter();
     private BitmapFont font;
     private String textString;
-    private Coordinates textPosition = new Coordinates();
+    private FloatCoordinates textPosition = new FloatCoordinates();
     
     public BitmapFont getFont() {
 		return font;
@@ -37,11 +37,11 @@ public class Text {
     	font.dispose();
     }
     
-    public Coordinates getTextPosition() {
+    public FloatCoordinates getTextPosition() {
 		return textPosition;
 	}
 
-	public void setTextPosition(int x, int y) {
+	public void setTextPosition(float x, float y) {
 		this.textPosition.setCoordinates(x, y);
 	}
 

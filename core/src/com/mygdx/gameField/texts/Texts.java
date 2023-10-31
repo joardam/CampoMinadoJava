@@ -33,7 +33,13 @@ public class Texts {
 	public Text getText(String stringId) {
 		return this.textMap.get(stringId);
 	}
-
+	
+	
+	public HashMap<String, Text> getHashMap(){
+		return this.textMap;
+	}
+	
+	
 	
 	public void disposeAll() {
 		for (Text text : textMap.values()) {
@@ -43,8 +49,6 @@ public class Texts {
 	}
 	
 
-	
-	
 	
 	    
 	    
