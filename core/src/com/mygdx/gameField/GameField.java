@@ -8,6 +8,8 @@ import com.mygdx.utils.Utils;
 public class GameField  {
 	
 	private FieldCell[][] cells;
+	private int coveredCellsNumber ;
+	private int bombsQuantity = 10;
 	
 	public void fillCells(int cols, int rows) {
 	    cells = new FieldCell[cols][rows];
@@ -19,12 +21,12 @@ public class GameField  {
 	            cells[arrayPosX][arrayPosY] = new SafeCell(posX, posY);
 	        }
 	    }
+	    coveredCellsNumber = cells.length * cells[0].length;
 	}
 
 	
 	public void placeBombs(){
 
-		int bombsQuantity = 20;
 
 		for (int i = 0; i < (bombsQuantity); i++) {
 
@@ -45,6 +47,16 @@ public class GameField  {
 	
 	
 	
+	public int getCoveredCellsNumber() {
+		return coveredCellsNumber;
+	}
+
+
+	public void decreaseCellsNumber(int cellsDiscovered) {
+		this.coveredCellsNumber -= cellsDiscovered;
+	}
+
+
 	public void placeCountersInSafeCells() {
 	    for (int i = 0; i < cells.length; i++) {
 	        for (int j = 0; j < cells[i].length; j++) {
@@ -83,6 +95,11 @@ public class GameField  {
 	
 	public FieldCell[][] getCells(){
 		return this.cells;
+	}
+
+
+	public int getBombsQuantity() {
+		return bombsQuantity;
 	}
 	
 	

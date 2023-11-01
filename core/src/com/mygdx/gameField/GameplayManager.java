@@ -17,17 +17,23 @@ public class GameplayManager {
 
 	private Rounds rounds = new Rounds();
 	
-	private boolean gameOverStatus = false;
 	
-	Player looser;
+	private boolean winStatus = false;
+	
+	
+
+
+	private boolean gameOverStatus = false;
+	private int cellsDiscovered = 0;
+	
 	
 	public GameplayManager() {
-		
 		
 	}
 	
     public void tryToUncoverThisCell(MouseTrack mouse, GameField field ,Players players) {
-        int posX = (int)mouse.getMouseCordinates().getCoordinateX();
+    	
+    	int posX = (int)mouse.getMouseCordinates().getCoordinateX();
         int posY = (int)mouse.getMouseCordinates().getCoordinateY();
 
         FieldCell[][] cells = field.getCells();
@@ -41,7 +47,6 @@ public class GameplayManager {
         if (cell instanceof MinedCell && !(cell.getCellState() instanceof CoveredCellAndFlaggedState)) {
             explodeField(cell, cells);
             this.gameOverStatus = true;
-            looser = players.getPlayerByIndex(rounds.getPlayerIdInRound());
         }
         
         if (!(gameOverStatus) && !(cell.getCellState() instanceof UncoveredCellState)) {
@@ -49,14 +54,16 @@ public class GameplayManager {
         	}
         
         
-        if (cell instanceof SafeCell ) {
+        if (cell instanceof SafeCell) {
             boolean[][] virtualArrayForFieldCheck = new boolean[cells.length][cells[0].length];
             uncoverFlood(cells, posX, posY, virtualArrayForFieldCheck);
+            field.decreaseCellsNumber(this.cellsDiscovered);
+            this.cellsDiscovered = 0;
+            if(field.getBombsQuantity() == field.getCoveredCellsNumber()) {
+            	this.winStatus = true;
+            	explodeField(cell,cells);
+            }
         }
-        
-        
-        
-        
         
         
     }
@@ -80,7 +87,8 @@ public class GameplayManager {
     }
 
     public  void uncoverFlood(FieldCell[][] cells, int arrayPosX, int arrayPosY, boolean[][] virtualArrayForFieldCheck) {
-        if (!Utils.isIn2DArrayBound(arrayPosX, arrayPosY, cells.length, cells[0].length) ||
+    	
+    	if (!Utils.isIn2DArrayBound(arrayPosX, arrayPosY, cells.length, cells[0].length) ||
                 virtualArrayForFieldCheck[arrayPosX][arrayPosY] ||
                 (cells[arrayPosX][arrayPosY] instanceof MinedCell)) {
             return;
@@ -90,12 +98,14 @@ public class GameplayManager {
                 ((SafeCell) cells[arrayPosX][arrayPosY]).getNearBombs() != 0) {
 
             CellStructureManager.forceUncoverCell(cells[arrayPosX][arrayPosY]);
+            
+            cellsDiscovered++;
+            
             virtualArrayForFieldCheck[arrayPosX][arrayPosY] = true;
 
             for (int k = -1; k <= 1; k++) {
                 int loopX = arrayPosX + k;
                 int loopY = arrayPosY + k;
-                
                 
                 
                 if (Utils.isIn2DArrayBound(loopX, arrayPosY, cells.length, cells[0].length)) {
@@ -126,7 +136,8 @@ public class GameplayManager {
 
         if (!(cells[arrayPosX][arrayPosY] instanceof MinedCell)) {
             CellStructureManager.forceUncoverCell(cells[arrayPosX][arrayPosY]);
-
+            
+            cellsDiscovered++;
   
             uncoverFlood(cells, arrayPosX - 1, arrayPosY, virtualArrayForFieldCheck);
             uncoverFlood(cells, arrayPosX + 1, arrayPosY, virtualArrayForFieldCheck);
@@ -152,7 +163,12 @@ public class GameplayManager {
     }
 
 
+    public boolean isWinStatus() {
+		return winStatus;
+	}
 
+    
+    
 	public Rounds getRounds() {
 		return rounds;
 	}

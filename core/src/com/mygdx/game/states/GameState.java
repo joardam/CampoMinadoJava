@@ -31,6 +31,7 @@ public class GameState extends State {
 	
 	private Players players = new Players();
 	private Texts playersTexts = new Texts();
+	private Texts winOrLooseStatusText = new Texts();
 	
 	
 	public GameState(GameStateManager gsm) {
@@ -56,16 +57,24 @@ public class GameState extends State {
 	    int screenWidth = Gdx.graphics.getWidth(); 
 		int screenHeight = Gdx.graphics.getHeight(); 
 	    
-	    int textPosX = screenWidth/ 2 - 53; 
-		int textPosY = screenHeight - 5; 
+	    int textPlayersPosX = screenWidth/ 2 - 53; 
+		int textPlayersPosY = screenHeight - 5; 
 	    
 	    playersTexts.addText("player1" , "Player 1:" , 24);
 	    playersTexts.getText("player1").setColor(0, 0, 1, 1);
-	    playersTexts.getText("player1").setTextPosition(textPosX, textPosY);
+	    playersTexts.getText("player1").setTextPosition(textPlayersPosX, textPlayersPosY);
 
 	    playersTexts.addText("player2" , "Player 2: " , 24);
 	    playersTexts.getText("player2").setColor(1, 0, 0, 1); 
-	    playersTexts.getText("player2").setTextPosition(textPosX,textPosY);
+	    playersTexts.getText("player2").setTextPosition(textPlayersPosX,textPlayersPosY);
+	    
+	    winOrLooseStatusText.addText("loose" ,"Perdeu" , 33);
+	    winOrLooseStatusText.getText("loose").setColor(1, 0, 0, 1);
+	    winOrLooseStatusText.getText("loose").setTextPosition(textPlayersPosX,30);
+	    
+	    winOrLooseStatusText.addText("win" , "Ganhou" , 33);
+	    winOrLooseStatusText.getText("win").setColor(0, 1, 0, 1);
+	    winOrLooseStatusText.getText("win").setTextPosition(textPlayersPosX,30);
 	    
 	}
 	
@@ -94,6 +103,7 @@ public class GameState extends State {
 		mouse.setMousePosition();
 		handleInput();
 		
+		
 	}
 	
 	@Override
@@ -105,6 +115,14 @@ public class GameState extends State {
         String playerText = players.getPlayerStringTextByIndex(playerIdInRound);
         Text playerTextToDraw = playersTexts.getText(playerText);
         TextDraw.draw(sprite, playerTextToDraw);
+        
+        if(gameplayManager.getGameOverStatus()) {
+        	TextDraw.draw(sprite, winOrLooseStatusText.getText("loose"));
+		}
+        else if (gameplayManager.isWinStatus()) {
+        	TextDraw.draw(sprite, winOrLooseStatusText.getText("win"));
+        }
+        
         
         sprite.end();
 	}
