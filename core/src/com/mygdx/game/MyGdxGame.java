@@ -21,7 +21,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		
 		Gdx.gl.glClearColor(1, 1, 1, 1);
 		gsm.push(new GameState(gsm));
-		gsm.create();    
+		gsm.create();
 	}
 	
 	
@@ -38,7 +38,6 @@ public class MyGdxGame extends ApplicationAdapter {
         
         gsm.update(Gdx.graphics.getDeltaTime());
 		gsm.render(sprite);
-        gsm.setProjectionMatrix(sprite);
 	}
 	
 	@Override

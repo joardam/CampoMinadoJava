@@ -43,9 +43,7 @@ public class GameStateManager {
     	states.peek().resize(width,height);
     }
     
-    public void setProjectionMatrix(SpriteBatch sb) {
-    	states.peek().setProjectionMatrix(sb);
-    }
+    
     
     
     

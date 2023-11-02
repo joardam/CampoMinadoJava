@@ -13,6 +13,7 @@ import com.mygdx.gameField.GameplayManager;
 import com.mygdx.gameField.GameField;
 import com.mygdx.gameField.texts.Text;
 import com.mygdx.gameField.texts.Texts;
+import com.mygdx.mouseTrack.FieldMouseTrack;
 import com.mygdx.mouseTrack.MouseTrack;
 import com.mygdx.players.Players;
 
@@ -22,13 +23,11 @@ public class GameState extends State {
 	private int cols = 24;
 	private GameField field = new GameField();
 	private int spriteSize = 32;
-	private MouseTrack mouse = new MouseTrack(spriteSize,cols,rows);
+	private FieldMouseTrack mouse = new FieldMouseTrack(spriteSize,cols,rows);
 	private Texture texture = new Texture("newsprites.jpg");
 	private FieldDraw draw =  new FieldDraw(field,spriteSize);
-	private VideoSettings videoConfig = new VideoSettings(cols,rows,spriteSize);
+	private VideoSettings videoConfig = new VideoSettings();
 	private GameplayManager gameplayManager = new GameplayManager();
-	
-	
 	private Players players = new Players();
 	private Texts playersTexts = new Texts();
 	private Texts winOrLooseStatusText = new Texts();
@@ -41,6 +40,9 @@ public class GameState extends State {
 	
 	@Override
 	public void create() {
+		videoConfig.SetVideoSize((cols + 2) * spriteSize,
+									(rows + 2) * spriteSize);
+		
 		videoConfig.setFixElements();
 		
 		videoConfig.setWindowedMode();
@@ -100,7 +102,7 @@ public class GameState extends State {
 	
 	@Override
 	public void update(float dt) {
-		mouse.setMousePosition();
+		mouse.setMousePositionInField();
 		handleInput();
 		
 		
@@ -108,6 +110,8 @@ public class GameState extends State {
 	
 	@Override
 	public void render(SpriteBatch sprite) {
+		SpriteConfig.setProjectionMatrix(sprite, videoConfig);
+		
 		sprite.begin();
         draw.drawField(sprite, texture);
         
@@ -123,7 +127,6 @@ public class GameState extends State {
         	TextDraw.draw(sprite, winOrLooseStatusText.getText("win"));
         }
         
-        
         sprite.end();
 	}
 	
@@ -131,13 +134,12 @@ public class GameState extends State {
 	public void dispose() {
 		texture.dispose();
 		playersTexts.disposeAll();
-	}
-	
-	
-	public void setProjectionMatrix(SpriteBatch sprite) {
-		SpriteConfig.setProjectionMatrix(sprite, videoConfig);
+		winOrLooseStatusText.disposeAll();
 		
 	}
+	
+	
+	
 
 
 	

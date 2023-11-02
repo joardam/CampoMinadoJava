@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 
-public abstract class State {
+public abstract class State implements StateInterface{
 	protected OrthographicCamera cam;
 	protected GameStateManager gsm;
 	
@@ -13,11 +13,21 @@ public abstract class State {
 		cam = new OrthographicCamera();
 		}
 	
+	@Override
 	public abstract void create();
-	protected abstract void handleInput();
+	@Override
+	public abstract void handleInput();
+	
 	public abstract void resize(int width, int height);
+	
+	@Override
 	public abstract void update(float dt);
+	
+	@Override
 	public abstract void render(SpriteBatch sb);
+	
+	@Override
 	public abstract void dispose();
-	public abstract void setProjectionMatrix(SpriteBatch sprite);
-	}
+}
+	
+	

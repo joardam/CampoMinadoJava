@@ -9,7 +9,7 @@ public class GameField  {
 	
 	private FieldCell[][] cells;
 	private int coveredCellsNumber ;
-	private int bombsQuantity = 10;
+	private int bombsQuantity = 20;
 	
 	public void fillCells(int cols, int rows) {
 	    cells = new FieldCell[cols][rows];

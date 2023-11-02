@@ -10,26 +10,23 @@ public class VideoSettings {
 	private Viewport viewport;
     private OrthographicCamera camera;
     
-    private int videoSizex;
-	private int videoSizey;
+    private int videoSizeX;
+	private int videoSizeY;
 	
 	public VideoSettings() {
 		
 	}
 	
-	public VideoSettings(int cols , int rows, int spriteSize) {
-		
-		
-		this.videoSizex = (cols + 2) * spriteSize;
-		this.videoSizey = (rows + 2) * spriteSize;
-		
-	}
 	
+	public void SetVideoSize(int videoSizeX , int videoSizeY) {
+		this.videoSizeX = videoSizeX;
+		this.videoSizeY = videoSizeY;
+	}
 	
 	
 	public void setWindowedMode() {
 		
-		Gdx.graphics.setWindowedMode(videoSizex,videoSizey);
+		Gdx.graphics.setWindowedMode(videoSizeX,videoSizeY);
 	}
 	
 	public void setResizable(boolean resizable) {
@@ -42,7 +39,7 @@ public class VideoSettings {
 	
 	public void setFixElements() {
 		camera = new OrthographicCamera();
-		camera.setToOrtho(false, videoSizex, videoSizey);
+		camera.setToOrtho(false, videoSizeX, videoSizeY);
 		camera.update();
 		viewport = new ScreenViewport(camera);
 	}

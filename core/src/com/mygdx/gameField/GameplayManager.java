@@ -6,10 +6,8 @@ import com.mygdx.gameField.cell.MinedCell;
 import com.mygdx.gameField.cell.SafeCell;
 import com.mygdx.gameField.cell.state.UncoveredCellState;
 import com.mygdx.gameField.cell.state.covered.CoveredCellAndFlaggedState;
-import com.mygdx.gameField.cell.state.covered.CoveredCellState;
 import com.mygdx.gameField.round.Rounds;
-import com.mygdx.mouseTrack.MouseTrack;
-import com.mygdx.players.Player;
+import com.mygdx.mouseTrack.FieldMouseTrack;
 import com.mygdx.players.Players;
 import com.mygdx.utils.Utils;
 
@@ -19,10 +17,6 @@ public class GameplayManager {
 	
 	
 	private boolean winStatus = false;
-	
-	
-
-
 	private boolean gameOverStatus = false;
 	private int cellsDiscovered = 0;
 	
@@ -31,10 +25,10 @@ public class GameplayManager {
 		
 	}
 	
-    public void tryToUncoverThisCell(MouseTrack mouse, GameField field ,Players players) {
+    public void tryToUncoverThisCell(FieldMouseTrack mouse, GameField field ,Players players) {
     	
-    	int posX = (int)mouse.getMouseCordinates().getCoordinateX();
-        int posY = (int)mouse.getMouseCordinates().getCoordinateY();
+    	int posX = (int)mouse.getMouseCoordinatesInField().getCoordinateX();
+        int posY = (int)mouse.getMouseCoordinatesInField().getCoordinateY();
 
         FieldCell[][] cells = field.getCells();
         FieldCell cell = cells[posX][posY];
@@ -44,33 +38,39 @@ public class GameplayManager {
         	return;
         }
         
-        if (cell instanceof MinedCell && !(cell.getCellState() instanceof CoveredCellAndFlaggedState)) {
-            explodeField(cell, cells);
-            this.gameOverStatus = true;
+        if(cell.getCellState() instanceof UncoveredCellState) {
+        	return;
         }
-        
-        if (!(gameOverStatus) && !(cell.getCellState() instanceof UncoveredCellState)) {
-        	this.rounds.passPlayerRound(players);
-        	}
-        
         
         if (cell instanceof SafeCell) {
             boolean[][] virtualArrayForFieldCheck = new boolean[cells.length][cells[0].length];
             uncoverFlood(cells, posX, posY, virtualArrayForFieldCheck);
             field.decreaseCellsNumber(this.cellsDiscovered);
             this.cellsDiscovered = 0;
-            if(field.getBombsQuantity() == field.getCoveredCellsNumber()) {
-            	this.winStatus = true;
-            	explodeField(cell,cells);
-            }
+            
         }
         
+        if (cell instanceof MinedCell) {
+            explodeField(cell, cells);
+            this.gameOverStatus = true;
+        }
+        
+        if(field.getBombsQuantity() == field.getCoveredCellsNumber()) {
+        	this.winStatus = true;
+        	explodeField(cell,cells);
+        }
+        
+        if((gameOverStatus == true) || (winStatus == true)) {
+        	return;
+        }
+        
+        this.rounds.passPlayerRound(players);
         
     }
 
-    public void tryToToggleFlagThisCell(MouseTrack mouse, GameField field) {
-        int posX = mouse.getMouseCordinates().getCoordinateX();
-        int posY = mouse.getMouseCordinates().getCoordinateY();
+    public void tryToToggleFlagThisCell(FieldMouseTrack mouse, GameField field) {
+        int posX = mouse.getMouseCoordinatesInField().getCoordinateX();
+        int posY = mouse.getMouseCoordinatesInField().getCoordinateY();
 
         FieldCell cell = field.getCells()[posX][posY];
         CellStructureManager.ToggleFlagCell(cell);
