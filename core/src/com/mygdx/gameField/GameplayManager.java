@@ -7,7 +7,6 @@ import com.mygdx.gameField.cell.SafeCell;
 import com.mygdx.gameField.cell.state.UncoveredCellState;
 import com.mygdx.gameField.cell.state.covered.CoveredCellAndFlaggedState;
 import com.mygdx.gameField.round.Rounds;
-import com.mygdx.mouseTrack.FieldMouseTrack;
 import com.mygdx.players.Players;
 import com.mygdx.utils.Utils;
 
@@ -25,10 +24,8 @@ public class GameplayManager {
 		
 	}
 	
-    public void tryToUncoverThisCell(FieldMouseTrack mouse, GameField field ,Players players) {
+    public void tryToUncoverThisCell(int posX ,int posY, GameField field ,Players players ) {
     	
-    	int posX = (int)mouse.getMouseCoordinatesInField().getCoordinateX();
-        int posY = (int)mouse.getMouseCoordinatesInField().getCoordinateY();
 
         FieldCell[][] cells = field.getCells();
         FieldCell cell = cells[posX][posY];
@@ -68,10 +65,8 @@ public class GameplayManager {
         
     }
 
-    public void tryToToggleFlagThisCell(FieldMouseTrack mouse, GameField field) {
-        int posX = mouse.getMouseCoordinatesInField().getCoordinateX();
-        int posY = mouse.getMouseCoordinatesInField().getCoordinateY();
-
+    public void tryToToggleFlagThisCell(int posX,int posY, GameField field) {
+       
         FieldCell cell = field.getCells()[posX][posY];
         CellStructureManager.ToggleFlagCell(cell);
     }

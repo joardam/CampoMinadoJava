@@ -12,6 +12,25 @@ public class Players {
 		
 	}
 	
+	public Players(String... args) {
+
+        for (int i = 0; i < args.length; i++) {
+            String stringId = args[i];
+            
+            addPlayer(stringId);
+        }
+    }
+	
+	
+	public void addPlayer(String... args) {
+		 for (int i = 0; i < args.length; i++) {
+	            String stringId = args[i];
+	            
+	            addPlayer(stringId);
+	        }
+	}
+	
+	
 	public void addPlayer(String stringId) {
 		int playerId = playerMap.size();
 		Player player = new Player(playerId);
@@ -19,6 +38,9 @@ public class Players {
 		playerMap.put(stringId, player);
 		
 	}
+	
+	
+	
 	
 	public Player getPlayer(String stringId) {
 		return playerMap.get(stringId);
@@ -45,9 +67,7 @@ public class Players {
 			 
 	}
 	
-	public HashMap<String, Player> getHashMap(){
-		return this.playerMap;
-	}
+	
 	
 	
 	

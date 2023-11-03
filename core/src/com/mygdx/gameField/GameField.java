@@ -9,11 +9,12 @@ public class GameField  {
 	
 	private FieldCell[][] cells;
 	private int coveredCellsNumber ;
-	private int bombsQuantity = 20;
+	private int bombsQuantity = 10;
 	
 	public void fillCells(int cols, int rows) {
 	    cells = new FieldCell[cols][rows];
-
+	    
+	    
 	    for (int arrayPosX = 0; arrayPosX < cells.length; arrayPosX++) {
 	        for (int arrayPosY = 0; arrayPosY < cells[arrayPosX].length; arrayPosY++) {
 	            int posX = arrayPosX;

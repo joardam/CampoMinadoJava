@@ -11,11 +11,18 @@ public class MouseTrack {
 	private boolean mouseLeftButtonDown = false;
 	private boolean mouseRightButtonDown = false;
 	
+	public MouseTrack() {
+		
+	}
+	
+	
 	public void setMousePosition(){
 		this.mouseX = Gdx.input.getX();
 		this.mouseY = Gdx.graphics.getHeight() - Gdx.input.getY();
 		
 	}
+	
+
 	
 	public boolean eventMouseLeftClickOnce(){
 		
@@ -44,8 +51,6 @@ public class MouseTrack {
 	    }
 		
 		return false;
-		
-		
 		
 	}
 	

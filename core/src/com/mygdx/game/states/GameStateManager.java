@@ -24,9 +24,6 @@ public class GameStateManager {
         states.push(state);
     }
     
-    public void create(){
-    	states.peek().create();
-    }
     
     public void update(float dt) {
         states.peek().update(dt);

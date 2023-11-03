@@ -51,4 +51,11 @@ public class VideoSettings {
 	public OrthographicCamera getCamera() {
 		return this.camera;
 	}
+
+
+	public void setCamera(OrthographicCamera camera) {
+		this.camera = camera;
+	}
+	
+	
 }
