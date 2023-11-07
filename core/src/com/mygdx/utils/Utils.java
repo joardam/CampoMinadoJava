@@ -13,16 +13,20 @@ public class Utils {
         return randomNumber;
     }
     
-    public static boolean isIn2DArrayBound(int ArrayPosX , int ArrayPosY, int cols , int rows) {
-    	return (((ArrayPosX >= 0) && (ArrayPosX < cols)) && ((ArrayPosY >= 0) && (ArrayPosY < rows)));
+    public static boolean isIn2DArrayBound(int arrayPosX , int arrayPosY, int cols , int rows) {
+    	return (((arrayPosX >= 0) && (arrayPosX < cols)) && ((arrayPosY >= 0) && (arrayPosY < rows)));
     }
     
     public static boolean isIn2DArrayBound(Coordinates coordinate ,int cols , int rows) {
-    	int ArrayPosX = coordinate.getCoordinateX();
-    	int ArrayPosY = coordinate.getCoordinateY();
+    	int arrayPosX = coordinate.getCoordinateX();
+    	int arrayPosY = coordinate.getCoordinateY();
     	
-    	return (isIn2DArrayBound(ArrayPosX,ArrayPosY,cols,rows));
-    	
+    	return (isIn2DArrayBound(arrayPosX,arrayPosY,cols,rows));
     	
     }
+    
+    public static boolean isIn2DSpaceBound(float posX , float posY , float xInferiorLimit , float  yInferiorLimit ,float xSuperiorLimit ,float ySuperiorLimit ) {
+    	return (((posX >= xInferiorLimit) && (posX < xSuperiorLimit)) && ((posY >= yInferiorLimit) && (posY < ySuperiorLimit)));
+    }
+    
 }

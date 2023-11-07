@@ -29,6 +29,16 @@ public class VideoSettings {
 		Gdx.graphics.setWindowedMode(videoSizeX,videoSizeY);
 	}
 	
+	public int getVideoSizeX() {
+		return videoSizeX;
+	}
+
+
+	public int getVideoSizeY() {
+		return videoSizeY;
+	}
+
+
 	public void setResizable(boolean resizable) {
 		Gdx.graphics.setResizable(false);
 	}
