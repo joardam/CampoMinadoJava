@@ -24,6 +24,50 @@ public class GameplayManager {
 		
 	}
 	
+	
+	 public void tryToUncoverThisCell(int posX ,int posY, GameField field) {
+	    	
+
+	        FieldCell[][] cells = field.getCells();
+	        FieldCell cell = cells[posX][posY];
+	       
+	        
+	        if(cell.getCellState() instanceof CoveredCellAndFlaggedState) {
+	        	return;
+	        }
+	        
+	        if(cell.getCellState() instanceof UncoveredCellState) {
+	        	return;
+	        }
+	        
+	        if (cell instanceof SafeCell) {
+	            boolean[][] virtualArrayForFieldCheck = new boolean[cells.length][cells[0].length];
+	            uncoverFlood(cells, posX, posY, virtualArrayForFieldCheck);
+	            field.decreaseCellsNumber(this.cellsDiscovered);
+	            this.cellsDiscovered = 0;
+	            
+	        }
+	        
+	        if (cell instanceof MinedCell) {
+	            explodeField(cell, cells);
+	            this.gameOverStatus = true;
+	        }
+	        
+	        if(field.getBombsQuantity() == field.getCoveredCellsNumber()) {
+	        	this.winStatus = true;
+	        	explodeField(cell,cells);
+	        }
+	        
+	        if((gameOverStatus == true) || (winStatus == true)) {
+	        	return;
+	        }
+	        
+	        
+	    }
+	
+	
+	
+	
     public void tryToUncoverThisCell(int posX ,int posY, GameField field ,Players players ) {
     	
 

@@ -7,13 +7,13 @@ import com.mygdx.mouseTrack.MouseTrack;
 
 public abstract class State implements StateInterface{
 	protected OrthographicCamera cam;
-	protected GameStateManager gsm;
+	protected StateManager gsm;
 	protected MouseTrack mouse = new MouseTrack();
 	
-	protected State(GameStateManager gsm) {
+	protected State(StateManager gsm) {
 		this.gsm = gsm;
 		}
-	protected State(GameStateManager gsm , MouseTrack mouse) {
+	protected State(StateManager gsm , MouseTrack mouse) {
 		this.gsm = gsm;
 		this.mouse = mouse ;
 	}

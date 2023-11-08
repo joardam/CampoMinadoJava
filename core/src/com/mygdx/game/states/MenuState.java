@@ -7,7 +7,10 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.mygdx.config.SpriteConfig;
 import com.mygdx.config.VideoSettings;
 import com.mygdx.draw.TextDraw;
-import com.mygdx.gameField.texts.Texts;
+import com.mygdx.gameField.texts.TextCollection;
+import com.mygdx.shapes.ShapeCollection;
+import com.mygdx.utils.RgbaColor;
+import com.mygdx.utils.FloatCoordinates;
 import com.mygdx.utils.Utils;
 
 
@@ -15,22 +18,29 @@ public class MenuState extends State {
 	
 
 	private VideoSettings videoConfig = new VideoSettings();
-	private Texts menuTexts = new Texts(
-			"2playersMode" , "Modo 2 jogadores" , 35);
+	
+	private TextCollection menuTexts = new TextCollection(
+			
+			"classicMode" , "MODO CLASSICO" , 35 , 
+			new RgbaColor("white"), 
+			new FloatCoordinates(700/2f - 200f ,700/2f + 12 + 70f),
+			
+			"2playersMode" , "MODO 2 JOGADORES" , 35 ,
+			new RgbaColor("white"), 
+			new FloatCoordinates(700/2f - 200f ,700/2f + 12)
+			);
 	
 	
-	
-	ShapeRenderer shape;
+	private ShapeCollection shapes;
 	
 	float rectangleWidth = 500;
     float rectangleHeight  = 50;
     
    
-    
-	float centerX;
-	float centerY;
 	
-	public MenuState(GameStateManager gsm) {
+	public MenuState(StateManager gsm) {
+		
+		
 		super(gsm);
 		videoConfig.setCamera(cam);
 		videoConfig.SetVideoSize(700, 700);
@@ -38,39 +48,42 @@ public class MenuState extends State {
 		videoConfig.setWindowedMode();
 		videoConfig.setResizable(false);
 		videoConfig.setTitle("Menu");
+		shapes = new ShapeCollection("classicMode" , "2playersMode");
 		
-		shape = new ShapeRenderer();    
-//	    System.out.println("1: " + screenWidth + " 2: " + Gdx.graphics.getHeight());
-	    
-	    //	    System.out.println("1: " + ( screenWidth/2 - rectangleWidth / 2) + 
-//	    		" 2: " + (screenHeight/2 - rectangleHeight/2));
-		
-		menuTexts.setColors("2playersMode" , 1f,1f,1f,1f);
-		menuTexts.setTextPositions("2playersMode",350f - 155, 350f + 12);
-		
-	}
 
-	
+	}
 	
 
 	@Override
 	public void handleInput() {
-
-			if (
-			mouse.eventMouseLeftClickOnce() &&
-			Utils.isIn2DSpaceBound(
-					mouse.getMouseX(), mouse.getMouseY() ,
-					(float)700 / 2 - rectangleWidth / 2,
-					(float)700 / 2 - rectangleHeight/ 2,
-					(float)700 / 2 + rectangleWidth / 2,
-					(float)700 / 2 + rectangleHeight/ 2
-					)) {
+			if (mouse.eventMouseLeftClickOnce())
+			{
+				if(Utils.isIn2DSpaceBound(
+						mouse.getMouseX(), mouse.getMouseY() ,
+						(float)700 / 2 - rectangleWidth / 2,
+						(float)700 / 2 - rectangleHeight/ 2 + 70f,
+						(float)700 / 2 + rectangleWidth / 2,
+						(float)700 / 2 + rectangleHeight/ 2 + 70f
+						))
+				{
 				
-				gsm.set(new GameState(gsm,mouse));
-				dispose();
-			}
+					gsm.set(new GameClassicModeState(gsm,mouse));
+					dispose();
+				}
+			
+				
+				else if(Utils.isIn2DSpaceBound(
+						mouse.getMouseX(), mouse.getMouseY() ,
+						(float)700 / 2 - rectangleWidth / 2,
+						(float)700 / 2 - rectangleHeight/ 2 ,
+						(float)700 / 2 + rectangleWidth / 2,
+						(float)700 / 2 + rectangleHeight/ 2
+						)) {
+					gsm.set(new Game2PlayersModeState(gsm,mouse));
+				
+				}
 		
-		
+			}	
 	}
 
 	@Override
@@ -90,13 +103,20 @@ public class MenuState extends State {
 		SpriteConfig.setProjectionMatrix(sprite, videoConfig);
 		
 		
-		shape.setColor(0.5f, 0.5f, 0.5f, 1.0f);
+		shapes.getShape("classicMode").setColor(128/255f, 128/255f, 128/255f, 1f);
+		shapes.getShape("2playersMode").setColor(128/255f, 128/255f, 128/255f, 1f);
 		
-		shape.begin(ShapeType.Filled);
-	    shape.rect(700/2 - rectangleWidth / 2, 700/2 -  rectangleHeight/ 2, rectangleWidth, rectangleHeight);
-	    shape.end();
+		
+		shapes.getShape("classicMode").begin(ShapeType.Filled);
+		shapes.getShape("classicMode").rect(700/2 - rectangleWidth / 2, 700/2 -  rectangleHeight/ 2 + 70, rectangleWidth, rectangleHeight);
+		shapes.getShape("classicMode").end();
+		
+		shapes.getShape("2playersMode").begin(ShapeType.Filled);
+	    shapes.getShape("2playersMode").rect(700/2 - rectangleWidth / 2, 700/2 -  rectangleHeight/ 2, rectangleWidth, rectangleHeight);
+	    shapes.getShape("2playersMode").end();
 	    
 		sprite.begin();
+		TextDraw.draw(sprite, menuTexts.getText("classicMode"));
 	    TextDraw.draw(sprite, menuTexts.getText("2playersMode"));
 		sprite.end();
 		
@@ -108,7 +128,7 @@ public class MenuState extends State {
 	@Override
 	public void dispose() {
 		menuTexts.disposeAll();
-		shape.dispose();
+		shapes.disposeAll();
 		
 	}
 

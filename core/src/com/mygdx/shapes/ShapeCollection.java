@@ -32,8 +32,14 @@ public class ShapeCollection {
 	        }
 	}
 	
-	public void getShape(String stringId) {
-		shapeMap.get(stringId);
+	public ShapeRenderer getShape(String stringId) {
+		return shapeMap.get(stringId);
+	}
+	
+	public void disposeAll() {
+		for(ShapeRenderer shape : shapeMap.values()) {
+			shape.dispose();
+		}
 	}
 	
 }

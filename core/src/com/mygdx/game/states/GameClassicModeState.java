@@ -11,13 +11,13 @@ import com.mygdx.draw.FieldDraw;
 import com.mygdx.draw.TextDraw;
 import com.mygdx.gameField.GameplayManager;
 import com.mygdx.gameField.GameField;
-import com.mygdx.gameField.texts.Text;
-import com.mygdx.gameField.texts.Texts;
+import com.mygdx.gameField.texts.TextCollection;
 import com.mygdx.mouseTrack.MouseTrack;
-import com.mygdx.players.Players;
+import com.mygdx.utils.FloatCoordinates;
+import com.mygdx.utils.RgbaColor;
 import com.mygdx.utils.Utils;
 
-public class GameState extends State {
+public class GameClassicModeState extends State {
 	
 	private int rows = 15;
 	private int cols = 15;
@@ -27,18 +27,14 @@ public class GameState extends State {
 	private FieldDraw draw =  new FieldDraw(field,spriteSize);
 	private VideoSettings videoConfig = new VideoSettings();
 	private GameplayManager gameplayManager = new GameplayManager();
-	private Players players = new Players("player1" , "player2");
+
 	
-	private Texts playersTexts = new Texts(
-			"player1" , "Player 1:" , 24,
-			"player2" , "Player 2:" , 24);
-	
-	private Texts booleanEndStatus = new Texts(
-			"loose", "Perdeu",32,
-			"win", "Ganhou" , 32);
+	private TextCollection booleanEndStatus;
 	
 	
-	public GameState(GameStateManager gsm , MouseTrack mouse) {
+	
+	
+	public GameClassicModeState(StateManager gsm , MouseTrack mouse) {
 		super(gsm , mouse);
 		
 		
@@ -56,6 +52,9 @@ public class GameState extends State {
 		videoConfig.setResizable(false);
 		videoConfig.setTitle("Campo Minado");
 		
+		
+		
+		
 		field.fillCells(cols,rows);
 		field.placeBombs();
 		field.placeCountersInSafeCells();
@@ -63,33 +62,25 @@ public class GameState extends State {
 		
 		
 		int screenWidth = Gdx.graphics.getWidth(); 
-		int screenHeight = Gdx.graphics.getHeight(); 
-		
-		float textPlayersPosX = screenWidth/ 2 - 53; 
-		float textPlayersPosY = screenHeight - 5; 
-		
-		playersTexts.setColors(
-		"player1", 0f,0f,1f,1f,
-		"player2", 1f,0f,0f,1f);
 		
 		
-		booleanEndStatus.setColors(
-		"loose", 1f,0f,0f,1f,
-		"win", 0f,1f,0f,1f);
+		float booleanEndStatusPosition = screenWidth/ 2 - 53; 
+	
 		
 		
-		playersTexts.setTextPositions(
-		"player1" , textPlayersPosX , textPlayersPosY,
-		"player2" , textPlayersPosX , textPlayersPosY);
-		
-		
-		booleanEndStatus.setTextPositions(
-		"loose" , textPlayersPosX ,  30f,
-		"win"   , textPlayersPosX ,  30f);
+		booleanEndStatus = new TextCollection(
+				"loose", "Perdeu",32,
+				new RgbaColor("red") ,
+				new FloatCoordinates(booleanEndStatusPosition , 30f),
+				
+				"win", "Ganhou" , 32,
+				new RgbaColor("green") ,
+				new FloatCoordinates(booleanEndStatusPosition , 30f)
+				);
 
 	}
-
-	
+		
+		
 	
 	
 	@Override
@@ -107,7 +98,7 @@ public class GameState extends State {
 		if(mouse.eventMouseLeftClickOnce()&&
 				Utils.isIn2DArrayBound(mouseFieldX ,mouseFieldY, rows, cols)) {
 			
-        	gameplayManager.tryToUncoverThisCell(mouseFieldX , mouseFieldY, field ,players);
+        	gameplayManager.tryToUncoverThisCell(mouseFieldX , mouseFieldY, field);
         	
         }
         
@@ -133,14 +124,7 @@ public class GameState extends State {
 		
 		sprite.begin();
         draw.drawField(sprite, texture);
-        
-        int playerIdInRound = gameplayManager.getRounds().getPlayerIdInRound();
-        
-        String playerText = players.getPlayerStringTextByIndex(playerIdInRound);
-        
-        Text playerTextToDraw = playersTexts.getText(playerText);
-        
-        TextDraw.draw(sprite, playerTextToDraw);
+       
         
         if(gameplayManager.getGameOverStatus()) {
         	TextDraw.draw(sprite, booleanEndStatus.getText("loose"));
@@ -155,7 +139,6 @@ public class GameState extends State {
 	@Override
 	public void dispose() {
 		texture.dispose();
-		playersTexts.disposeAll();
 		booleanEndStatus.disposeAll();
 		
 	}

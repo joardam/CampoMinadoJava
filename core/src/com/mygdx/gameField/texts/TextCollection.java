@@ -1,34 +1,86 @@
 package com.mygdx.gameField.texts;
-
-
 import java.util.HashMap;
 
+import com.mygdx.utils.RgbaColor;
+import com.mygdx.utils.FloatCoordinates;
 
 
-public class Texts {
+
+public class TextCollection {
 	
 	private HashMap<String, Text> textMap = new HashMap<String, Text>();
 	
-	public Texts() {
+	public TextCollection() {
 		
 	}
 	
-	public Texts(Object... args) {
-        if (args.length % 3 != 0) {
-            throw new IllegalArgumentException("(Not enough parameters per key) Each parameter should consist of a String, another String, and an int.");
+	public TextCollection(Object... args) {
+		
+	
+		if (args.length % 3 != 0  && args.length % 5 != 0 ) {
+            throw new IllegalArgumentException("(Wrong pattern) Parameters pattern must be (String, String , int) or (String , String , int, Color, FloatCoordinates )");
         }
+		
+		
+		boolean not3Parameter = false; 
+		boolean not5Parameter = false;
+		
+		for (int i = 0; i < args.length; i += 3) {
+	        if (!(args[i] instanceof String) ||
+	            !(args[i + 1] instanceof String) ||
+	            !(args[i + 2] instanceof Integer)) {
+	            not3Parameter = true;
+	            break;
+	        }
+	    }
 
-        for (int i = 0; i < args.length; i += 3) {
-            if (!(args[i] instanceof String) || !(args[i + 1] instanceof String) || !(args[i + 2] instanceof Integer)) {
-                throw new IllegalArgumentException("(Wrong type) Each parameter should consist of a String, another String, and an int.");
-            }
+	    
+		if(not3Parameter) {
+			for (int i = 0; i < args.length; i += 5) {
+		        if (!(args[i] instanceof String) ||
+		            !(args[i + 1] instanceof String) ||
+		            !(args[i + 2] instanceof Integer) ||
+		            !(args[i + 3] instanceof RgbaColor) ||
+		            !(args[i + 4] instanceof FloatCoordinates)) {
+		            throw new IllegalArgumentException("(Wrong type) Parameters types must be (String, String , int) or (String , String , int, Color, FloatCoordinates )");
+		        }
+		    }
+		}
+		
+            
+			 
+		if(!(not3Parameter)) {
+			not5Parameter = true;
+			for (int i = 0; i < args.length; i += 3) {
+				String stringId = (String) args[i];
+	            String textString = (String) args[i + 1];
+	            int size = (int) args[i + 2];
+	            
+	            addText(stringId, textString, size);
+			}
+		}
+		
+		if(!(not5Parameter)) {
+			for (int i = 0; i < args.length; i += 5) {
+				String stringId = (String) args[i];
+	            String textString = (String) args[i + 1];
+	            int size = (int) args[i + 2];
+	            RgbaColor color = (RgbaColor) args[i + 3];
+	            FloatCoordinates coordinates = (FloatCoordinates) args[i + 4];
+	            
+	            addText(stringId, textString, size);
+	            Text text = textMap.get(stringId);
+	            text.setColor(color.getColor()[0],color.getColor()[1],color.getColor()[2],color.getColor()[3]);
+	            text.setTextPosition(coordinates.getCoordinateX(),coordinates.getCoordinateY() );
+	        
+	            
+			}
+		}
+		
 
-            String stringId = (String) args[i];
-            String textString = (String) args[i + 1];
-            int size = (int) args[i + 2];
-            addText(stringId, textString, size);
-        }
-    }
+            
+     }
+ 
 	
 	public void addText(String stringId , int size) {
 		Text text = new Text();

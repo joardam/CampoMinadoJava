@@ -4,22 +4,22 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.mygdx.game.states.GameState;
-import com.mygdx.game.states.GameStateManager;
+import com.mygdx.game.states.Game2PlayersModeState;
+import com.mygdx.game.states.StateManager;
 import com.mygdx.game.states.MenuState;
 
 
 
 public class MyGdxGame extends ApplicationAdapter {
 	
-	private GameStateManager gsm;
+	private StateManager gsm;
 	private SpriteBatch sprite;
 	
 	
 	@Override
 	public void create () {
 		sprite = new SpriteBatch();
-		gsm = new GameStateManager();
+		gsm = new StateManager();
 		
 		Gdx.gl.glClearColor(1, 1, 1, 1);
 		gsm.push(new MenuState(gsm));
