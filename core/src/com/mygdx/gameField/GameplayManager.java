@@ -2,8 +2,8 @@ package com.mygdx.gameField;
 
 import com.mygdx.gameField.cell.CellStructureManager;
 import com.mygdx.gameField.cell.FieldCell;
-import com.mygdx.gameField.cell.MinedCell;
-import com.mygdx.gameField.cell.SafeCell;
+import com.mygdx.gameField.cell.cellType.MinedCell;
+import com.mygdx.gameField.cell.cellType.SafeCell;
 import com.mygdx.gameField.cell.state.UncoveredCellState;
 import com.mygdx.gameField.cell.state.covered.CoveredCellAndFlaggedState;
 import com.mygdx.gameField.round.Rounds;
@@ -40,7 +40,7 @@ public class GameplayManager {
 	        	return;
 	        }
 	        
-	        if (cell instanceof SafeCell) {
+	        if (cell.getCellType() instanceof SafeCell) {
 	            boolean[][] virtualArrayForFieldCheck = new boolean[cells.length][cells[0].length];
 	            uncoverFlood(cells, posX, posY, virtualArrayForFieldCheck);
 	            field.decreaseCellsNumber(this.cellsDiscovered);
@@ -48,7 +48,7 @@ public class GameplayManager {
 	            
 	        }
 	        
-	        if (cell instanceof MinedCell) {
+	        if (cell.getCellType() instanceof MinedCell) {
 	            explodeField(cell, cells);
 	            this.gameOverStatus = true;
 	        }
@@ -68,7 +68,7 @@ public class GameplayManager {
 	
 	
 	
-    public void tryToUncoverThisCell(int posX ,int posY, GameField field ,Players players ) {
+    public void tryToUncoverThisCell(int posX ,int posY, GameField field ,Players players) {
     	
 
         FieldCell[][] cells = field.getCells();
@@ -83,7 +83,7 @@ public class GameplayManager {
         	return;
         }
         
-        if (cell instanceof SafeCell) {
+        if (cell.getCellType() instanceof SafeCell) {
             boolean[][] virtualArrayForFieldCheck = new boolean[cells.length][cells[0].length];
             uncoverFlood(cells, posX, posY, virtualArrayForFieldCheck);
             field.decreaseCellsNumber(this.cellsDiscovered);
@@ -91,7 +91,7 @@ public class GameplayManager {
             
         }
         
-        if (cell instanceof MinedCell) {
+        if (cell.getCellType() instanceof MinedCell) {
             explodeField(cell, cells);
             this.gameOverStatus = true;
         }
@@ -129,12 +129,12 @@ public class GameplayManager {
     	
     	if (!Utils.isIn2DArrayBound(arrayPosX, arrayPosY, cells.length, cells[0].length) ||
                 virtualArrayForFieldCheck[arrayPosX][arrayPosY] ||
-                (cells[arrayPosX][arrayPosY] instanceof MinedCell)) {
+                (cells[arrayPosX][arrayPosY].getCellType() instanceof MinedCell)) {
             return;
         }
 
-        if (cells[arrayPosX][arrayPosY] instanceof SafeCell &&
-                ((SafeCell) cells[arrayPosX][arrayPosY]).getNearBombs() != 0) {
+        if (cells[arrayPosX][arrayPosY].getCellType() instanceof SafeCell &&
+                ((SafeCell) cells[arrayPosX][arrayPosY].getCellType()).getNearBombs() != 0) {
 
             CellStructureManager.forceUncoverCell(cells[arrayPosX][arrayPosY]);
             
@@ -149,8 +149,8 @@ public class GameplayManager {
                 
                 if (Utils.isIn2DArrayBound(loopX, arrayPosY, cells.length, cells[0].length)) {
                     boolean isVirtualArraySet = virtualArrayForFieldCheck[loopX][arrayPosY];
-                    boolean isSafeCell = cells[loopX][arrayPosY] instanceof SafeCell;
-                    boolean hasNoNearBombs = isSafeCell && ((SafeCell) cells[loopX][arrayPosY]).getNearBombs() == 0;
+                    boolean isSafeCell = cells[loopX][arrayPosY].getCellType() instanceof SafeCell;
+                    boolean hasNoNearBombs = isSafeCell && ((SafeCell) cells[loopX][arrayPosY].getCellType()).getNearBombs() == 0;
 
                     if (isVirtualArraySet && isSafeCell && hasNoNearBombs) {
                         loopEdges(virtualArrayForFieldCheck, cells, loopX, arrayPosY);
@@ -159,8 +159,8 @@ public class GameplayManager {
 
                 if (Utils.isIn2DArrayBound(arrayPosX, loopY, cells.length, cells[0].length)) {
                     boolean isVirtualArraySet = virtualArrayForFieldCheck[arrayPosX][loopY];
-                    boolean isSafeCell = cells[arrayPosX][loopY] instanceof SafeCell;
-                    boolean hasNoNearBombs = isSafeCell && ((SafeCell) cells[arrayPosX][loopY]).getNearBombs() == 0;
+                    boolean isSafeCell = cells[arrayPosX][loopY].getCellType() instanceof SafeCell;
+                    boolean hasNoNearBombs = isSafeCell && ((SafeCell) cells[arrayPosX][loopY].getCellType()).getNearBombs() == 0;
 
                     if (isVirtualArraySet && isSafeCell && hasNoNearBombs) {
                         loopEdges(virtualArrayForFieldCheck, cells, arrayPosX, loopY);
@@ -173,7 +173,7 @@ public class GameplayManager {
 
         virtualArrayForFieldCheck[arrayPosX][arrayPosY] = true;
 
-        if (!(cells[arrayPosX][arrayPosY] instanceof MinedCell)) {
+        if (!(cells[arrayPosX][arrayPosY].getCellType() instanceof MinedCell)) {
             CellStructureManager.forceUncoverCell(cells[arrayPosX][arrayPosY]);
             
             cellsDiscovered++;

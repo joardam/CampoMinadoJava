@@ -3,20 +3,29 @@ import com.mygdx.gameField.cell.state.*;
 import com.mygdx.gameField.cell.state.covered.CoveredCellAndFlaggedState;
 import com.mygdx.gameField.cell.state.covered.CoveredCellState;
 import com.mygdx.utils.Coordinates;
+import com.mygdx.gameField.cell.cellType.*;
 
 
 
 public class FieldCell {
 	private Coordinates position;
 	private CellState cellState = new CoveredCellState();
+	private CellType cellType = new SafeCell();
 	
-	
+	public CellType getCellType() {
+		return cellType;
+	}
+
+	public void setCellType(CellType cellType) {
+		this.cellType = cellType;
+	}
+
 	public FieldCell() {
 		
 	}
 	
-	public FieldCell(Coordinates position) {
-		this.position = position;
+	public FieldCell(int x , int y) {
+		this.position = new Coordinates(x,y);
 	
 	}
 	

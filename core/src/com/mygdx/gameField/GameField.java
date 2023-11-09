@@ -1,8 +1,8 @@
 package com.mygdx.gameField;
 
 import com.mygdx.gameField.cell.FieldCell;
-import com.mygdx.gameField.cell.MinedCell;
-import com.mygdx.gameField.cell.SafeCell;
+import com.mygdx.gameField.cell.cellType.MinedCell;
+import com.mygdx.gameField.cell.cellType.SafeCell;
 import com.mygdx.utils.Utils;
 
 public class GameField  {
@@ -15,12 +15,12 @@ public class GameField  {
 	public void fillCells(int cols, int rows) {
 	    cells = new FieldCell[cols][rows];
 	    
-	    
 	    for (int arrayPosX = 0; arrayPosX < cells.length; arrayPosX++) {
 	        for (int arrayPosY = 0; arrayPosY < cells[arrayPosX].length; arrayPosY++) {
 	            int posX = arrayPosX;
 	            int posY = arrayPosY;
-	            cells[arrayPosX][arrayPosY] = new SafeCell(posX, posY);
+	            cells[posX][posY] = new FieldCell(posX,posY);
+	            
 	        }
 	    }
 	    coveredCellsNumber = cells.length * cells[0].length;
@@ -35,12 +35,12 @@ public class GameField  {
 			int bombX = Utils.randomBetween(0, cells.length - 1);
 			int bombY = Utils.randomBetween(0, cells[0].length - 1);
 
-			if (cells[bombX][bombY] instanceof MinedCell) {
+			if (cells[bombX][bombY].getCellType() instanceof MinedCell) {
 				i--;
 				continue;
 			}
 			else {
-				cells[bombX][bombY] = new MinedCell(bombX,bombY);
+				cells[bombX][bombY].setCellType(new MinedCell());
 			
 			};
 
@@ -66,9 +66,9 @@ public class GameField  {
 	        for (int j = 0; j < cells[i].length; j++) {
 	            FieldCell currentCell = cells[i][j];
 
-	            if (currentCell instanceof SafeCell) {
+	            if (currentCell.getCellType() instanceof SafeCell) {
 	                int bombCount = countNearbyBombs(i, j);
-	                ((SafeCell) currentCell).setNearBombs(bombCount);
+	                ((SafeCell)currentCell.getCellType()).setNearBombs(bombCount);
 	            }
 	        }
 	    }
@@ -85,7 +85,7 @@ public class GameField  {
 	            int loopY = y + l;
 
 	            if (Utils.isIn2DArrayBound(loopX, loopY, cells.length, cells[0].length)) {
-	                if (cells[loopX][loopY] instanceof MinedCell) {
+	                if (cells[loopX][loopY].getCellType() instanceof MinedCell) {
 	                    bombCount++;
 	                }
 	            }
