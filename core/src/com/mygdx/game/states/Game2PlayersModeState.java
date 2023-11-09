@@ -3,13 +3,8 @@ package com.mygdx.game.states;
 
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.mygdx.config.SpriteConfig;
-import com.mygdx.config.VideoSettings;
-import com.mygdx.draw.FieldDraw;
 import com.mygdx.draw.TextDraw;
-import com.mygdx.gameField.GameplayManager;
 import com.mygdx.gameField.GameField;
 import com.mygdx.gameField.texts.Text;
 import com.mygdx.gameField.texts.TextCollection;
@@ -19,52 +14,38 @@ import com.mygdx.utils.FloatCoordinates;
 import com.mygdx.utils.RgbaColor;
 import com.mygdx.utils.Utils;
 
-public class Game2PlayersModeState extends State {
+public class Game2PlayersModeState extends GameModeState {
 	
-	private int rows = 15;
-	private int cols = 15;
-	private GameField field = new GameField();
-	private int spriteSize = 32;
-	private Texture texture = new Texture("newsprites.jpg");
-	private FieldDraw draw =  new FieldDraw(field,spriteSize);
-	private VideoSettings videoConfig = new VideoSettings();
-	private GameplayManager gameplayManager = new GameplayManager();
-	private Players players = new Players("player1" , "player2");
+	
+	private Players players ;
 	
 	private TextCollection playersTexts; 
-	
-	private TextCollection booleanEndStatus;
-	
-	
+
+
 	public Game2PlayersModeState(StateManager gsm , MouseTrack mouse) {
 		super(gsm , mouse);
+		create();
 		
-		
+	}
 
+	@Override
+	public void create() {
+		field = new GameField();
 		
 		
-		videoConfig.setCamera(cam);
+		super.create();
 		
-		videoConfig.SetVideoSize((cols + 2) * spriteSize,
-				(rows + 2) * spriteSize);
-
-		videoConfig.setFixElements();
-		
-		videoConfig.setWindowedMode();
-		videoConfig.setResizable(false);
-		videoConfig.setTitle("Campo Minado");
-		
-		field.fillCells(cols,rows);
-		field.placeBombs();
-		field.placeCountersInSafeCells();
-		
-		
+		players = new Players("player1" , "player2");
 		
 		int screenWidth = Gdx.graphics.getWidth(); 
 		int screenHeight = Gdx.graphics.getHeight(); 
 		
+		
+		
 		float textPlayersPosX = screenWidth/ 2 - 53; 
 		float textPlayersPosY = screenHeight - 5; 
+		
+		
 		
 		
 		playersTexts = new TextCollection(
@@ -76,25 +57,13 @@ public class Game2PlayersModeState extends State {
 				new RgbaColor("red") ,
 				new FloatCoordinates(textPlayersPosX , textPlayersPosY)
 				);
-		
-		booleanEndStatus = new TextCollection(
-				"loose", "Perdeu",32,
-				new RgbaColor("red") ,
-				new FloatCoordinates(textPlayersPosX , 30f),
-				
-				"win", "Ganhou" , 32,
-				new RgbaColor("green") ,
-				new FloatCoordinates(textPlayersPosX , 30f)
-				);
-
 	}
 
 	
 	
-	
 	@Override
 	public void resize(int width, int height) {
-		videoConfig.resizeScreen(width, height);
+		super.resize(width, height);
 		
 	}
 	
@@ -118,22 +87,14 @@ public class Game2PlayersModeState extends State {
 	
 	@Override
 	public void update(float dt) {
-		mouse.setMousePosition();
-		handleInput();
+		super.update(dt);
 		
 		
 	}
 	
 	@Override
-	public void render(SpriteBatch sprite) {
-		Gdx.gl.glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
-        
-		
-		SpriteConfig.setProjectionMatrix(sprite, videoConfig);
-		
+	public void render(SpriteBatch sprite) {	
 		sprite.begin();
-        draw.drawField(sprite, texture);
-        
         int playerIdInRound = gameplayManager.getRounds().getPlayerIdInRound();
         
         String playerText = players.getPlayerStringTextByIndex(playerIdInRound);
@@ -141,24 +102,20 @@ public class Game2PlayersModeState extends State {
         Text playerTextToDraw = playersTexts.getText(playerText);
         
         TextDraw.draw(sprite, playerTextToDraw);
-        
-        if(gameplayManager.getGameOverStatus()) {
-        	TextDraw.draw(sprite, booleanEndStatus.getText("loose"));
-		}
-        else if (gameplayManager.isWinStatus()) {
-        	TextDraw.draw(sprite, booleanEndStatus.getText("win"));
-        }
-        
         sprite.end();
+        
+        super.render(sprite);
 	}
 	
 	@Override
 	public void dispose() {
-		texture.dispose();
+		super.dispose();
 		playersTexts.disposeAll();
-		booleanEndStatus.disposeAll();
+		
 		
 	}
+	
+	
 
 
 	

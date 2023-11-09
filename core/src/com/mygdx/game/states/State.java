@@ -15,10 +15,11 @@ public abstract class State implements StateInterface{
 		}
 	protected State(StateManager gsm , MouseTrack mouse) {
 		this.gsm = gsm;
-		this.mouse = mouse ;
+		this.mouse = mouse;
 	}
 	
-	
+	@Override
+	public abstract void create();
 	@Override
 	public abstract void handleInput();
 	@Override

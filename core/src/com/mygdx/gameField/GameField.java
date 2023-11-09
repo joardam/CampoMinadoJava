@@ -11,6 +11,7 @@ public class GameField  {
 	private int coveredCellsNumber ;
 	private int bombsQuantity = 10;
 	
+	
 	public void fillCells(int cols, int rows) {
 	    cells = new FieldCell[cols][rows];
 	    
@@ -45,6 +46,8 @@ public class GameField  {
 
 		}
 	}
+	
+
 	
 	
 	
