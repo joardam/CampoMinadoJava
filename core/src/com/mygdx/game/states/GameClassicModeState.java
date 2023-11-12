@@ -1,9 +1,10 @@
 package com.mygdx.game.states;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-import com.mygdx.gameField.GameField;
+import com.mygdx.gameField.ClassicField;
+import com.mygdx.gameField.ClassicManager;
 import com.mygdx.mouseTrack.MouseTrack;
-import com.mygdx.utils.Utils;
+
 
 public class GameClassicModeState extends GameModeState {
 	
@@ -17,7 +18,8 @@ public class GameClassicModeState extends GameModeState {
 		
 	@Override
 	public void create() {
-		field = new GameField();
+		gameplayManager = new ClassicManager();
+		field = new ClassicField();
 		
 		super.create();
 	}
@@ -31,18 +33,7 @@ public class GameClassicModeState extends GameModeState {
 	
 	@Override 
 	public void handleInput() {
-		 int mouseFieldX = (int) mouse.getMouseX() / spriteSize - 1 ;
-		 int mouseFieldY = (int) mouse.getMouseY() / spriteSize - 1 ;
-		 
-		if(mouse.eventMouseLeftClickOnce()&&
-				Utils.isIn2DArrayBound(mouseFieldX ,mouseFieldY, rows, cols)) {
-        	gameplayManager.tryToUncoverThisCell(mouseFieldX , mouseFieldY, field);
-        	
-        }
-        
-        if(mouse.eventMouseRightClickOnce()) {
-        	gameplayManager.tryToToggleFlagThisCell(mouseFieldX,mouseFieldY, field);
-        }
+		super.handleInput();
 	}
 	
 	@Override

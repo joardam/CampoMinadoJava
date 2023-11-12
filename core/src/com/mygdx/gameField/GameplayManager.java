@@ -1,31 +1,22 @@
 package com.mygdx.gameField;
 
-import com.mygdx.gameField.cell.CellStructureManager;
-import com.mygdx.gameField.cell.FieldCell;
+import com.mygdx.gameField.cell.*;
 import com.mygdx.gameField.cell.cellType.MinedCell;
 import com.mygdx.gameField.cell.cellType.SafeCell;
+import com.mygdx.gameField.cell.state.CoveredCellState;
 import com.mygdx.gameField.cell.state.UncoveredCellState;
-import com.mygdx.gameField.cell.state.covered.CoveredCellAndFlaggedState;
 import com.mygdx.gameField.round.Rounds;
-import com.mygdx.players.Players;
 import com.mygdx.utils.Utils;
 
-public class GameplayManager {
-
-	private Rounds rounds = new Rounds();
-	
-	
-	private boolean winStatus = false;
-	private boolean gameOverStatus = false;
+public abstract class GameplayManager {
+	protected Rounds rounds = new Rounds();
+	protected boolean winStatus = false;
+	protected boolean gameOverStatus = false;
 
 	
 	
-	public GameplayManager() {
-		
-	}
 	
-	
-	 public void tryToUncoverThisCell(int posX ,int posY, GameField field) {
+	 public void tryToUncoverThisCell(int posX ,int posY, ClassicField field) {
 	    	
 
 	        FieldCell[][] cells = field.getCells();
@@ -33,7 +24,7 @@ public class GameplayManager {
 	        int count = 0;
 	       
 	        
-	        if(cell.getCellState() instanceof CoveredCellAndFlaggedState) {
+	        if((cell.getCellState() instanceof CoveredCellState ) && ((CoveredCellState) cell.getCellState()).isFlagged()) {
 	        	return;
 	        }
 	        
@@ -80,24 +71,10 @@ public class GameplayManager {
 	    }
 	
 	
-	
-	
-    public void tryToUncoverThisCell(int posX ,int posY, GameField field ,Players players) {
-    	
 
-    	tryToUncoverThisCell(posX ,posY,field);
-    	
-    	if((gameOverStatus == true) || (winStatus == true)) {
-        	return;
-    	}
-        
-        this.rounds.passPlayerRound(players);
-        
-    }
 
-    public void tryToToggleFlagThisCell(int posX,int posY, GameField field) {
-       
-        FieldCell cell = field.getCells()[posX][posY];
+    public void tryToToggleFlagThisCell(int posX,int posY, Field field) {
+        ClassicCell cell = field.getCells()[posX][posY];
         CellStructureManager.ToggleFlagCell(cell);
     }
 
@@ -126,7 +103,6 @@ public class GameplayManager {
 
             CellStructureManager.forceUncoverCell(cells[arrayPosX][arrayPosY]);
             virtualArrayCheck[arrayPosX][arrayPosY] = true;
-            
             
            
            if(state.equals("no")) {
@@ -176,7 +152,6 @@ public class GameplayManager {
 	public Rounds getRounds() {
 		return rounds;
 	}
-    
     
     
 }

@@ -7,21 +7,22 @@ import com.mygdx.config.SpriteConfig;
 import com.mygdx.config.VideoSettings;
 import com.mygdx.draw.FieldDraw;
 import com.mygdx.draw.TextDraw;
-import com.mygdx.gameField.GameField;
+import com.mygdx.gameField.ClassicField;
 import com.mygdx.gameField.GameplayManager;
 import com.mygdx.gameField.texts.TextCollection;
 import com.mygdx.mouseTrack.MouseTrack;
 import com.mygdx.utils.FloatCoordinates;
 import com.mygdx.utils.RgbaColor;
+import com.mygdx.utils.Utils;
 
 public abstract class GameModeState extends State{
 	
 	protected int rows = 15;
 	protected int cols = 15;
-	protected GameField field;
+	protected ClassicField field;
 	protected FieldDraw draw;
 	protected VideoSettings videoConfig = new VideoSettings();
-	protected GameplayManager gameplayManager = new GameplayManager();
+	protected GameplayManager gameplayManager;
 	protected TextCollection booleanEndStatus;
 	
 	protected int spriteSize = 32;
@@ -79,11 +80,28 @@ public abstract class GameModeState extends State{
 		videoConfig.resizeScreen(width, height);
 		
 	}
+	
+	
+	@Override
+	public void handleInput() {
+		 int mouseFieldX = (int) mouse.getMouseX() / spriteSize - 1 ;
+		 int mouseFieldY = (int) mouse.getMouseY() / spriteSize - 1 ;
+		 
+		if(mouse.eventMouseLeftClickOnce()&&
+				Utils.isIn2DArrayBound(mouseFieldX ,mouseFieldY, rows, cols)) {
+			
+       	gameplayManager.tryToUncoverThisCell(mouseFieldX , mouseFieldY, field);
+       	
+       }
+       
+       if(mouse.eventMouseRightClickOnce()) {
+       	gameplayManager.tryToToggleFlagThisCell(mouseFieldX,mouseFieldY, field);
+       }
+	}
 
 	@Override
 	public void update(float dt) {
 		mouse.setMousePosition();
-		
 		
 		
 		handleInput();

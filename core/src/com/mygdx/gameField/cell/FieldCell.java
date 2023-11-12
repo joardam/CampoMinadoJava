@@ -1,13 +1,13 @@
 package com.mygdx.gameField.cell;
-import com.mygdx.gameField.cell.state.*;
-import com.mygdx.gameField.cell.state.covered.CoveredCellAndFlaggedState;
-import com.mygdx.gameField.cell.state.covered.CoveredCellState;
+
+import com.mygdx.gameField.cell.cellType.CellType;
+import com.mygdx.gameField.cell.cellType.SafeCell;
+import com.mygdx.gameField.cell.state.CellState;
+import com.mygdx.gameField.cell.state.CoveredCellState;
+import com.mygdx.gameField.cell.state.UncoveredCellState;
 import com.mygdx.utils.Coordinates;
-import com.mygdx.gameField.cell.cellType.*;
 
-
-
-public class FieldCell {
+public abstract class FieldCell {
 	private Coordinates position;
 	private CellState cellState = new CoveredCellState();
 	private CellType cellType = new SafeCell();
@@ -42,9 +42,8 @@ public class FieldCell {
 		this.cellState = new CoveredCellState();
 	}
 	
-	public void setCellStateCoveredAndFlagged() {
-		this.cellState = new CoveredCellAndFlaggedState();
-		
+	public void toggleFlagState() {
+		((CoveredCellState) this.cellState).toggleFlag();
 	}
 	
 	public void setCellStateUncovered() {
@@ -70,7 +69,6 @@ public class FieldCell {
 	public int getNearBombs() {
 		return this.nearBombs;
 	}
-	
 	
 	
 	

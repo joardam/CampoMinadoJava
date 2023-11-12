@@ -1,17 +1,16 @@
 package com.mygdx.draw;
 
-import com.mygdx.gameField.cell.FieldCell;
+import com.mygdx.gameField.cell.ClassicCell;
 import com.mygdx.gameField.cell.cellType.MinedCell;
 import com.mygdx.gameField.cell.cellType.SafeCell;
-import com.mygdx.gameField.cell.*;
 import com.mygdx.gameField.cell.state.*;
-import com.mygdx.gameField.cell.state.covered.*;
+
 
 public class CellTextureManager {
 	
-	public static int getTextureByCell(FieldCell cell) {
+	public static int getTextureByCell(ClassicCell cell) {
 		if(cell.getCellState() instanceof CoveredCellState) {
-			if(cell.getCellState() instanceof CoveredCellAndFlaggedState) {
+			if(cell.getCellState() instanceof CoveredCellState && ((CoveredCellState)cell.getCellState()).isFlagged()) {
 				return 11;
 			}
 			return 10;

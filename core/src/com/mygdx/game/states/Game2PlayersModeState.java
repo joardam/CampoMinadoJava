@@ -5,14 +5,16 @@ package com.mygdx.game.states;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.draw.TextDraw;
-import com.mygdx.gameField.GameField;
+import com.mygdx.gameField.ClassicField;
 import com.mygdx.gameField.texts.Text;
 import com.mygdx.gameField.texts.TextCollection;
 import com.mygdx.mouseTrack.MouseTrack;
 import com.mygdx.players.Players;
 import com.mygdx.utils.FloatCoordinates;
 import com.mygdx.utils.RgbaColor;
-import com.mygdx.utils.Utils;
+
+
+import com.mygdx.gameField.*;
 
 public class Game2PlayersModeState extends GameModeState {
 	
@@ -30,12 +32,15 @@ public class Game2PlayersModeState extends GameModeState {
 
 	@Override
 	public void create() {
-		field = new GameField();
+		players = new Players("player1" , "player2");
+		gameplayManager = new Mode2PlayersManager(players);
+		field = new ClassicField();
+		
 		
 		
 		super.create();
 		
-		players = new Players("player1" , "player2");
+		
 		
 		int screenWidth = Gdx.graphics.getWidth(); 
 		int screenHeight = Gdx.graphics.getHeight(); 
@@ -70,19 +75,7 @@ public class Game2PlayersModeState extends GameModeState {
 	
 	@Override 
 	public void handleInput() {
-		 int mouseFieldX = (int) mouse.getMouseX() / spriteSize - 1 ;
-		 int mouseFieldY = (int) mouse.getMouseY() / spriteSize - 1 ;
-		 
-		if(mouse.eventMouseLeftClickOnce()&&
-				Utils.isIn2DArrayBound(mouseFieldX ,mouseFieldY, rows, cols)) {
-			
-        	gameplayManager.tryToUncoverThisCell(mouseFieldX , mouseFieldY, field ,players);
-        	
-        }
-        
-        if(mouse.eventMouseRightClickOnce()) {
-        	gameplayManager.tryToToggleFlagThisCell(mouseFieldX,mouseFieldY, field);
-        }
+		super.handleInput();
 	}
 	
 	@Override

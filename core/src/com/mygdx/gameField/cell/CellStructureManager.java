@@ -1,15 +1,14 @@
 package com.mygdx.gameField.cell;
 
+import com.mygdx.gameField.cell.state.CoveredCellState;
 import com.mygdx.gameField.cell.state.UncoveredCellState;
-import com.mygdx.gameField.cell.state.covered.CoveredCellAndFlaggedState;
-import com.mygdx.gameField.cell.state.covered.*;
 
 public class CellStructureManager {
 	
 	
-	public static void UncoverCell(FieldCell cell) {
+	public static void UncoverCell(ClassicCell cell) {
 		if (cell.getCellState() instanceof UncoveredCellState ||
-			cell.getCellState() instanceof CoveredCellAndFlaggedState) {
+			(cell.getCellState() instanceof CoveredCellState && ((CoveredCellState)cell.getCellState()).isFlagged())) {
 		//do nothing
 		}
 		else {
@@ -17,21 +16,19 @@ public class CellStructureManager {
 			}
 	}
 	
-	public static void ToggleFlagCell(FieldCell cell) {
+	public static void ToggleFlagCell(ClassicCell cell) {
 		
 		
 		if(cell.getCellState() instanceof CoveredCellState) {
-			if(cell.getCellState() instanceof CoveredCellAndFlaggedState){
-				cell.setCellStateCovered();
+			if(cell.getCellState() instanceof CoveredCellState){
+				cell.toggleFlagState();
 			}
-			else {
-				cell.setCellStateCoveredAndFlagged();
-			}
+			
 		}
 	}
 	
-	public static void forceUncoverCell(FieldCell cell) {
-		cell.setCellStateUncovered();
+	public static void forceUncoverCell(FieldCell cells) {
+		cells.setCellStateUncovered();
 		
 		
 	}
