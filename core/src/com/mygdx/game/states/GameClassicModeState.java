@@ -36,7 +36,6 @@ public class GameClassicModeState extends GameModeState {
 		 
 		if(mouse.eventMouseLeftClickOnce()&&
 				Utils.isIn2DArrayBound(mouseFieldX ,mouseFieldY, rows, cols)) {
-			
         	gameplayManager.tryToUncoverThisCell(mouseFieldX , mouseFieldY, field);
         	
         }

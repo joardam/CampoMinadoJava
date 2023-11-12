@@ -22,7 +22,7 @@ public class CellTextureManager {
 				return 9;
 			}
 			else if(cell.getCellType() instanceof SafeCell) {
-				final int nearBombsNumber = ((SafeCell) cell.getCellType()).getNearBombs();
+				final int nearBombsNumber = cell.getNearBombs();
 				return nearBombsNumber;
 			}
 		}

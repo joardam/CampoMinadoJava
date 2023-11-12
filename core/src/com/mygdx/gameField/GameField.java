@@ -23,7 +23,7 @@ public class GameField  {
 	            
 	        }
 	    }
-	    coveredCellsNumber = cells.length * cells[0].length;
+	    coveredCellsNumber = (cells.length) * (cells[0].length);
 	}
 
 	
@@ -68,7 +68,7 @@ public class GameField  {
 
 	            if (currentCell.getCellType() instanceof SafeCell) {
 	                int bombCount = countNearbyBombs(i, j);
-	                ((SafeCell)currentCell.getCellType()).setNearBombs(bombCount);
+	                currentCell.setNearBombs(bombCount);
 	            }
 	        }
 	    }

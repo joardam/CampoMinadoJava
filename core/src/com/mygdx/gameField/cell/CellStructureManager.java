@@ -5,6 +5,8 @@ import com.mygdx.gameField.cell.state.covered.CoveredCellAndFlaggedState;
 import com.mygdx.gameField.cell.state.covered.*;
 
 public class CellStructureManager {
+	
+	
 	public static void UncoverCell(FieldCell cell) {
 		if (cell.getCellState() instanceof UncoveredCellState ||
 			cell.getCellState() instanceof CoveredCellAndFlaggedState) {
@@ -30,6 +32,8 @@ public class CellStructureManager {
 	
 	public static void forceUncoverCell(FieldCell cell) {
 		cell.setCellStateUncovered();
+		
+		
 	}
 	
 	

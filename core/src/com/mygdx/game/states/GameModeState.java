@@ -83,6 +83,9 @@ public abstract class GameModeState extends State{
 	@Override
 	public void update(float dt) {
 		mouse.setMousePosition();
+		
+		
+		
 		handleInput();
 		
 	}

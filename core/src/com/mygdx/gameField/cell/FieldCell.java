@@ -11,6 +11,9 @@ public class FieldCell {
 	private Coordinates position;
 	private CellState cellState = new CoveredCellState();
 	private CellType cellType = new SafeCell();
+	private int nearBombs;
+	
+	
 	
 	public CellType getCellType() {
 		return cellType;
@@ -59,6 +62,14 @@ public class FieldCell {
 		return this.cellState;
 	}
 	
+	
+	public void setNearBombs(int nearBombs) {
+		this.nearBombs = nearBombs;
+	}
+	
+	public int getNearBombs() {
+		return this.nearBombs;
+	}
 	
 	
 	
