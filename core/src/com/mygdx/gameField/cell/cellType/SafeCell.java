@@ -7,9 +7,7 @@ public class SafeCell extends CellType{
 	public SafeCell() {
 		
 	}
-	
-	
-	
+
 
 }
 

@@ -102,7 +102,7 @@ public abstract class GameplayManager {
                 cells[arrayPosX][arrayPosY].getNearBombs() != 0) {
 
             
-            virtualArrayCheck[arrayPosX][arrayPosY] = true;
+           
             cells[arrayPosX][arrayPosY].setCellStateUncovered();
            
            if(state.equals("no")) {

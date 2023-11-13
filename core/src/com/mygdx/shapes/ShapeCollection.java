@@ -3,6 +3,10 @@ package com.mygdx.shapes;
 import java.util.HashMap;
 
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.mygdx.gameField.texts.Text;
+import com.mygdx.utils.FloatCoordinates;
+import com.mygdx.utils.RgbaColor;
 
 public class ShapeCollection {
 	private HashMap<String, ShapeRenderer> shapeMap = new HashMap<String , ShapeRenderer>();
@@ -18,6 +22,83 @@ public class ShapeCollection {
 	            addShape(stringId);
 	        }
 	}
+	
+	
+	public ShapeCollection(Object... args) {
+        try {
+            if (args.length % 2 != 0) {
+                throw new IllegalArgumentException("Parameters pattern must be (String, RgbaColor)");
+            }
+
+         
+
+            for (int i = 0; i < args.length; i += 2) {
+                if (!(args[i] instanceof String) || !(args[i + 1] instanceof RgbaColor)) {
+                	throw new IllegalArgumentException("Parameters types must be (String, RgbaColor)");
+                
+                }
+                String stringId = (String) args[i];
+                RgbaColor color = (RgbaColor) args[i + 1];
+                
+                addShape(stringId);
+                ShapeRenderer shape = shapeMap.get(stringId);
+                shape.setColor(color.getColor()[0],color.getColor()[1],color.getColor()[2],color.getColor()[3]);
+            }
+
+        } catch (IllegalArgumentException e) {
+            System.err.println("Error: " + e.getMessage());
+        }
+    }
+	
+	
+	public void shapesBegin(String ... args) {
+		 for (int i = 0; i < args.length; i ++) {
+			 shapeMap.get(args[i]).begin(ShapeType.Filled);
+		 }
+	}
+	
+	public void shapesEnd(String ... args) {
+		try {
+			for (int i = 0; i < args.length; i ++) {
+				 shapeMap.get(args[i]).end();
+			 }
+		} catch (IllegalArgumentException e) {
+            System.err.println("Error: " + e.getMessage());
+        } 
+		
+		
+	}
+	
+	public void setRect(Object ... args) {
+		try {
+			 if (args.length % 3 != 0) {
+	                throw new IllegalArgumentException("Parameters pattern must be (String, FloatCoordinates , FloatCoordinates)");
+	            }
+			 
+			 for (int i = 0; i < args.length; i += 3) {
+	                if (!(args[i] instanceof String) || !(args[i + 1] instanceof FloatCoordinates ) || !(args[i + 2] instanceof FloatCoordinates)) {
+	                	throw new IllegalArgumentException("Parameters types must be (String, FloatCoordinates , FloatCoordinates)");
+	                }
+	                ShapeRenderer shape = (ShapeRenderer)shapeMap.get(args[i]);
+	                float posX = ((FloatCoordinates)args[i + 1]).getCoordinateX();
+	                float posY = ((FloatCoordinates)args[i + 1]).getCoordinateY();
+	                
+	                float rectangleWidth = ((FloatCoordinates)args[i + 2]).getCoordinateX();
+	                float rectangleHeight = ((FloatCoordinates)args[i + 2]).getCoordinateY();
+	                
+	                shape.rect(posX,posY,rectangleWidth,rectangleHeight);
+			 }
+			
+			
+			
+		} catch (IllegalArgumentException e) {
+            System.err.println("Error: " + e.getMessage());
+        }
+		
+		
+	}
+	
+	
 	
 	public void addShape(String stringId) {
 		ShapeRenderer shape = new ShapeRenderer();

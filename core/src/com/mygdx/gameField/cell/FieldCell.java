@@ -14,7 +14,6 @@ public abstract class FieldCell {
 	private int nearBombs;
 	
 	
-	
 	public CellType getCellType() {
 		return cellType;
 	}
