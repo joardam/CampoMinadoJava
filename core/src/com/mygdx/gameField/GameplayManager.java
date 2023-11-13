@@ -16,7 +16,7 @@ public abstract class GameplayManager {
 	
 	
 	
-	 public void tryToUncoverThisCell(int posX ,int posY, ClassicField field) {
+	 public void tryToUncoverThisCell(int posX ,int posY, Field field) {
 	    	
 
 	        FieldCell[][] cells = field.getCells();
@@ -70,19 +70,19 @@ public abstract class GameplayManager {
 	        
 	    }
 	
-	
-
-
     public void tryToToggleFlagThisCell(int posX,int posY, Field field) {
-        ClassicCell cell = field.getCells()[posX][posY];
-        CellStructureManager.ToggleFlagCell(cell);
+        FieldCell cell = field.getCells()[posX][posY];
+        if(!(cell.getCellState() instanceof CoveredCellState)) {
+			return;
+		}
+        cell.toggleFlagState();
     }
 
     public  void explodeField(FieldCell cell, FieldCell[][] cells) {
         for (int i = 0; i < cells.length; i++) {
             for (int j = 0; j < cells[i].length; j++) {
                 if (!(cells[i][j].getCellState() instanceof UncoveredCellState)) {
-                    CellStructureManager.forceUncoverCell(cells[i][j]);
+                	cells[i][j].setCellStateUncovered();
                 }
             }
         }
@@ -101,9 +101,9 @@ public abstract class GameplayManager {
         if (cells[arrayPosX][arrayPosY].getCellType() instanceof SafeCell &&
                 cells[arrayPosX][arrayPosY].getNearBombs() != 0) {
 
-            CellStructureManager.forceUncoverCell(cells[arrayPosX][arrayPosY]);
-            virtualArrayCheck[arrayPosX][arrayPosY] = true;
             
+            virtualArrayCheck[arrayPosX][arrayPosY] = true;
+            cells[arrayPosX][arrayPosY].setCellStateUncovered();
            
            if(state.equals("no")) {
         	   return;
@@ -122,7 +122,8 @@ public abstract class GameplayManager {
         }
 
         	virtualArrayCheck[arrayPosX][arrayPosY] = true;
-            CellStructureManager.forceUncoverCell(cells[arrayPosX][arrayPosY]);
+        	cells[arrayPosX][arrayPosY].setCellStateUncovered();
+            
             
   
             uncoverFlood(cells, arrayPosX - 1, arrayPosY, virtualArrayCheck , "ho");

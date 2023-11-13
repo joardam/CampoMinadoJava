@@ -7,7 +7,7 @@ import com.mygdx.config.SpriteConfig;
 import com.mygdx.config.VideoSettings;
 import com.mygdx.draw.FieldDraw;
 import com.mygdx.draw.TextDraw;
-import com.mygdx.gameField.ClassicField;
+import com.mygdx.gameField.Field;
 import com.mygdx.gameField.GameplayManager;
 import com.mygdx.gameField.texts.TextCollection;
 import com.mygdx.mouseTrack.MouseTrack;
@@ -19,7 +19,7 @@ public abstract class GameModeState extends State{
 	
 	protected int rows = 15;
 	protected int cols = 15;
-	protected ClassicField field;
+	protected Field field;
 	protected FieldDraw draw;
 	protected VideoSettings videoConfig = new VideoSettings();
 	protected GameplayManager gameplayManager;

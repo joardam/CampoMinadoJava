@@ -98,6 +98,16 @@ public class MenuState extends State {
 					gsm.set(new Game2PlayersModeState(gsm,mouse));
 				
 				}
+				else if(Utils.isIn2DSpaceBound(
+						mouse.getMouseX(), mouse.getMouseY() ,
+						(float)700 / 2 - rectangleWidth / 2,
+						(float)700 / 2 - rectangleHeight/ 2 - 70f,
+						(float)700 / 2 + rectangleWidth / 2,
+						(float)700 / 2 + rectangleHeight/ 2 - 70f
+						)) {
+					gsm.set(new GameCrazyModeState(gsm,mouse));
+				
+				}
 		
 			}	
 	}

@@ -1,30 +1,16 @@
 package com.mygdx.gameField;
 
-import com.mygdx.gameField.cell.ClassicCell;
+import com.mygdx.gameField.cell.FieldCell;
 import com.mygdx.gameField.cell.cellType.MinedCell;
 import com.mygdx.gameField.cell.cellType.SafeCell;
 import com.mygdx.utils.Utils;
 
-public abstract class Field {
-	private ClassicCell[][] cells;
-	private int coveredCellsNumber ;
-	private int bombsQuantity = 10;
+public abstract class Field implements FieldInterface{
+	protected FieldCell[][] cells;
+	protected int coveredCellsNumber ;
+	protected int bombsQuantity = 10;
 	
 	
-	public void fillCells(int cols, int rows) {
-	    cells = new ClassicCell[cols][rows];
-	    
-	    for (int arrayPosX = 0; arrayPosX < cells.length; arrayPosX++) {
-	        for (int arrayPosY = 0; arrayPosY < cells[arrayPosX].length; arrayPosY++) {
-	            int posX = arrayPosX;
-	            int posY = arrayPosY;
-	            cells[posX][posY] = new ClassicCell(posX,posY);
-	            
-	        }
-	    }
-	    coveredCellsNumber = (cells.length) * (cells[0].length);
-	}
-
 	
 	public void placeBombs(){
 
@@ -63,7 +49,7 @@ public abstract class Field {
 	public void placeCountersInSafeCells() {
 	    for (int i = 0; i < cells.length; i++) {
 	        for (int j = 0; j < cells[i].length; j++) {
-	            ClassicCell currentCell = cells[i][j];
+	            FieldCell currentCell = cells[i][j];
 
 	            if (currentCell.getCellType() instanceof SafeCell) {
 	                int bombCount = countNearbyBombs(i, j);
@@ -73,7 +59,7 @@ public abstract class Field {
 	    }
 	}
 
-	private int countNearbyBombs(int x, int y) {
+	public int countNearbyBombs(int x, int y) {
 	    int bombCount = 0;
 
 	    for (int k = -1; k <= 1; k++) {
@@ -96,7 +82,7 @@ public abstract class Field {
 
 	
 	
-	public ClassicCell[][] getCells(){
+	public FieldCell[][] getCells(){
 		return this.cells;
 	}
 
