@@ -17,13 +17,14 @@ import com.mygdx.utils.Utils;
 
 public abstract class GameModeState extends State{
 	
-	protected int rows = 15;
-	protected int cols = 15;
+	protected int rows;
+	protected int cols;
 	protected Field field;
 	protected FieldDraw draw;
 	protected VideoSettings videoConfig = new VideoSettings();
 	protected GameplayManager gameplayManager;
 	protected TextCollection booleanEndStatus;
+	protected int bombsQuantity;
 	
 	protected int spriteSize = 32;
 	protected Texture texture = new Texture("newsprites.jpg");
@@ -32,6 +33,34 @@ public abstract class GameModeState extends State{
 	protected GameModeState(StateManager gsm, MouseTrack mouse) {
 		super(gsm, mouse);
 	}
+	
+	protected GameModeState(StateManager gsm, MouseTrack mouse , String difficulty) {
+		super(gsm, mouse);
+		
+		if(difficulty.equals("eazy")){
+			rows = 10;
+			cols = 10;
+			
+			bombsQuantity = 10;
+		}
+		else if(difficulty.equals("medium")){
+			rows = 15;
+			cols = 16;
+			
+			bombsQuantity = 40;
+			
+		}
+		else if(difficulty.equals("hard")){
+			rows = 16;
+			cols = 30;
+			
+			bombsQuantity = 99;			
+		}
+		
+		
+	}
+	
+
 	
 	@Override
 	public void create() {
@@ -51,6 +80,7 @@ public abstract class GameModeState extends State{
 		
 		
 		field.fillCells(cols,rows);
+		field.setBombsQuantity(bombsQuantity);
 		field.placeBombs();
 		field.placeCountersInSafeCells();
 		

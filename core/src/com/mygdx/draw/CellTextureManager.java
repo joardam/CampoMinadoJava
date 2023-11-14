@@ -16,9 +16,7 @@ public class CellTextureManager {
 				return 11;
 			}
 			
-			if((cellInCol instanceof CrazyModeCell) && ((CrazyModeCell)cellInCol).isCrazyCell()) {
-				return 12;
-			}
+			
 			
 			return 10;
 		}

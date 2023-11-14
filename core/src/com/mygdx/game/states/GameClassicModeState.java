@@ -17,6 +17,12 @@ public class GameClassicModeState extends GameModeState {
 	}
 		
 		
+	public GameClassicModeState(StateManager gsm, MouseTrack mouse, String difficultyStringIdNow) {
+		super(gsm , mouse, difficultyStringIdNow);
+		create();
+	}
+
+
 	@Override
 	public void create() {
 		gameplayManager = new ClassicManager();

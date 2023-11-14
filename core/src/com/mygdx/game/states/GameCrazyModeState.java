@@ -14,6 +14,11 @@ public class GameCrazyModeState extends GameModeState{
 		create();
 	}
 	
+	public GameCrazyModeState(StateManager gsm, MouseTrack mouse, String difficultyStringIdNow) {
+		super(gsm , mouse, difficultyStringIdNow);
+		create();
+	}
+
 	@Override
 	public void create() {
 		gameplayManager = new CrazyManager();

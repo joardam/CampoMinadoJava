@@ -8,10 +8,16 @@ import com.mygdx.utils.Utils;
 public abstract class Field implements FieldInterface{
 	protected FieldCell[][] cells;
 	protected int coveredCellsNumber ;
-	protected int bombsQuantity = 10;
+	protected int bombsQuantity;
 	
 	
 	
+	public void setBombsQuantity(int bombsQuantity) {
+		this.bombsQuantity = bombsQuantity;
+	}
+
+
+
 	public void placeBombs(){
 
 

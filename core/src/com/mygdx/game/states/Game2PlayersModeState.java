@@ -30,6 +30,11 @@ public class Game2PlayersModeState extends GameModeState {
 		
 	}
 
+	public Game2PlayersModeState(StateManager gsm, MouseTrack mouse, String difficultyStringIdNow) {
+		super(gsm , mouse, difficultyStringIdNow);
+		create();
+	}
+
 	@Override
 	public void create() {
 		players = new Players("player1" , "player2");
