@@ -7,7 +7,7 @@ import com.mygdx.utils.Utils;
 
 public abstract class Field implements FieldInterface{
 	protected FieldCell[][] cells;
-	protected int coveredCellsNumber ;
+	protected int coveredCellsNumber;
 	protected int bombsQuantity;
 	
 	

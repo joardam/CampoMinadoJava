@@ -120,7 +120,7 @@ public abstract class GameModeState extends State{
 		 int mouseFieldY = (int) mouse.getMouseY() / spriteSize - 1 ;
 		 
 		if(mouse.eventMouseLeftClickOnce()&&
-				Utils.isIn2DArrayBound(mouseFieldX ,mouseFieldY, rows, cols)) {
+				Utils.isIn2DArrayBound(mouseFieldX ,mouseFieldY, cols,rows )) {
 			
        	gameplayManager.tryToUncoverThisCell(mouseFieldX , mouseFieldY, field);
        	

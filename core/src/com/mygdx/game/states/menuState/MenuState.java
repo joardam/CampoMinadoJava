@@ -13,6 +13,7 @@ import com.mygdx.game.states.WriteTest;
 import com.mygdx.game.states.gameModeState.Game2PlayersModeState;
 import com.mygdx.game.states.gameModeState.GameClassicModeState;
 import com.mygdx.game.states.gameModeState.GameCrazyModeState;
+import com.mygdx.game.states.gameModeState.GameEndlessMode;
 import com.mygdx.utils.RgbaColor;
 import com.mygdx.utils.FloatCoordinates;
 import com.mygdx.utils.Utils;
@@ -151,7 +152,7 @@ public class MenuState extends State {
 		SpriteConfig.setProjectionMatrix(sprite, videoConfig);
 		
 		
-		shapes.shapesBegin("classicMode" , "2playersMode" , "crazyMode" , "difficultyBar" , "difficultyCenterForText");
+		shapes.shapesBegin("classicMode" , "2playersMode" , "crazyMode" , "difficultyBar" , "difficultyCenterForText" , "endlessMode");
 	
 		
 		
@@ -169,6 +170,11 @@ public class MenuState extends State {
 				new FloatCoordinates(rectangleInCenterPosition[0], rectangleInCenterPosition[1] + 0*spaceBetweenBars),
 				new FloatCoordinates(rectangleWidth, rectangleHeight),
 				
+				"endlessMode",
+				new FloatCoordinates(rectangleInCenterPosition[0], rectangleInCenterPosition[1] + (-1)*spaceBetweenBars),
+				new FloatCoordinates(rectangleWidth, rectangleHeight),
+				
+				
 				"difficultyBar",
 				new FloatCoordinates(rectangleInCenterPosition[0], rectangleInCenterPosition[1] - 3*spaceBetweenBars),
 				new FloatCoordinates(rectangleWidth, rectangleHeight),
@@ -181,7 +187,7 @@ public class MenuState extends State {
 			
 
 	    
-			shapes.shapesEnd("classicMode" , "2playersMode" , "crazyMode" , "difficultyBar" , "difficultyCenterForText");
+			shapes.shapesEnd("classicMode" , "2playersMode" , "crazyMode" , "difficultyBar" , "difficultyCenterForText", "endlessMode");
 	    
 	    
 	    
@@ -191,6 +197,7 @@ public class MenuState extends State {
 		TextDraw.draw(sprite, menuTexts.getText("classicMode"));
 	    TextDraw.draw(sprite, menuTexts.getText("2playersMode"));
 	    TextDraw.draw(sprite, menuTexts.getText("crazyMode"));
+	    TextDraw.draw(sprite, menuTexts.getText("endlessMode"));
 	    
 	    TextDraw.draw(sprite, difficultyTexts.getText(menuDifficultyManager.getDifficultyStringIdNow()));
 	    TextDraw.draw(sprite, arrowTexts.getText("decreaseArrow"));
@@ -240,6 +247,17 @@ public class MenuState extends State {
 						(float)rectangleInCenterPosition[1] + rectangleHeight + 0*spaceBetweenBars
 						)) {
 					gsm.set(new GameCrazyModeState(gsm,mouse, menuDifficultyManager.getDifficultyStringIdNow()));
+				
+				}
+				
+				else if(Utils.isIn2DSpaceBound(
+						mouse.getMouseX(), mouse.getMouseY() ,
+						(float)rectangleInCenterPosition[0],
+						(float)rectangleInCenterPosition[1] + (-1)*spaceBetweenBars,
+						(float)rectangleInCenterPosition[0] + rectangleWidth,
+						(float)rectangleInCenterPosition[1] + rectangleHeight + (-1)*spaceBetweenBars
+						)) {
+					gsm.set(new GameEndlessMode(gsm,mouse));
 				
 				}
 				
