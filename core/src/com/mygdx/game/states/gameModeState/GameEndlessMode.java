@@ -1,32 +1,25 @@
-package com.mygdx.game.states;
+package com.mygdx.game.states.gameModeState;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.mygdx.gameField.*;
-import com.mygdx.gameField.ClassicManager;
+import com.mygdx.game.states.StateManager;
 import com.mygdx.mouseTrack.MouseTrack;
 
-public class GameCrazyModeState extends GameModeState{
+public class GameEndlessMode extends GameModeState {
+	
+	public GameEndlessMode(StateManager gsm , MouseTrack mouse) {
+		super(gsm , mouse);
+		create();
 
-	
-	
-	public GameCrazyModeState(StateManager gsm, MouseTrack mouse) {
-		super(gsm, mouse);
+	}
+	public GameEndlessMode(StateManager gsm, MouseTrack mouse, String difficultyStringIdNow) {
+		super(gsm, mouse, difficultyStringIdNow);
 		create();
 	}
 	
-	public GameCrazyModeState(StateManager gsm, MouseTrack mouse, String difficultyStringIdNow) {
-		super(gsm , mouse, difficultyStringIdNow);
-		create();
-	}
-
+	
 	@Override
 	public void create() {
-		gameplayManager = new CrazyManager();
-		field = new CrazyField();
-		
 		super.create();
-		
-		((CrazyField) field).placeCrazyness();
 	}
 
 	@Override
@@ -53,10 +46,7 @@ public class GameCrazyModeState extends GameModeState{
 	public void dispose() {
 		super.dispose();
 	}
-	
 
 	
-	
+
 }
-	
-

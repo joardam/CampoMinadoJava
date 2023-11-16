@@ -4,9 +4,8 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.mygdx.game.states.Game2PlayersModeState;
 import com.mygdx.game.states.StateManager;
-import com.mygdx.game.states.MenuState;
+import com.mygdx.game.states.menuState.MenuState;
 
 
 

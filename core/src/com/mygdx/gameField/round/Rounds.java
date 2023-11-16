@@ -1,12 +1,12 @@
 package com.mygdx.gameField.round;
 
-import com.mygdx.players.Players;
+import com.mygdx.collections.PlayerCollection;
 
 public class Rounds {
 	private int playerIdInRound = 0;
 	
 	
-	public void passPlayerRound(Players players){
+	public void passPlayerRound(PlayerCollection players){
 		playerIdInRound++;
 		
 		if (playerIdInRound > players.getPlayersSize() - 1) {

@@ -3,10 +3,8 @@ package com.mygdx.draw;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.mygdx.gameField.cell.ClassicCell;
 import com.mygdx.gameField.cell.FieldCell;
 import com.mygdx.utils.Coordinates;
-import com.mygdx.gameField.ClassicField;
 import com.mygdx.gameField.Field;
 
 public class FieldDraw {

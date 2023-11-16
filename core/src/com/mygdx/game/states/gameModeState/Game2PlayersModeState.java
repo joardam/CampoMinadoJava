@@ -1,26 +1,27 @@
-package com.mygdx.game.states;
+package com.mygdx.game.states.gameModeState;
 
 
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.mygdx.collections.PlayerCollection;
+import com.mygdx.collections.TextCollection;
 import com.mygdx.draw.TextDraw;
+import com.mygdx.game.states.StateManager;
 import com.mygdx.gameField.ClassicField;
-import com.mygdx.gameField.texts.Text;
-import com.mygdx.gameField.texts.TextCollection;
+import com.mygdx.gameField.gameplayManager.Mode2PlayersManager;
 import com.mygdx.mouseTrack.MouseTrack;
-import com.mygdx.players.Players;
+import com.mygdx.text.Text;
 import com.mygdx.utils.FloatCoordinates;
 import com.mygdx.utils.RgbaColor;
 
 
-import com.mygdx.gameField.*;
+
 
 public class Game2PlayersModeState extends GameModeState {
 	
 	
-	private Players players ;
-	
+	private PlayerCollection players ;
 	private TextCollection playersTexts; 
 
 
@@ -37,7 +38,7 @@ public class Game2PlayersModeState extends GameModeState {
 
 	@Override
 	public void create() {
-		players = new Players("player1" , "player2");
+		players = new PlayerCollection("player1" , "player2");
 		gameplayManager = new Mode2PlayersManager(players);
 		field = new ClassicField();
 		

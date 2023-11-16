@@ -1,9 +1,8 @@
-package com.mygdx.game.states;
+package com.mygdx.game.states.gameModeState;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-
+import com.mygdx.game.states.StateManager;
 import com.mygdx.gameField.ClassicField;
-import com.mygdx.gameField.ClassicManager;
-import com.mygdx.gameField.cell.ClassicCell;
+import com.mygdx.gameField.gameplayManager.ClassicManager;
 import com.mygdx.mouseTrack.MouseTrack;
 
 

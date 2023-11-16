@@ -1,4 +1,4 @@
-package com.textures;
+package com.mygdx.collections;
 
 import java.util.HashMap;
 

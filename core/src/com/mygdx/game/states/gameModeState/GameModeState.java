@@ -1,15 +1,17 @@
-package com.mygdx.game.states;
+package com.mygdx.game.states.gameModeState;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.mygdx.collections.TextCollection;
 import com.mygdx.config.SpriteConfig;
 import com.mygdx.config.VideoSettings;
 import com.mygdx.draw.FieldDraw;
 import com.mygdx.draw.TextDraw;
+import com.mygdx.game.states.State;
+import com.mygdx.game.states.StateManager;
 import com.mygdx.gameField.Field;
-import com.mygdx.gameField.GameplayManager;
-import com.mygdx.gameField.texts.TextCollection;
+import com.mygdx.gameField.gameplayManager.GameplayManager;
 import com.mygdx.mouseTrack.MouseTrack;
 import com.mygdx.utils.FloatCoordinates;
 import com.mygdx.utils.RgbaColor;

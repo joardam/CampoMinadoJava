@@ -1,18 +1,20 @@
-package com.mygdx.players;
+package com.mygdx.collections;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.mygdx.gameField.gameplayManager.Player;
 
-public class Players {
+
+public class PlayerCollection {
 	
 	private HashMap<String, Player> playerMap = new HashMap<String, Player>();
 	
-	public Players() {
+	public PlayerCollection() {
 		
 	}
 	
-	public Players(String... args) {
+	public PlayerCollection(String... args) {
 
         for (int i = 0; i < args.length; i++) {
             String stringId = args[i];

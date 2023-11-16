@@ -1,10 +1,9 @@
-package com.mygdx.shapes;
+package com.mygdx.collections;
 
 import java.util.HashMap;
 
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
-import com.mygdx.gameField.texts.Text;
 import com.mygdx.utils.FloatCoordinates;
 import com.mygdx.utils.RgbaColor;
 

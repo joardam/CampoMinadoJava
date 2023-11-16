@@ -1,4 +1,4 @@
-package com.mygdx.gameField;
+package com.mygdx.gameField.gameplayManager;
 
 public class ClassicManager extends GameplayManager {
 

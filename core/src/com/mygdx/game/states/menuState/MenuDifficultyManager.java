@@ -1,10 +1,10 @@
-package com.mygdx.game.states;
+package com.mygdx.game.states.menuState;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import com.mygdx.gameField.texts.Text;
-import com.mygdx.gameField.texts.TextCollection;
+import com.mygdx.collections.TextCollection;
+import com.mygdx.text.Text;
 
 public class MenuDifficultyManager{
 	private HashMap<String, Text> textMap;

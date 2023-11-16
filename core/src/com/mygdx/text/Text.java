@@ -1,4 +1,4 @@
-package com.mygdx.gameField.texts;
+package com.mygdx.text;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;

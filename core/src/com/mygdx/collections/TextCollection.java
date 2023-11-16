@@ -1,7 +1,8 @@
-package com.mygdx.gameField.texts;
+package com.mygdx.collections;
 import java.util.HashMap;
 
 import com.mygdx.utils.RgbaColor;
+import com.mygdx.text.Text;
 import com.mygdx.utils.FloatCoordinates;
 
 public class TextCollection {

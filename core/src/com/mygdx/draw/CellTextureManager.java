@@ -1,6 +1,5 @@
 package com.mygdx.draw;
 
-import com.mygdx.gameField.cell.CrazyModeCell;
 import com.mygdx.gameField.cell.FieldCell;
 import com.mygdx.gameField.cell.cellType.MinedCell;
 import com.mygdx.gameField.cell.cellType.SafeCell;

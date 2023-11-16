@@ -1,4 +1,4 @@
-package com.mygdx.players;
+package com.mygdx.gameField.gameplayManager;
 
 public class Player {
 	private int playerId;

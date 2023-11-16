@@ -1,13 +1,18 @@
-package com.mygdx.game.states;
+package com.mygdx.game.states.menuState;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.mygdx.collections.ShapeCollection;
+import com.mygdx.collections.TextCollection;
 import com.mygdx.config.SpriteConfig;
 import com.mygdx.config.VideoSettings;
 import com.mygdx.draw.TextDraw;
-import com.mygdx.gameField.texts.TextCollection;
-import com.mygdx.shapes.ShapeCollection;
+import com.mygdx.game.states.State;
+import com.mygdx.game.states.StateManager;
+import com.mygdx.game.states.WriteTest;
+import com.mygdx.game.states.gameModeState.Game2PlayersModeState;
+import com.mygdx.game.states.gameModeState.GameClassicModeState;
+import com.mygdx.game.states.gameModeState.GameCrazyModeState;
 import com.mygdx.utils.RgbaColor;
 import com.mygdx.utils.FloatCoordinates;
 import com.mygdx.utils.Utils;
@@ -20,18 +25,23 @@ public class MenuState extends State {
 	
 	private TextCollection menuTexts ;
 	private TextCollection difficultyTexts;
-	TextCollection arrowTexts;
+	private TextCollection arrowTexts;
 	private MenuDifficultyManager menuDifficultyManager;
 	
 	private ShapeCollection shapes;
 	
-	float rectangleWidth;
-    float rectangleHeight;
+	private float rectangleWidth;
+    private float rectangleHeight;
     
-    float[] rectangleInCenterPosition;
-    float[] whiteRetangleInCenterPosition;
-    float whiteRectangleWidth; 
-	float whiteRectangleHeight;
+    private float[] rectangleInCenterPosition;
+    private float[] whiteRetangleInCenterPosition;
+    private float whiteRectangleWidth; 
+	private float whiteRectangleHeight;
+	
+	private int spaceBetweenBars;
+	
+	private int screenWidth;
+	private int screenHeight;
 
 	
 	public MenuState(StateManager gsm) {
@@ -49,10 +59,17 @@ public class MenuState extends State {
 		videoConfig.setResizable(false);
 		videoConfig.setTitle("Menu");
 		
+		screenWidth = Gdx.graphics.getWidth();
+		screenHeight = Gdx.graphics.getHeight();
+		
+		
+		spaceBetweenBars = 70;
+		
 		shapes = new ShapeCollection(
 				"classicMode" , new RgbaColor("gray") ,
 				"2playersMode" , new RgbaColor("gray"),
 				"crazyMode" , new RgbaColor("gray"),
+				"endlessMode" , new RgbaColor("gray"),
 				"difficultyBar", new RgbaColor("gray"),
 				"difficultyCenterForText" , new RgbaColor("dark_gray")
 				);
@@ -61,29 +78,36 @@ public class MenuState extends State {
 				
 				"classicMode" , "MODO CLASSICO" , 35 , 
 				new RgbaColor("white"), 
-				new FloatCoordinates(700/2f - 200f ,700/2f + 12 + 70f),
+				new FloatCoordinates(screenWidth/2f - 200f ,screenHeight/2f + 12 + 2*spaceBetweenBars),
 				
 				"2playersMode" , "MODO 2 JOGADORES" , 35 ,
 				new RgbaColor("white"), 
-				new FloatCoordinates(700/2f - 200f ,700/2f + 12),
+				new FloatCoordinates(screenWidth/2f - 200f ,screenHeight/2f + 12 + spaceBetweenBars),
 				
 				"crazyMode" , "MODO MALUCO" , 35 ,
 				new RgbaColor("green"),
-				new FloatCoordinates(700/2f - 200f , 700 /2f + 12 - 70f)
+				new FloatCoordinates(screenWidth/2f - 200f ,screenHeight/2f + 12),
+				
+				"endlessMode" , "MODO SEM FIM", 35,
+				new RgbaColor("white"),
+				new FloatCoordinates(screenWidth/2f - 200f ,screenHeight/2f + 12 - spaceBetweenBars)
+				
 				);
+			
+			
 		
 		difficultyTexts = new TextCollection(
 				"eazy" , "FACIL" , 35 ,
 				new RgbaColor("green"),
-				new FloatCoordinates(700/2f - 60, 700 /2f + 12 - 70*3f),
+				new FloatCoordinates(screenWidth/2f - 60, screenHeight/2f + 12 - 3*spaceBetweenBars),
 				
 				"medium" , "MEDIO" , 35 ,
 				new RgbaColor("yellow"),
-				new FloatCoordinates(700/2f - 60, 700 /2f + 12 - 70*3f),
+				new FloatCoordinates(screenWidth/2f - 60, screenHeight/2f + 12 - 3*spaceBetweenBars),
 				
 				"hard" , "DIFICIL" , 35 ,
 				new RgbaColor("red"),
-				new FloatCoordinates(700/2f - 60 , 700 /2f + 12 - 70*3f)
+				new FloatCoordinates(screenWidth/2f - 60, screenHeight/2f + 12 - 3*spaceBetweenBars)
 				
 				
 				);
@@ -91,11 +115,11 @@ public class MenuState extends State {
 				arrowTexts = new TextCollection(
 				"decreaseArrow" , "<" , 35,
 				new RgbaColor("black"),
-				new FloatCoordinates(700/2f - 250f + 15 , 700 /2f + 12 - 70*3f),
+				new FloatCoordinates(screenWidth/2f - 250f + 15 , screenHeight /2f + 12 - 3*spaceBetweenBars),
 				
 				"increaseArrow" , ">" , 35,
 				new RgbaColor("black"),
-				new FloatCoordinates(700/2f + 250f - 30 , 700 /2f + 12 - 70*3f));
+				new FloatCoordinates(screenWidth/2f + 250f - 30 , screenHeight /2f + 12 - 3*spaceBetweenBars));
 		
 		menuDifficultyManager = new MenuDifficultyManager(difficultyTexts);
 		
@@ -105,13 +129,13 @@ public class MenuState extends State {
 		
 		rectangleInCenterPosition = new float[2];
 		
-		rectangleInCenterPosition[0] = Gdx.graphics.getWidth()/2 - rectangleWidth / 2;
-		rectangleInCenterPosition[1] = Gdx.graphics.getHeight()/2 -  rectangleHeight/ 2;
+		rectangleInCenterPosition[0] = screenWidth/2 - rectangleWidth / 2;
+		rectangleInCenterPosition[1] = screenHeight/2 -  rectangleHeight/ 2;
 		
 		whiteRetangleInCenterPosition = new float[2];
 		
-		whiteRetangleInCenterPosition[0] = Gdx.graphics.getWidth()/2 - rectangleWidth / 2 + rectangleHeight;
-		whiteRetangleInCenterPosition[1] = Gdx.graphics.getHeight()/2 -  rectangleHeight/ 2;
+		whiteRetangleInCenterPosition[0] = screenWidth/2 - rectangleWidth / 2 + rectangleHeight;
+		whiteRetangleInCenterPosition[1] = screenHeight/2 -  rectangleHeight/ 2;
 		
 		whiteRectangleWidth = rectangleWidth - rectangleHeight*2; 
 		whiteRectangleHeight  = rectangleHeight;
@@ -134,23 +158,23 @@ public class MenuState extends State {
 		
 		shapes.setRect(
 				"classicMode", 
-				new FloatCoordinates(rectangleInCenterPosition[0], rectangleInCenterPosition[1] + 70),
+				new FloatCoordinates(rectangleInCenterPosition[0], rectangleInCenterPosition[1] + 2*spaceBetweenBars),
 				new FloatCoordinates(rectangleWidth, rectangleHeight),
 				
 				"2playersMode",
-				new FloatCoordinates(rectangleInCenterPosition[0], rectangleInCenterPosition[1]),
+				new FloatCoordinates(rectangleInCenterPosition[0], rectangleInCenterPosition[1] + spaceBetweenBars),
 				new FloatCoordinates(rectangleWidth, rectangleHeight),
 				
 				"crazyMode",
-				new FloatCoordinates(rectangleInCenterPosition[0], rectangleInCenterPosition[1] - 70),
+				new FloatCoordinates(rectangleInCenterPosition[0], rectangleInCenterPosition[1] + 0*spaceBetweenBars),
 				new FloatCoordinates(rectangleWidth, rectangleHeight),
 				
 				"difficultyBar",
-				new FloatCoordinates(rectangleInCenterPosition[0], rectangleInCenterPosition[1] - 70*3),
+				new FloatCoordinates(rectangleInCenterPosition[0], rectangleInCenterPosition[1] - 3*spaceBetweenBars),
 				new FloatCoordinates(rectangleWidth, rectangleHeight),
 				
 				"difficultyCenterForText",
-				new FloatCoordinates(whiteRetangleInCenterPosition[0] , rectangleInCenterPosition[1] - 70*3),
+				new FloatCoordinates(whiteRetangleInCenterPosition[0] , rectangleInCenterPosition[1] - 3*spaceBetweenBars),
 				new FloatCoordinates(whiteRectangleWidth , whiteRectangleHeight )
 				);
 		
@@ -187,13 +211,12 @@ public class MenuState extends State {
 			{
 				if(Utils.isIn2DSpaceBound(
 						mouse.getMouseX(), mouse.getMouseY() ,
-						(float)700 / 2 - rectangleWidth / 2,
-						(float)700 / 2 - rectangleHeight/ 2 + 70f,
-						(float)700 / 2 + rectangleWidth / 2,
-						(float)700 / 2 + rectangleHeight/ 2 + 70f
+						(float)rectangleInCenterPosition[0],
+						(float)rectangleInCenterPosition[1] + 2*spaceBetweenBars,
+						(float)rectangleInCenterPosition[0] + rectangleWidth,
+						(float)rectangleInCenterPosition[1] + rectangleHeight + 2*spaceBetweenBars
 						))
 				{
-				
 					gsm.set(new GameClassicModeState(gsm,mouse,menuDifficultyManager.getDifficultyStringIdNow()));
 					dispose();
 				}
@@ -201,36 +224,39 @@ public class MenuState extends State {
 				
 				else if(Utils.isIn2DSpaceBound(
 						mouse.getMouseX(), mouse.getMouseY() ,
-						(float)700 / 2 - rectangleWidth / 2,
-						(float)700 / 2 - rectangleHeight/ 2 ,
-						(float)700 / 2 + rectangleWidth / 2,
-						(float)700 / 2 + rectangleHeight/ 2
+						(float)rectangleInCenterPosition[0] ,
+						(float)rectangleInCenterPosition[1] + spaceBetweenBars,
+						(float)rectangleInCenterPosition[0] + rectangleWidth ,
+						(float)rectangleInCenterPosition[1] + rectangleHeight + spaceBetweenBars
 						)) {
 					gsm.set(new Game2PlayersModeState(gsm,mouse,menuDifficultyManager.getDifficultyStringIdNow()));
 				
 				}
 				else if(Utils.isIn2DSpaceBound(
 						mouse.getMouseX(), mouse.getMouseY() ,
-						(float)700 / 2 - rectangleWidth / 2,
-						(float)700 / 2 - rectangleHeight/ 2 - 70f,
-						(float)700 / 2 + rectangleWidth / 2,
-						(float)700 / 2 + rectangleHeight/ 2 - 70f
+						(float)rectangleInCenterPosition[0],
+						(float)rectangleInCenterPosition[1] + 0*spaceBetweenBars,
+						(float)rectangleInCenterPosition[0] + rectangleWidth,
+						(float)rectangleInCenterPosition[1] + rectangleHeight + 0*spaceBetweenBars
 						)) {
 					gsm.set(new GameCrazyModeState(gsm,mouse, menuDifficultyManager.getDifficultyStringIdNow()));
 				
 				}
+				
+				
+				
 				else if(Utils.isIn2DSpaceBound(mouse.getMouseX(), mouse.getMouseY() ,
 						(float)rectangleInCenterPosition[0],
-						(float)rectangleInCenterPosition[1] - 70*3,
-						(float)rectangleInCenterPosition[0] + 50,
-						(float)rectangleInCenterPosition[1] - 70*3 + 50)){
+						(float)rectangleInCenterPosition[1] - 3*spaceBetweenBars,
+						(float)rectangleInCenterPosition[0] + whiteRectangleHeight,
+						(float)rectangleInCenterPosition[1] - 3*spaceBetweenBars + whiteRectangleHeight)){
 					menuDifficultyManager.decreaseDificultyIndex();
 				}
 				else if(Utils.isIn2DSpaceBound(mouse.getMouseX(), mouse.getMouseY() ,
-						(float)rectangleInCenterPosition[0] + 50  +  whiteRectangleWidth ,
-						(float)rectangleInCenterPosition[1] - 70*3,
-						(float)rectangleInCenterPosition[0] + 50 + 50 + whiteRectangleWidth,
-						(float)rectangleInCenterPosition[1] - 70*3 + 50)){
+						(float)rectangleInCenterPosition[0] +  whiteRectangleHeight +  whiteRectangleWidth ,
+						(float)rectangleInCenterPosition[1] - spaceBetweenBars*3,
+						(float)rectangleInCenterPosition[0] + 3*whiteRectangleHeight + whiteRectangleWidth,
+						(float)rectangleInCenterPosition[1] - 3*spaceBetweenBars + whiteRectangleHeight)){
 					menuDifficultyManager.increaseDificultyIndex();
 				}
 		
@@ -245,18 +271,21 @@ public class MenuState extends State {
 	@Override
 	public void update(float dt) {
 		
+		screenWidth = Gdx.graphics.getWidth();
+		screenHeight = Gdx.graphics.getHeight();
 		
-		
-		rectangleInCenterPosition[0] = Gdx.graphics.getWidth()/2 - rectangleWidth / 2;
-		rectangleInCenterPosition[1] = Gdx.graphics.getHeight()/2 -  rectangleHeight/ 2;
+		rectangleInCenterPosition[0] = screenWidth/2 - rectangleWidth / 2;
+		rectangleInCenterPosition[1] = screenHeight/2 -  rectangleHeight/ 2;
 		
 	
 		
-		whiteRetangleInCenterPosition[0] = Gdx.graphics.getWidth()/2 - rectangleWidth / 2 + rectangleHeight;
-		whiteRetangleInCenterPosition[1] = Gdx.graphics.getHeight()/2 -  rectangleHeight/ 2;
+		whiteRetangleInCenterPosition[0] = screenWidth/2 - rectangleWidth / 2 + rectangleHeight;
+		whiteRetangleInCenterPosition[1] = screenHeight/2 -  rectangleHeight/ 2;
 		
 		whiteRectangleWidth = rectangleWidth - rectangleHeight*2; 
 		whiteRectangleHeight  = rectangleHeight;
+		
+		
 		
 		
 		

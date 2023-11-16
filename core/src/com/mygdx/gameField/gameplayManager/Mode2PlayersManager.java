@@ -1,10 +1,11 @@
-package com.mygdx.gameField;
-import com.mygdx.players.Players;
+package com.mygdx.gameField.gameplayManager;
+import com.mygdx.collections.PlayerCollection;
+import com.mygdx.gameField.ClassicField;
 
 public class Mode2PlayersManager extends GameplayManager {
-	Players players ;
+	PlayerCollection players ;
 	
-	public Mode2PlayersManager(Players players){
+	public Mode2PlayersManager(PlayerCollection players){
 		this.players = players;
 	}
 	
