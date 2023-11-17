@@ -7,7 +7,7 @@ import com.mygdx.gameField.cell.CrazyModeCell;
 import com.mygdx.gameField.cell.cellType.MinedCell;
 import com.mygdx.gameField.cell.cellType.SafeCell;
 import com.mygdx.gameField.cell.state.UncoveredCellState;
-import com.mygdx.utils.Utils;
+import com.mygdx.utils.GameUtils;
 
 public class CrazyManager extends GameplayManager {
 	 private int crazyPercentage = 100;
@@ -32,7 +32,7 @@ public class CrazyManager extends GameplayManager {
 	        }
 	        
 	        
-	        int number = Utils.randomBetween(1,100);
+	        int number = GameUtils.randomBetween(1,100);
 	        
 	        if(!(number <= crazyPercentage)) {
 	        	return;

@@ -2,6 +2,7 @@ package com.mygdx.collections;
 import java.util.HashMap;
 
 import com.mygdx.utils.RgbaColor;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.mygdx.text.Text;
 import com.mygdx.utils.FloatCoordinates;
 
@@ -62,7 +63,9 @@ public class TextCollection {
                    
 
                     text.setColor(color.getColor()[0], color.getColor()[1], color.getColor()[2], color.getColor()[3]);
-                    text.setTextPosition(coordinates.getCoordinateX(), coordinates.getCoordinateY());
+                    GlyphLayout layout = new GlyphLayout(text.getFont(), text.getTextString());
+                 
+                    text.setTextPosition(coordinates.getCoordinateX() - layout.width/2, coordinates.getCoordinateY() + layout.height/2);
                 }
             }
         } catch (IllegalArgumentException e) {

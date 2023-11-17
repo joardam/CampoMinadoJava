@@ -7,12 +7,13 @@ import com.mygdx.gameField.cell.cellType.SafeCell;
 import com.mygdx.gameField.cell.state.CoveredCellState;
 import com.mygdx.gameField.cell.state.UncoveredCellState;
 import com.mygdx.gameField.round.Rounds;
-import com.mygdx.utils.Utils;
+import com.mygdx.utils.GameUtils;
 
 public abstract class GameplayManager {
 	protected Rounds rounds = new Rounds();
 	protected boolean winStatus = false;
 	protected boolean gameOverStatus = false;
+
 
 	
 	
@@ -91,7 +92,7 @@ public abstract class GameplayManager {
 
     public  void uncoverFlood(FieldCell[][] cells, int arrayPosX, int arrayPosY, boolean[][] virtualArrayCheck , String state) {
     	
-    	if (!Utils.isIn2DArrayBound(arrayPosX, arrayPosY, cells.length, cells[0].length) ||
+    	if (!GameUtils.isIn2DArrayBound(arrayPosX, arrayPosY, cells.length, cells[0].length) ||
                 virtualArrayCheck[arrayPosX][arrayPosY] ||
                 (cells[arrayPosX][arrayPosY].getCellType() instanceof MinedCell)) {
             return;

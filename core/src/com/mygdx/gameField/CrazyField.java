@@ -1,7 +1,7 @@
 package com.mygdx.gameField;
 
 import com.mygdx.gameField.cell.*;
-import com.mygdx.utils.Utils;
+import com.mygdx.utils.GameUtils;
 
 public class CrazyField extends Field{
 	private int crazyCellsQuantity = 10;
@@ -26,8 +26,8 @@ public class CrazyField extends Field{
 	public void placeCrazyness() {
 		for (int i = 0; i < (crazyCellsQuantity); i++) {
 
-			int crazyX = Utils.randomBetween(0, cells.length - 1);
-			int crazyY = Utils.randomBetween(0, cells[0].length - 1);
+			int crazyX = GameUtils.randomBetween(0, cells.length - 1);
+			int crazyY = GameUtils.randomBetween(0, cells[0].length - 1);
 
 			if (((CrazyModeCell)cells[crazyX][crazyY]).isCrazyCell()) {
 				i--;

@@ -3,7 +3,7 @@ package com.mygdx.gameField;
 import com.mygdx.gameField.cell.FieldCell;
 import com.mygdx.gameField.cell.cellType.MinedCell;
 import com.mygdx.gameField.cell.cellType.SafeCell;
-import com.mygdx.utils.Utils;
+import com.mygdx.utils.GameUtils;
 
 public abstract class Field implements FieldInterface{
 	protected FieldCell[][] cells;
@@ -23,8 +23,8 @@ public abstract class Field implements FieldInterface{
 
 		for (int i = 0; i < (bombsQuantity); i++) {
 
-			int bombX = Utils.randomBetween(0, cells.length - 1);
-			int bombY = Utils.randomBetween(0, cells[0].length - 1);
+			int bombX = GameUtils.randomBetween(0, cells.length - 1);
+			int bombY = GameUtils.randomBetween(0, cells[0].length - 1);
 
 			if (cells[bombX][bombY].getCellType() instanceof MinedCell) {
 				i--;
@@ -75,7 +75,7 @@ public abstract class Field implements FieldInterface{
 	            int loopX = x + k;
 	            int loopY = y + l;
 
-	            if (Utils.isIn2DArrayBound(loopX, loopY, cells.length, cells[0].length)) {
+	            if (GameUtils.isIn2DArrayBound(loopX, loopY, cells.length, cells[0].length)) {
 	                if (cells[loopX][loopY].getCellType() instanceof MinedCell) {
 	                    bombCount++;
 	                }

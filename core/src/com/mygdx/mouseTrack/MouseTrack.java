@@ -2,6 +2,7 @@ package com.mygdx.mouseTrack;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.mygdx.utils.FloatCoordinates;
 
 
 public class MouseTrack {
@@ -56,6 +57,10 @@ public class MouseTrack {
 	
 	public float getMouseX() {
 		return mouseX;
+	}
+	
+	public FloatCoordinates getMousePosition() {
+		return new FloatCoordinates(mouseX,mouseY);
 	}
 	
 	public void setMouseX(float mouseX) {

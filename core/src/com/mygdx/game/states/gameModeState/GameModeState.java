@@ -15,7 +15,7 @@ import com.mygdx.gameField.gameplayManager.GameplayManager;
 import com.mygdx.mouseTrack.MouseTrack;
 import com.mygdx.utils.FloatCoordinates;
 import com.mygdx.utils.RgbaColor;
-import com.mygdx.utils.Utils;
+import com.mygdx.utils.GameUtils;
 
 public abstract class GameModeState extends State{
 	
@@ -91,18 +91,18 @@ public abstract class GameModeState extends State{
 		int screenWidth = Gdx.graphics.getWidth(); 
 		
 		
-		float booleanEndStatusPosition = screenWidth/ 2 - 53; 
+		float booleanEndStatusPosition = screenWidth/ 2; 
 	
 		
 		
 		booleanEndStatus = new TextCollection(
 				"loose", "Perdeu",32,
 				new RgbaColor("red") ,
-				new FloatCoordinates(booleanEndStatusPosition , 30f),
+				new FloatCoordinates(booleanEndStatusPosition , spriteSize/2),
 				
 				"win", "Ganhou" , 32,
 				new RgbaColor("green") ,
-				new FloatCoordinates(booleanEndStatusPosition , 30f)
+				new FloatCoordinates(booleanEndStatusPosition , spriteSize/2)
 				);	
 	}
 
@@ -119,8 +119,12 @@ public abstract class GameModeState extends State{
 		 int mouseFieldX = (int) mouse.getMouseX() / spriteSize - 1 ;
 		 int mouseFieldY = (int) mouse.getMouseY() / spriteSize - 1 ;
 		 
-		if(mouse.eventMouseLeftClickOnce()&&
-				Utils.isIn2DArrayBound(mouseFieldX ,mouseFieldY, cols,rows )) {
+		 
+		if(!GameUtils.isIn2DArrayBound(mouseFieldX ,mouseFieldY, cols,rows)) {
+			return;
+		}
+		 
+		if(mouse.eventMouseLeftClickOnce()) {
 			
        	gameplayManager.tryToUncoverThisCell(mouseFieldX , mouseFieldY, field);
        	

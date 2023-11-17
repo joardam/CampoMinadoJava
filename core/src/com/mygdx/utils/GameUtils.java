@@ -3,7 +3,7 @@ package com.mygdx.utils;
 
 import java.util.Random;
 
-public class Utils {
+public class GameUtils {
     public static int randomBetween(int min , int max) {
 
         Random random = new Random();
@@ -28,5 +28,17 @@ public class Utils {
     public static boolean isIn2DSpaceBound(float posX , float posY , float xInferiorLimit , float  yInferiorLimit ,float xSuperiorLimit ,float ySuperiorLimit ) {
     	return (((posX >= xInferiorLimit) && (posX < xSuperiorLimit)) && ((posY >= yInferiorLimit) && (posY < ySuperiorLimit)));
     }
+    
+    public static boolean isIn2DSpaceBound(FloatCoordinates coordinatesPos , FloatCoordinates coordinatesInferiorLimit ,FloatCoordinates coordinatesSuperiorLimit) {
+    	return isIn2DSpaceBound(coordinatesPos.getCoordinateX() , coordinatesPos.getCoordinateY() , coordinatesInferiorLimit.getCoordinateX(), coordinatesInferiorLimit.getCoordinateY() , coordinatesSuperiorLimit.getCoordinateX(), coordinatesSuperiorLimit.getCoordinateY() ); 
+
+    }
+    
+    
+    public static boolean isIn2DSpaceBound(FloatCoordinates coordinatesPos , Region2d region) {
+    	return isIn2DSpaceBound(coordinatesPos,region.getInferiorLimit(),region.getSuperiorLimit());
+    }
+    
+    
     
 }
