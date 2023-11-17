@@ -63,7 +63,7 @@ public class GameEndlessMode extends GameModeState {
 		
 		
 		interactionTexts = new TextCollection(
-				"nextGame" , "PROXIMO" , 20 ,
+				"nextGame" , 20 , "PROXIMO"  ,
 				new RgbaColor("white") , 
 				new FloatCoordinates(textUpperCenter[0],textUpperCenter[1])
 				);

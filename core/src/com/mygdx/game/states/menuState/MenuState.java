@@ -78,19 +78,19 @@ public class MenuState extends State {
 				
 		menuTexts = new TextCollection(
 				
-				"classicMode" , "MODO CLASSICO" , 35 , 
+				"classicMode" , 35 , "MODO CLASSICO",
 				new RgbaColor("white"), 
 				new FloatCoordinates(screenWidth/2f   ,screenHeight/2f + 2*spaceBetweenBars),
 				
-				"2playersMode" , "MODO 2 JOGADORES" , 35 ,
+				"2playersMode" , 35 , "MODO 2 JOGADORES",
 				new RgbaColor("white"), 
 				new FloatCoordinates(screenWidth/2f ,screenHeight/2f + spaceBetweenBars),
 				
-				"crazyMode" , "MODO MALUCO" , 35 ,
+				"crazyMode" , 35 , "MODO MALUCO",
 				new RgbaColor("green"),
 				new FloatCoordinates(screenWidth/2f ,screenHeight/2f ),
 				
-				"endlessMode" , "MODO SEM FIM", 35,
+				"endlessMode" , 35 , "MODO SEM FIM",
 				new RgbaColor("white"),
 				new FloatCoordinates(screenWidth/2f ,screenHeight/2f - spaceBetweenBars)
 				
@@ -99,15 +99,15 @@ public class MenuState extends State {
 			
 		
 		difficultyTexts = new TextCollection(
-				"eazy" , "FACIL" , 35 ,
+				"eazy" , 35 , "FACIL" ,
 				new RgbaColor("green"),
 				new FloatCoordinates(screenWidth/2f , screenHeight/2f  - 3*spaceBetweenBars),
 				
-				"medium" , "MEDIO" , 35 ,
+				"medium" , 35 , "MEDIO"  ,
 				new RgbaColor("yellow"),
 				new FloatCoordinates(screenWidth/2f, screenHeight/2f - 3*spaceBetweenBars),
 				
-				"hard" , "DIFICIL" , 35 ,
+				"hard" ,35, "DIFICIL" ,
 				new RgbaColor("red"),
 				new FloatCoordinates(screenWidth/2f, screenHeight/2f - 3*spaceBetweenBars)
 				
@@ -134,11 +134,11 @@ public class MenuState extends State {
 		selectorRectangleHeight  = rectangleHeight;
 		
 		arrowTexts = new TextCollection(
-				"decreaseArrow" , "<" , 35,
+				"decreaseArrow" , 35 , "<" ,
 				new RgbaColor("black"),
 				new FloatCoordinates(rectangleInCenterPosition[0] + selectorRectangleHeight/2 , screenHeight /2f  - 3*spaceBetweenBars),
 				
-				"increaseArrow" , ">" , 35,
+				"increaseArrow" , 35, ">" ,
 				new RgbaColor("black"),
 				new FloatCoordinates(rectangleInCenterPosition[0] +selectorRectangleHeight + selectorRectangleWidth +  selectorRectangleHeight/2 , screenHeight /2f  - 3*spaceBetweenBars));
 		

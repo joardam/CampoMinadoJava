@@ -96,11 +96,11 @@ public abstract class GameModeState extends State{
 		
 		
 		booleanEndStatus = new TextCollection(
-				"loose", "Perdeu",32,
+				"loose", 32,"Perdeu",
 				new RgbaColor("red") ,
 				new FloatCoordinates(booleanEndStatusPosition , spriteSize/2),
 				
-				"win", "Ganhou" , 32,
+				"win", 32 ,"Ganhou" ,
 				new RgbaColor("green") ,
 				new FloatCoordinates(booleanEndStatusPosition , spriteSize/2)
 				);	

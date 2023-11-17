@@ -53,18 +53,18 @@ public class Game2PlayersModeState extends GameModeState {
 		
 		
 		
-		float textPlayersPosX = screenWidth/ 2 - 53; 
-		float textPlayersPosY = screenHeight - 5; 
+		float textPlayersPosX = screenWidth/ 2  ; 
+		float textPlayersPosY = screenHeight - spriteSize/2; 
 		
 		
 		
 		
 		playersTexts = new TextCollection(
-				"player1" , "Player 1:" , 24,
+				"player1" ,24, "Player 1:" , 
 				new RgbaColor("blue") ,
 				new FloatCoordinates(textPlayersPosX , textPlayersPosY),
 				
-				"player2" , "Player 2:" , 24,
+				"player2" ,24, "Player 2:" , 
 				new RgbaColor("red") ,
 				new FloatCoordinates(textPlayersPosX , textPlayersPosY)
 				);

@@ -14,60 +14,151 @@ public class TextCollection {
     }
 
     public TextCollection(Object... args) {
-        try {
-            if (args.length % 3 != 0 && args.length % 5 != 0) {
-                throw new IllegalArgumentException("Parameters pattern must be (String, String, int) or (String, String, int, Color, FloatCoordinates)");
-            }
+        
 
-            boolean not3Parameter = false;
-            boolean not5Parameter = false;
+    	try {
+	        int argIndexNow = 0;
+	      
+	        while(argIndexNow < args.length) {
+	        
+	        	
+	        	
+	        	if(!(args[argIndexNow] instanceof String)) {
+	        		throw new IllegalArgumentException("(wrong Parameter , must me String)");
+	        	}
+	        	
+	   
+	        	boolean caseOfMoreStrings5Parameters = (args[argIndexNow] instanceof String) && !(argIndexNow + 5 >= args.length) && (args[argIndexNow + 5] instanceof String);
+	        	boolean caseOfMoreStrings4Parameters = (args[argIndexNow] instanceof String) && !(argIndexNow + 4 >= args.length) && (args[argIndexNow + 4] instanceof String);
+	          	boolean caseOfMoreStrings3Parameters = (args[argIndexNow] instanceof String) && !(argIndexNow + 3 >= args.length) && (args[argIndexNow + 3] instanceof String);
+	        	boolean caseOfMoreStrings2Parameters = (args[argIndexNow] instanceof String) && !(argIndexNow + 2 >= args.length) && (args[argIndexNow + 2] instanceof String);
+	      
+	        	
+	        	boolean condition2Parameters = (
+	        			(argIndexNow + 2 >= args.length) || 
+	        			(caseOfMoreStrings2Parameters));
+	        	
+	        	
+	        	boolean condition3Parameters = (
+	        			(argIndexNow + 3 >= args.length) || 
+	        			(caseOfMoreStrings3Parameters));
+	        	
+	        	boolean condition4Parameters = (
+	        			(argIndexNow + 4 >= args.length) || 
+	        			caseOfMoreStrings4Parameters);
+	        	
+	        	boolean condition5Parameters = (
+	        			(argIndexNow + 5 >= args.length) || 
+	        			caseOfMoreStrings5Parameters);
+	        	
+	        	
+	        	
+	        	if(argIndexNow + 1 >= args.length ) {
+	        		throw new IllegalArgumentException("String Parameter cannot be alone");
+	        		
+	        	}
+	        	
+	        	if(condition2Parameters && (argIndexNow + 3 >= args.length ) && !(args[argIndexNow + 3] instanceof RgbaColor)) {
+	        		
+	        		if(!(args[argIndexNow + 1] instanceof Integer)) {
+	        			throw new IllegalArgumentException("(When using 2 parameters must be (String ,Integer)");
 
-            for (int i = 0; i < args.length; i += 3) {
-                if (!(args[i] instanceof String) || !(args[i + 1] instanceof String) || !(args[i + 2] instanceof Integer)) {
-                    not3Parameter = true;
-                    break;
-                }
-            }
+	        		}
+	        		String stringId = (String) args[argIndexNow];
+	        		int size = (int) args[argIndexNow + 1];
+	        		
+	        		addText(stringId,size);
+	        		
+	        		argIndexNow += 2;
+	        		
+	        	}
+	        	
+	        	else if(condition3Parameters) {
+	        		if(     !(args[argIndexNow] instanceof String)  ||
+	        				!(args[argIndexNow + 1] instanceof Integer) || 
+	        				!(args[argIndexNow + 2] instanceof String)
+	        				) {
+	        			throw new IllegalArgumentException("(When using 3 parameters must be (String ,Integer ,String)");
+	        		}
+	        		
+	        		String stringId = (String) args[argIndexNow];
+	        		int size = (int) args[argIndexNow + 1];
+	        		String stringText = (String) args[argIndexNow + 2];
+	        		addText(stringId,size, stringText);
+	        		
+	        		argIndexNow += 3;
+	        		
+	        	}
+	        	
+	        	else if(condition4Parameters) {
+	        		if(
+	        						!(args[argIndexNow] instanceof String)  ||
+	    	        				!(args[argIndexNow + 1] instanceof Integer) || 
+	    	        				!(args[argIndexNow + 2] instanceof String) ||
+	        						!(args[argIndexNow + 3] instanceof RgbaColor)
+	        				) {
+	        			throw new IllegalArgumentException("(When using 4 parameters must be (String ,Integer ,String , RgbaColor)");
+	        			
+	        		}
+	        		String stringId = (String) args[argIndexNow];
+	        		int size = (int) args[argIndexNow + 1];
+	        		String stringText = (String) args[argIndexNow + 2];
+	        		RgbaColor colors = (RgbaColor) args[argIndexNow + 3];
+	        		addText(stringId,size, stringText);
+	        		textMap.get(stringId).setColor(colors.getColor()[0],colors.getColor()[1],colors.getColor()[2],colors.getColor()[3]);
+	        		
+	        		argIndexNow += 4;
+	        
+	        	}
+	        	
+	        	else if(condition5Parameters) {
+	        		if(
+	        						!(args[argIndexNow]     instanceof String)  ||
+	    	        				!(args[argIndexNow + 1] instanceof Integer) || 
+	    	        				!(args[argIndexNow + 2] instanceof String)  ||
+	        						!(args[argIndexNow + 3] instanceof RgbaColor) ||
+	        						!(args[argIndexNow + 4] instanceof FloatCoordinates)
+	        					
+	        				) {
+	        			throw new IllegalArgumentException("(When using 5 parameters must be (String ,Integer ,String , RgbaColor, FloatCoordinates)");
+	        		}
+	        	
+	        		
+	        		String stringId = (String) args[argIndexNow];
+	        		int size = (int) args[argIndexNow + 1];
+	        		String stringText = (String) args[argIndexNow + 2];
+	        		RgbaColor colors = (RgbaColor) args[argIndexNow + 3];
+	        		FloatCoordinates coordinates = (FloatCoordinates) args[argIndexNow + 4];
+	        		
+	        		addText(stringId,size, stringText);
+	        		
+	        		Text text = textMap.get(stringId);
+	        		
+	        		GlyphLayout layout = new GlyphLayout(text.getFont(), text.getTextString());
 
-            if (not3Parameter) {
-                for (int i = 0; i < args.length; i += 5) {
-                    if (!(args[i] instanceof String) || !(args[i + 1] instanceof String) || !(args[i + 2] instanceof Integer) ||
-                        !(args[i + 3] instanceof RgbaColor) || !(args[i + 4] instanceof FloatCoordinates)) {
-                        throw new IllegalArgumentException("Parameters types must be (String, String, int) or (String, String, int, Color, FloatCoordinates)");
-                    }
-                }
-            }
+	        		float centerX = coordinates.getCoordinateX() - layout.width / 2;
+	        		float centerY = coordinates.getCoordinateY() + layout.height / 2;
 
-            if (!not3Parameter) {
-                not5Parameter = true;
-                for (int i = 0; i < args.length; i += 3) {
-                    String stringId = (String) args[i];
-                    String textString = (String) args[i + 1];
-                    int size = (int) args[i + 2];
-
-                    addText(stringId, textString, size);
-                }
-            }
-
-            if (!not5Parameter) {
-                for (int i = 0; i < args.length; i += 5) {
-                    String stringId = (String) args[i];
-                    String textString = (String) args[i + 1];
-                    int size = (int) args[i + 2];
-                    RgbaColor color = (RgbaColor) args[i + 3];
-                    FloatCoordinates coordinates = (FloatCoordinates) args[i + 4];
-
-                    addText(stringId, textString, size);
-                    Text text = textMap.get(stringId);
-
-                   
-
-                    text.setColor(color.getColor()[0], color.getColor()[1], color.getColor()[2], color.getColor()[3]);
-                    GlyphLayout layout = new GlyphLayout(text.getFont(), text.getTextString());
-                 
-                    text.setTextPosition(coordinates.getCoordinateX() - layout.width/2, coordinates.getCoordinateY() + layout.height/2);
-                }
-            }
+	        		
+	        		
+	        		
+	        		text.setColor(colors.getColor()[0],colors.getColor()[1],colors.getColor()[2],colors.getColor()[3]);
+	        		text.setTextPosition(centerX, centerY);
+	        		
+	        		argIndexNow += 5;
+	        		
+	        		
+	        	}
+	        	else {
+	        		throw new IllegalArgumentException("Wrong Parameters");
+	        	}
+	        		        	
+	        	
+	        	
+	        }
+	        
+	       
+            
         } catch (IllegalArgumentException e) {
             System.err.println("Error: " + e.getMessage());
         }
@@ -80,12 +171,17 @@ public class TextCollection {
         textMap.put(stringId, text);
     }
 
-    public void addText(String stringId, String textString, int size) {
+    public void addText(String stringId, int size, String textString) {
         Text text = new Text();
         text.setSize(size);
         text.initialize();
         text.setTextString(textString);
         textMap.put(stringId, text);
+    }
+    
+    public void setTextStringId(String stringId, String textString) {
+    	Text text = textMap.get(stringId);
+    	text.setTextString(textString);
     }
 
     public Text getText(String stringId) {
@@ -169,4 +265,8 @@ public class TextCollection {
             text.dispose();
         }
     }
+   
+    
+    
+    
 }
