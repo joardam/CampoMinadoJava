@@ -6,11 +6,9 @@ import com.mygdx.gameField.cell.cellType.MinedCell;
 import com.mygdx.gameField.cell.cellType.SafeCell;
 import com.mygdx.gameField.cell.state.CoveredCellState;
 import com.mygdx.gameField.cell.state.UncoveredCellState;
-import com.mygdx.gameField.round.Rounds;
 import com.mygdx.utils.GameUtils;
 
 public abstract class GameplayManager {
-	protected Rounds rounds = new Rounds();
 	protected boolean winStatus = false;
 	protected boolean gameOverStatus = false;
 
@@ -151,10 +149,7 @@ public abstract class GameplayManager {
 	}
 
     
-    
-	public Rounds getRounds() {
-		return rounds;
-	}
+
     
     
 }

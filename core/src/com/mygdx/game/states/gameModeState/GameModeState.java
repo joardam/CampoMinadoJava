@@ -39,20 +39,20 @@ public abstract class GameModeState extends State{
 	protected GameModeState(StateManager gsm, MouseTrack mouse , String difficulty) {
 		super(gsm, mouse);
 		
-		if(difficulty.equals("eazy")){
+		if(difficulty.equals("FACIL")){
 			rows = 10;
 			cols = 10;
 			
 			bombsQuantity = 10;
 		}
-		else if(difficulty.equals("medium")){
+		else if(difficulty.equals("MEDIO")){
 			rows = 15;
 			cols = 16;
 			
 			bombsQuantity = 40;
 			
 		}
-		else if(difficulty.equals("hard")){
+		else if(difficulty.equals("DIFICIL")){
 			rows = 16;
 			cols = 30;
 			

@@ -4,7 +4,6 @@ package com.mygdx.game.states.gameModeState;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.mygdx.collections.PlayerCollection;
 import com.mygdx.collections.TextCollection;
 import com.mygdx.draw.TextDraw;
 import com.mygdx.game.states.StateManager;
@@ -20,8 +19,6 @@ import com.mygdx.utils.RgbaColor;
 
 public class Game2PlayersModeState extends GameModeState {
 	
-	
-	private PlayerCollection players ;
 	private TextCollection playersTexts; 
 
 
@@ -38,12 +35,9 @@ public class Game2PlayersModeState extends GameModeState {
 
 	@Override
 	public void create() {
-		players = new PlayerCollection("player1" , "player2");
-		gameplayManager = new Mode2PlayersManager(players);
-		field = new ClassicField();
 		
-		
-		
+		gameplayManager = new Mode2PlayersManager();
+		field = new ClassicField();	
 		super.create();
 		
 		
@@ -68,6 +62,9 @@ public class Game2PlayersModeState extends GameModeState {
 				new RgbaColor("red") ,
 				new FloatCoordinates(textPlayersPosX , textPlayersPosY)
 				);
+		
+		((Mode2PlayersManager) gameplayManager).setRoundManager(playersTexts);
+		
 	}
 
 	
@@ -94,10 +91,8 @@ public class Game2PlayersModeState extends GameModeState {
 	@Override
 	public void render(SpriteBatch sprite) {	
 		sprite.begin();
-        int playerIdInRound = gameplayManager.getRounds().getPlayerIdInRound();
         
-        String playerText = players.getPlayerStringTextByIndex(playerIdInRound);
-        
+		String playerText = ((Mode2PlayersManager) gameplayManager).getRoundManager().getPlayerStringIdNow();
         Text playerTextToDraw = playersTexts.getText(playerText);
         
         TextDraw.draw(sprite, playerTextToDraw);

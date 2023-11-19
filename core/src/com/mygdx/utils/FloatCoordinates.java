@@ -16,7 +16,7 @@ public class FloatCoordinates {
 	
 	
 	
-	public FloatCoordinates(Coordinates coordinate) {
+	public FloatCoordinates(FloatCoordinates coordinate) {
 		this.coordinateX = coordinate.getCoordinateX();
 		this.coordinateY = coordinate.getCoordinateY();
 	}
@@ -46,5 +46,8 @@ public class FloatCoordinates {
 		return this.coordinateY;
 	}
 	
+	public static FloatCoordinates newCoordinates(float coordinateX , float coordinateY) {
+		return new FloatCoordinates(coordinateX,coordinateY);
+	}
 }
 

@@ -18,8 +18,8 @@ public class Text {
 		return font;
 	}
 
-	public void setSize(int parameterSize) {
-    	parameter.size = parameterSize;
+	public void setSize(int textSizeHeight) {
+    	parameter.size = textSizeHeight;
     }
     
     public void initialize() {

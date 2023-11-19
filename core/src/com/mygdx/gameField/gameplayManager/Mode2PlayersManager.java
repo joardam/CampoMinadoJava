@@ -1,16 +1,29 @@
 package com.mygdx.gameField.gameplayManager;
-import com.mygdx.collections.PlayerCollection;
+import com.mygdx.collections.TextCollection;
 import com.mygdx.gameField.ClassicField;
+import com.mygdx.gameField.Field;
 
 public class Mode2PlayersManager extends GameplayManager {
-	PlayerCollection players ;
+	RoundPlayerManager roundManager ;
 	
-	public Mode2PlayersManager(PlayerCollection players){
-		this.players = players;
+	
+	
+	
+	 public RoundPlayerManager getRoundManager() {
+		return roundManager;
 	}
-	
-	
-	 public void tryToUncoverThisCell(int posX ,int posY, ClassicField field) {
+
+
+
+
+	public void setRoundManager(TextCollection textMap) {
+		this.roundManager = new RoundPlayerManager(textMap);
+	}
+
+
+
+	@Override
+	public void tryToUncoverThisCell(int posX ,int posY, Field field) {
 	  
 		 super.tryToUncoverThisCell(posX,posY,field);
 	  
@@ -18,7 +31,8 @@ public class Mode2PlayersManager extends GameplayManager {
 	        	return;
 	    	}
 	        
-	        this.rounds.passPlayerRound(players);
+	       roundManager.passPlayerIndex();
+	        
 	        
 	    }
 
