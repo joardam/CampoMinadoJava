@@ -18,6 +18,9 @@ public abstract class State implements StateInterface{
 		this.mouse = mouse;
 	}
 	
+	
+	@Override
+	public abstract void configure();
 	@Override
 	public abstract void create();
 	@Override

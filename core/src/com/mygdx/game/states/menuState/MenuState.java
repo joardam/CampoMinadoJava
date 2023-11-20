@@ -51,12 +51,15 @@ public class MenuState extends State {
 	
 	public MenuState(StateManager gsm) {
 		super(gsm);
+		configure();
 		create();
+		
 		
 	}
 	
+	
 	@Override
-	public void create() {
+	public void configure() {
 		videoConfig.setCamera(cam);
 		videoConfig.SetVideoSize(700, 700);
 		videoConfig.setFixElements();
@@ -66,6 +69,12 @@ public class MenuState extends State {
 		
 		screenWidth = Gdx.graphics.getWidth();
 		screenHeight = Gdx.graphics.getHeight();
+		
+	}
+	
+	@Override
+	public void create() {
+		
 		
 		
 		spaceBetweenBars = 70;
@@ -171,10 +180,6 @@ public class MenuState extends State {
 			
 		modeBars.drawBars(sprite, "endlessBar" , "crazyBar" , "classicBar" , "2PlayersBar");
 		difficultyBars.drawBars(sprite,"difficultyBar" , "increaseBar" , "decreaseBar");
-	    
-
-		
-		
 		
 		
 	}
@@ -195,29 +200,27 @@ public class MenuState extends State {
 			{
 				if(GameUtils.isIn2DSpaceBound(
 						mouse.getMousePosition(),modeBars.getBar("classicBar").getBarRegion() )){
-					gsm.set(new GameClassicModeState(gsm,mouse,menuDifficultyManager.getDifficultyStringNow()));
-					dispose();
+					gsm.push(new GameClassicModeState(gsm,mouse,menuDifficultyManager.getDifficultyStringNow()));
+					
 				}
 			
 				
 				else if(GameUtils.isIn2DSpaceBound(
 						mouse.getMousePosition(),modeBars.getBar("2PlayersBar").getBarRegion() )){
-					gsm.set(new Game2PlayersModeState(gsm,mouse,menuDifficultyManager.getDifficultyStringNow()));
-					dispose();
+					gsm.push(new Game2PlayersModeState(gsm,mouse,menuDifficultyManager.getDifficultyStringNow()));
 				
 				}
 				else if(GameUtils.isIn2DSpaceBound(
 						mouse.getMousePosition(),modeBars.getBar("crazyBar").getBarRegion() )){
 					
-					gsm.set(new GameCrazyModeState(gsm,mouse, menuDifficultyManager.getDifficultyStringNow()));
-					dispose();
+					gsm.push(new GameCrazyModeState(gsm,mouse, menuDifficultyManager.getDifficultyStringNow()));
+					
 				
 				}
 				
 				else if(GameUtils.isIn2DSpaceBound(
 						mouse.getMousePosition(),modeBars.getBar("endlessBar").getBarRegion() )){
-					gsm.set(new GameEndlessMode(gsm,mouse));
-					dispose();
+					gsm.push(new GameEndlessMode(gsm,mouse));
 				
 				}
 			
@@ -267,6 +270,8 @@ public class MenuState extends State {
 		modeBars.disposeAll();
 		difficultyBars.disposeAll();
 		}
+
+	
 
 
 	

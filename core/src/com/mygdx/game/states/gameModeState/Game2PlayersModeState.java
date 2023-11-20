@@ -40,11 +40,7 @@ public class Game2PlayersModeState extends GameModeState {
 		field = new ClassicField();	
 		super.create();
 		
-		
-		
-		int screenWidth = Gdx.graphics.getWidth(); 
-		int screenHeight = Gdx.graphics.getHeight(); 
-		
+	
 		
 		
 		float textPlayersPosX = screenWidth/ 2  ; 

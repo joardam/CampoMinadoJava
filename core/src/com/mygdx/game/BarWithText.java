@@ -24,6 +24,7 @@ public class BarWithText {
 	
 	
 	
+	
 	public BarWithText(FloatCoordinates widthAndHeight ,FloatCoordinates barPosition,String stringText , Color barColor , Color textColor) {		
 		
 		//transfer the point to center
@@ -37,11 +38,7 @@ public class BarWithText {
 		int textSizeHeight = (int) (0.65 * widthAndHeight.getCoordinateY());
 		text.setSize(textSizeHeight);
 		text.initialize();
-		
-		
 		text.setTextString(stringText);
-		
-		
 		text.getFont().setColor(textColor);
 		
 		GlyphLayout layout = new GlyphLayout(text.getFont(), text.getTextString());

@@ -42,6 +42,10 @@ public class StateManager {
     	states.peek().resize(width,height);
     }
     
+    public void configure() {
+    	states.peek().configure();
+    }
+    
     
     
     

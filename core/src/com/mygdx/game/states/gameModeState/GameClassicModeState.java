@@ -22,6 +22,7 @@ public class GameClassicModeState extends GameModeState {
 	}
 
 
+
 	@Override
 	public void create() {
 		gameplayManager = new ClassicManager();

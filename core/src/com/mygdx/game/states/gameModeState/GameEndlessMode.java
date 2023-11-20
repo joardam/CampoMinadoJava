@@ -20,8 +20,6 @@ public class GameEndlessMode extends GameModeState {
 	
 	TextCollection interactionTexts;
 	ShapeCollection shapes;
-	private int screenWidth;
-	private int screenHeight;
 	private int rectangleWidth;
 	private int rectangleHeight;
 	private BarWithTextCollection interactionBars;
@@ -32,6 +30,7 @@ public class GameEndlessMode extends GameModeState {
 		rows = 15;
 		cols = 16;
 		bombsQuantity = 5;
+		super.configure();
 		create();
 
 	}
@@ -46,9 +45,7 @@ public class GameEndlessMode extends GameModeState {
 		gameplayManager = new EndlessModeManager();
 		field = new ClassicField();
 		super.create();
-		
-		screenWidth = Gdx.graphics.getWidth();
-		screenHeight = Gdx.graphics.getHeight();
+	
 		
 		rectangleWidth = 100; 
 		rectangleHeight  = 30;
@@ -81,36 +78,35 @@ public class GameEndlessMode extends GameModeState {
 	public void handleInput() {
 		super.handleInput();
 		
-		if(GameUtils.isIn2DSpaceBound(mouse.getMousePosition(), interactionBars.getBar("nextBar").getBarRegion())) {
-			Gdx.graphics.setSystemCursor(Cursor.SystemCursor.Hand);
-		}
-		else {
-			Gdx.graphics.setSystemCursor(Cursor.SystemCursor.Arrow);
+		
+		if(gameplayManager.isWinStatus()) {
+			if(GameUtils.isIn2DSpaceBound(mouse.getMousePosition(), interactionBars.getBar("nextBar").getBarRegion())) {
+				Gdx.graphics.setSystemCursor(Cursor.SystemCursor.Hand);
+			}
+			
 		}
 		
 		
 
 		if(leftClickInteraction.inAction()) {
 			
-			if(!gameplayManager.isWinStatus()) {
-				return;
-			}
 			
 			if(GameUtils.isIn2DSpaceBound(mouse.getMousePosition(), interactionBars.getBar("nextBar").getBarRegion())) {
 				((EndlessModeManager)gameplayManager).RebuildField((ClassicField)field);
-					leftClickInteraction.stopInteraction();
+					
 			}
 			
+			leftClickInteraction.stopInteraction();
 		}
 		
+		
+	
 		
 	}
 
 	@Override
 	public void update(float dt) {
-		screenWidth = Gdx.graphics.getWidth();
-		screenHeight = Gdx.graphics.getHeight();
-		
+
 		
 		super.update(dt);
 	}
@@ -120,10 +116,7 @@ public class GameEndlessMode extends GameModeState {
 		super.render(sprite);
 		
 		if(gameplayManager.isWinStatus()) {
-			
 			interactionBars.drawBars(sprite, "nextBar");
-			
-			
 		}
 		
 		

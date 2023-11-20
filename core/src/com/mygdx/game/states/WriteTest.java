@@ -154,6 +154,12 @@ public class WriteTest extends State {
 	        return textField.getText().length() < maxCharacters;
 	    }
 	}
+
+	@Override
+	public void configure() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	
 }

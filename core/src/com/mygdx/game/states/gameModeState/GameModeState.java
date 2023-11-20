@@ -39,14 +39,19 @@ public abstract class GameModeState extends State{
 	protected int backToMenuRectangleWidth = 100;
 	protected int backToMenuRectangleHeight = 30;
 	protected InteractionManager leftClickInteraction = new InteractionManager();
+	protected InteractionManager renderInteraction = new InteractionManager();
 	
 	
 	protected int spriteSize = 32;
 	protected Texture texture = new Texture("newsprites.jpg");
 	
 	
+	
+	
 	protected GameModeState(StateManager gsm, MouseTrack mouse) {
 		super(gsm, mouse);
+		
+		
 	}
 	
 	protected GameModeState(StateManager gsm, MouseTrack mouse , String difficulty) {
@@ -72,17 +77,13 @@ public abstract class GameModeState extends State{
 			bombsQuantity = 99;			
 		}
 		
+		configure();
+		
 		
 	}
 	
-
-	
-	@Override
-	public void create() {
-		draw  = new FieldDraw(field,spriteSize);
+	public void configure() {
 		videoConfig.setCamera(cam);
-		
-		
 		videoConfig.SetVideoSize((cols + 2) * spriteSize,
 				(rows + 2) * spriteSize);
 
@@ -94,6 +95,15 @@ public abstract class GameModeState extends State{
 		
 		screenWidth = Gdx.graphics.getWidth();
 		screenHeight = Gdx.graphics.getHeight();
+	}
+	
+	@Override
+	public void create() {
+		draw  = new FieldDraw(field,spriteSize);
+		
+		
+		renderInteraction.startInteraction();
+		
 		
 		backToMenuRectangleWidth = 100;
 		backToMenuRectangleHeight = 30;
@@ -155,25 +165,27 @@ public abstract class GameModeState extends State{
 		 
 		 
 		if(mouse.eventMouseLeftClickOnce()) {
-			
 			leftClickInteraction.startInteraction();
 		}
 		
 		if(leftClickInteraction.inAction()) {
 			
 			 if(GameUtils.isIn2DSpaceBound(mouse.getMousePosition(),backToMenu.getBarRegion())) {
-				 gsm.set(new MenuState(gsm));
+				 renderInteraction.stopInteraction();
+				 
+				 gsm.pop();
 				 dispose();
+				 gsm.configure();
 				 leftClickInteraction.stopInteraction();
 			 }
 			       
 			
-			if(!GameUtils.isIn2DArrayBound(mouseFieldX ,mouseFieldY, cols,rows)) {
-				return;
+			if(GameUtils.isIn2DArrayBound(mouseFieldX ,mouseFieldY, cols,rows)) {
+				gameplayManager.tryToUncoverThisCell(mouseFieldX , mouseFieldY, field);
+		        leftClickInteraction.stopInteraction();
 			}
 			
-	       	gameplayManager.tryToUncoverThisCell(mouseFieldX , mouseFieldY, field);
-	        leftClickInteraction.stopInteraction();
+	       	
 	       	
 	       	
        	
@@ -192,20 +204,26 @@ public abstract class GameModeState extends State{
 	@Override
 	public void update(float dt) {
 		mouse.setMousePosition();
-		
-		
 		handleInput();
+		screenWidth = Gdx.graphics.getWidth();
+		screenHeight = Gdx.graphics.getHeight();
 		
 	}
 
 	@Override
 	public void render(SpriteBatch sprite) {
+		
+		
+		
 		Gdx.gl.glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
 		SpriteConfig.setProjectionMatrix(sprite, videoConfig);
+		if(!renderInteraction.inAction()) {
+			return;
+			
+		}
+		
 		
 		backToMenu.drawBar(sprite);
-		
-		
 		sprite.begin();
         draw.drawField(sprite, texture);
        
@@ -219,6 +237,7 @@ public abstract class GameModeState extends State{
         }
         
         sprite.end();
+        
 		
 	}
 
