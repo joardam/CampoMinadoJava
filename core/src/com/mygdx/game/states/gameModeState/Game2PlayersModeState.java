@@ -79,6 +79,9 @@ public class Game2PlayersModeState extends GameModeState {
 	@Override 
 	public void handleInput() {
 		super.handleInput();
+		if(leftClickInteraction.inAction()) {
+			leftClickInteraction.stopInteraction();
+		}
 	}
 	
 	@Override

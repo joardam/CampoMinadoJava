@@ -40,6 +40,11 @@ public class GameClassicModeState extends GameModeState {
 	@Override 
 	public void handleInput() {
 		super.handleInput();
+		
+		if(leftClickInteraction.inAction()) {
+			leftClickInteraction.stopInteraction();
+		}
+		
 	}
 	
 	@Override

@@ -2,18 +2,16 @@ package com.mygdx.game.states.menuState;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Cursor;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.collections.ShapeCollection;
-import com.mygdx.collections.TextCollection;
 import com.mygdx.collections.BarWithTextCollection.BarWithTextCollection;
 import com.mygdx.collections.BarWithTextCollection.BarWithTextCollectionParameters;
 import com.mygdx.config.SpriteConfig;
 import com.mygdx.config.VideoSettings;
-import com.mygdx.draw.TextDraw;
 import com.mygdx.game.BarWithText;
 import com.mygdx.game.states.State;
 import com.mygdx.game.states.StateManager;
-import com.mygdx.game.states.WriteTest;
 import com.mygdx.game.states.gameModeState.Game2PlayersModeState;
 import com.mygdx.game.states.gameModeState.GameClassicModeState;
 import com.mygdx.game.states.gameModeState.GameCrazyModeState;
@@ -21,7 +19,6 @@ import com.mygdx.game.states.gameModeState.GameEndlessMode;
 import com.mygdx.game.states.menuState.MenuDifficultyManager.MenuDifficultyManager;
 import com.mygdx.game.states.menuState.MenuDifficultyManager.MenuDifficultyManagerParameter;
 import com.mygdx.utils.RgbaColor;
-import com.mygdx.utils.Coordinates;
 import com.mygdx.utils.FloatCoordinates;
 import com.mygdx.utils.GameUtils;
 
@@ -32,24 +29,17 @@ public class MenuState extends State {
 	private VideoSettings videoConfig = new VideoSettings();
 	private BarWithTextCollection modeBars;
 	private BarWithTextCollection difficultyBars;
-	private TextCollection difficultyTexts;
-	
-	
-	private TextCollection arrowTexts;
 	private MenuDifficultyManager menuDifficultyManager = new MenuDifficultyManager(
 			new MenuDifficultyManagerParameter("FACIL", Color.GREEN ),
 			new MenuDifficultyManagerParameter("MEDIO", Color.YELLOW ),
 			new MenuDifficultyManagerParameter("DIFICIL", Color.RED )
 			);
 	
-	
-	private ShapeCollection shapes;
+
 	
 	private float rectangleWidth;
     private float rectangleHeight;
     
-    private float[] rectangleInCenterPosition;
-    private float[] whiteRetangleInCenterPosition;
     private float selectorRectangleWidth; 
 	private float selectorRectangleHeight;
 	
@@ -79,41 +69,14 @@ public class MenuState extends State {
 		
 		
 		spaceBetweenBars = 70;
-		
-		shapes = new ShapeCollection(
-				"difficultyBar", new RgbaColor("gray"),
-				"difficultyCenterForText" , new RgbaColor("dark_gray")
-				);
 			
-			
-		
-		
-		
 				
 		rectangleWidth = 500; 
 		rectangleHeight  = 50;
 		
-		rectangleInCenterPosition = new float[2];
-		
-		rectangleInCenterPosition[0] = screenWidth/2 - rectangleWidth / 2;
-		rectangleInCenterPosition[1] = screenHeight/2 -  rectangleHeight/ 2;
-		
-		whiteRetangleInCenterPosition = new float[2];
-		
-		whiteRetangleInCenterPosition[0] = screenWidth/2 - rectangleWidth / 2 + rectangleHeight;
-		whiteRetangleInCenterPosition[1] = screenHeight/2 -  rectangleHeight/ 2;
-		
 		selectorRectangleWidth = rectangleWidth - rectangleHeight*2; 
 		selectorRectangleHeight  = rectangleHeight;
 		
-		arrowTexts = new TextCollection(
-				"decreaseArrow" , 35 , "<" ,
-				new RgbaColor("black"),
-				new FloatCoordinates(rectangleInCenterPosition[0] + selectorRectangleHeight/2 , screenHeight /2f  - 3*spaceBetweenBars),
-				
-				"increaseArrow" , 35, ">" ,
-				new RgbaColor("black"),
-				new FloatCoordinates(rectangleInCenterPosition[0] +selectorRectangleHeight + selectorRectangleWidth +  selectorRectangleHeight/2 , screenHeight /2f  - 3*spaceBetweenBars));
 		
 		
 		modeBars = new BarWithTextCollection(
@@ -162,6 +125,28 @@ public class MenuState extends State {
 								Color.DARK_GRAY,
 								menuDifficultyManager.getDifficultyColorNow()
 								)
+					
+						),
+				
+				BarWithTextCollectionParameters.getParameters(
+						"increaseBar", 
+						BarWithText.newBarWithText(
+								FloatCoordinates.newCoordinates(selectorRectangleHeight,selectorRectangleHeight ) ,
+								FloatCoordinates.newCoordinates(screenWidth/2 + selectorRectangleWidth/2 + selectorRectangleHeight/2,screenHeight/2 - spaceBetweenBars*3),
+								">",
+								Color.GRAY,
+								Color.BLACK
+								)
+						),
+				BarWithTextCollectionParameters.getParameters(
+						"decreaseBar", 
+						BarWithText.newBarWithText(
+								FloatCoordinates.newCoordinates(selectorRectangleHeight,selectorRectangleHeight ) ,
+								FloatCoordinates.newCoordinates(screenWidth/2 - selectorRectangleWidth/2 - selectorRectangleHeight/2 ,screenHeight/2 - spaceBetweenBars*3),
+								"<",
+								Color.GRAY,
+								Color.BLACK
+								)
 						)
 				
 				);		
@@ -183,38 +168,11 @@ public class MenuState extends State {
 		Gdx.gl.glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
 		SpriteConfig.setProjectionMatrix(sprite, videoConfig);
 		
-		
-		shapes.shapesBegin("difficultyBar");
-	
-		
-		
-		
-		shapes.setRect(
-				
-				"difficultyBar",
-				new FloatCoordinates(rectangleInCenterPosition[0], rectangleInCenterPosition[1] - 3*spaceBetweenBars),
-				new FloatCoordinates(rectangleWidth, rectangleHeight)
-			);
-			
-
-	    
-		shapes.shapesEnd("difficultyBar");
-	    
-	    
-	    
 			
 		modeBars.drawBars(sprite, "endlessBar" , "crazyBar" , "classicBar" , "2PlayersBar");
-		difficultyBars.drawBars(sprite,"difficultyBar");
+		difficultyBars.drawBars(sprite,"difficultyBar" , "increaseBar" , "decreaseBar");
 	    
-	    
-		sprite.begin();
-		
-	    
-	   
-	    TextDraw.draw(sprite, arrowTexts.getText("decreaseArrow"));
-	    TextDraw.draw(sprite, arrowTexts.getText("increaseArrow"));
-	    
-		sprite.end();
+
 		
 		
 		
@@ -223,6 +181,16 @@ public class MenuState extends State {
 
 	@Override
 	public void handleInput() {
+			
+		if(		
+				modeBars.actorInAnyBar(mouse.getMousePosition()) ||
+				difficultyBars.actorInListedBars(mouse.getMousePosition() , "increaseBar" , "decreaseBar")
+				) {
+			Gdx.graphics.setSystemCursor(Cursor.SystemCursor.Hand);
+		}else {
+			Gdx.graphics.setSystemCursor(Cursor.SystemCursor.Arrow);
+		}
+		
 			if (mouse.eventMouseLeftClickOnce())
 			{
 				if(GameUtils.isIn2DSpaceBound(
@@ -235,37 +203,31 @@ public class MenuState extends State {
 				else if(GameUtils.isIn2DSpaceBound(
 						mouse.getMousePosition(),modeBars.getBar("2PlayersBar").getBarRegion() )){
 					gsm.set(new Game2PlayersModeState(gsm,mouse,menuDifficultyManager.getDifficultyStringNow()));
+					dispose();
 				
 				}
 				else if(GameUtils.isIn2DSpaceBound(
 						mouse.getMousePosition(),modeBars.getBar("crazyBar").getBarRegion() )){
 					
 					gsm.set(new GameCrazyModeState(gsm,mouse, menuDifficultyManager.getDifficultyStringNow()));
+					dispose();
 				
 				}
 				
 				else if(GameUtils.isIn2DSpaceBound(
 						mouse.getMousePosition(),modeBars.getBar("endlessBar").getBarRegion() )){
 					gsm.set(new GameEndlessMode(gsm,mouse));
+					dispose();
 				
 				}
+			
 				
-				
-				
-				else if(GameUtils.isIn2DSpaceBound(mouse.getMouseX(), mouse.getMouseY() ,
-						(float)rectangleInCenterPosition[0],
-						(float)rectangleInCenterPosition[1] - 3*spaceBetweenBars,
-						(float)rectangleInCenterPosition[0] + selectorRectangleHeight,
-						(float)rectangleInCenterPosition[1] - 3*spaceBetweenBars + selectorRectangleHeight)){
-					menuDifficultyManager.decreaseDificultyIndex();
+				else if(GameUtils.isIn2DSpaceBound(mouse.getMousePosition(),difficultyBars.getBar("increaseBar").getBarRegion())){
+					menuDifficultyManager.increaseDificultyIndex();
 					updateHandles();
 				}
-				else if(GameUtils.isIn2DSpaceBound(mouse.getMouseX(), mouse.getMouseY() ,
-						(float)rectangleInCenterPosition[0] +  selectorRectangleHeight +  selectorRectangleWidth ,
-						(float)rectangleInCenterPosition[1] - spaceBetweenBars*3,
-						(float)rectangleInCenterPosition[0] + 3*selectorRectangleHeight + selectorRectangleWidth,
-						(float)rectangleInCenterPosition[1] - 3*spaceBetweenBars + selectorRectangleHeight)){
-					menuDifficultyManager.increaseDificultyIndex();
+				else if(GameUtils.isIn2DSpaceBound(mouse.getMousePosition(),difficultyBars.getBar("decreaseBar").getBarRegion() )){
+					menuDifficultyManager.decreaseDificultyIndex();
 					updateHandles();
 				}
 		
@@ -288,14 +250,6 @@ public class MenuState extends State {
 		screenWidth = Gdx.graphics.getWidth();
 		screenHeight = Gdx.graphics.getHeight();
 		
-		rectangleInCenterPosition[0] = screenWidth/2 - rectangleWidth / 2;
-		rectangleInCenterPosition[1] = screenHeight/2 -  rectangleHeight/ 2;
-		
-	
-		
-		whiteRetangleInCenterPosition[0] = screenWidth/2 - rectangleWidth / 2 + rectangleHeight;
-		whiteRetangleInCenterPosition[1] = screenHeight/2 -  rectangleHeight/ 2;
-		
 		selectorRectangleWidth = rectangleWidth - rectangleHeight*2; 
 		selectorRectangleHeight  = rectangleHeight;
 		
@@ -310,9 +264,9 @@ public class MenuState extends State {
 
 	@Override
 	public void dispose() {
-		shapes.disposeAll();
-		
-	}
+		modeBars.disposeAll();
+		difficultyBars.disposeAll();
+		}
 
 
 	

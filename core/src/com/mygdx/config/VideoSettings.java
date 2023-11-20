@@ -67,5 +67,8 @@ public class VideoSettings {
 		this.camera = camera;
 	}
 	
+	public void minimizeScreen() {
+		Gdx.graphics.setWindowedMode(1, 1);
+	}
 	
 }

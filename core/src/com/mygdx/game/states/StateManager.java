@@ -36,6 +36,8 @@ public class StateManager {
     	states.peek().dispose();
     }
     
+    
+    
     public void resize(int width, int height) {
     	states.peek().resize(width,height);
     }

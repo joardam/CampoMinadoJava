@@ -6,6 +6,15 @@ import com.mygdx.utils.FloatCoordinates;
 
 
 public class MouseTrack {
+	public void setMouseLeftButtonDown(boolean mouseLeftButtonDown) {
+		this.mouseLeftButtonDown = mouseLeftButtonDown;
+	}
+
+
+	public void setMouseRightButtonDown(boolean mouseRightButtonDown) {
+		this.mouseRightButtonDown = mouseRightButtonDown;
+	}
+
 	private float mouseX;
 	private float mouseY;
 	

@@ -1,6 +1,9 @@
 package com.mygdx.game.states.gameModeState;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Cursor;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.collections.TextCollection;
@@ -8,14 +11,17 @@ import com.mygdx.config.SpriteConfig;
 import com.mygdx.config.VideoSettings;
 import com.mygdx.draw.FieldDraw;
 import com.mygdx.draw.TextDraw;
+import com.mygdx.game.BarWithText;
 import com.mygdx.game.states.State;
 import com.mygdx.game.states.StateManager;
+import com.mygdx.game.states.menuState.MenuState;
 import com.mygdx.gameField.Field;
 import com.mygdx.gameField.gameplayManager.GameplayManager;
 import com.mygdx.mouseTrack.MouseTrack;
 import com.mygdx.utils.FloatCoordinates;
 import com.mygdx.utils.RgbaColor;
 import com.mygdx.utils.GameUtils;
+import com.mygdx.utils.InteractionManager;
 
 public abstract class GameModeState extends State{
 	
@@ -27,6 +33,13 @@ public abstract class GameModeState extends State{
 	protected GameplayManager gameplayManager;
 	protected TextCollection booleanEndStatus;
 	protected int bombsQuantity;
+	protected BarWithText backToMenu;
+	protected float screenWidth;
+	protected float screenHeight;
+	protected int backToMenuRectangleWidth = 100;
+	protected int backToMenuRectangleHeight = 30;
+	protected InteractionManager leftClickInteraction = new InteractionManager();
+	
 	
 	protected int spriteSize = 32;
 	protected Texture texture = new Texture("newsprites.jpg");
@@ -79,7 +92,20 @@ public abstract class GameModeState extends State{
 		videoConfig.setResizable(false);
 		videoConfig.setTitle("Campo Minado");
 		
+		screenWidth = Gdx.graphics.getWidth();
+		screenHeight = Gdx.graphics.getHeight();
 		
+		backToMenuRectangleWidth = 100;
+		backToMenuRectangleHeight = 30;
+		
+		
+		backToMenu = new BarWithText(
+				FloatCoordinates.newCoordinates(backToMenuRectangleWidth,backToMenuRectangleHeight),
+				FloatCoordinates.newCoordinates(backToMenuRectangleWidth/2, screenHeight - backToMenuRectangleHeight/2),
+				"<- VOLTAR",
+				Color.GRAY,
+				Color.WHITE
+				);
 		
 		field.fillCells(cols,rows);
 		field.setBombsQuantity(bombsQuantity);
@@ -118,21 +144,49 @@ public abstract class GameModeState extends State{
 	public void handleInput() {
 		 int mouseFieldX = (int) mouse.getMouseX() / spriteSize - 1 ;
 		 int mouseFieldY = (int) mouse.getMouseY() / spriteSize - 1 ;
+		
+		 if(GameUtils.isIn2DSpaceBound(mouse.getMousePosition(),backToMenu.getBarRegion())) {
+			 Gdx.graphics.setSystemCursor(Cursor.SystemCursor.Hand);
+		 }
+		 else 
+		 {
+			 Gdx.graphics.setSystemCursor(Cursor.SystemCursor.Arrow);
+		 }
 		 
-		 
-		if(!GameUtils.isIn2DArrayBound(mouseFieldX ,mouseFieldY, cols,rows)) {
-			return;
-		}
 		 
 		if(mouse.eventMouseLeftClickOnce()) {
 			
-       	gameplayManager.tryToUncoverThisCell(mouseFieldX , mouseFieldY, field);
+			leftClickInteraction.startInteraction();
+		}
+		
+		if(leftClickInteraction.inAction()) {
+			
+			 if(GameUtils.isIn2DSpaceBound(mouse.getMousePosition(),backToMenu.getBarRegion())) {
+				 gsm.set(new MenuState(gsm));
+				 dispose();
+				 leftClickInteraction.stopInteraction();
+			 }
+			       
+			
+			if(!GameUtils.isIn2DArrayBound(mouseFieldX ,mouseFieldY, cols,rows)) {
+				return;
+			}
+			
+	       	gameplayManager.tryToUncoverThisCell(mouseFieldX , mouseFieldY, field);
+	        leftClickInteraction.stopInteraction();
+	       	
+	       	
        	
        }
        
        if(mouse.eventMouseRightClickOnce()) {
+    	   if(!GameUtils.isIn2DArrayBound(mouseFieldX ,mouseFieldY, cols,rows)) {
+				return;
+			}
        	gameplayManager.tryToToggleFlagThisCell(mouseFieldX,mouseFieldY, field);
        }
+       
+       
 	}
 
 	@Override
@@ -147,13 +201,15 @@ public abstract class GameModeState extends State{
 	@Override
 	public void render(SpriteBatch sprite) {
 		Gdx.gl.glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
-        
-		
 		SpriteConfig.setProjectionMatrix(sprite, videoConfig);
+		
+		backToMenu.drawBar(sprite);
+		
 		
 		sprite.begin();
         draw.drawField(sprite, texture);
        
+        
         
         if(gameplayManager.getGameOverStatus()) {
         	TextDraw.draw(sprite, booleanEndStatus.getText("loose"));
@@ -169,6 +225,7 @@ public abstract class GameModeState extends State{
 	@Override
 	public void dispose() {
 		texture.dispose();
+		backToMenu.dispose();
 		booleanEndStatus.disposeAll();
 		
 	}

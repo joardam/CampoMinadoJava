@@ -1,18 +1,20 @@
 package com.mygdx.game.states.gameModeState;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Cursor;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.collections.ShapeCollection;
 import com.mygdx.collections.TextCollection;
-import com.mygdx.draw.TextDraw;
+import com.mygdx.collections.BarWithTextCollection.BarWithTextCollection;
+import com.mygdx.collections.BarWithTextCollection.BarWithTextCollectionParameters;
+import com.mygdx.game.BarWithText;
 import com.mygdx.game.states.StateManager;
 import com.mygdx.gameField.ClassicField;
 import com.mygdx.gameField.gameplayManager.EndlessModeManager;
 import com.mygdx.mouseTrack.MouseTrack;
 import com.mygdx.utils.FloatCoordinates;
 import com.mygdx.utils.GameUtils;
-import com.mygdx.utils.Region2d;
-import com.mygdx.utils.RgbaColor;
 
 public class GameEndlessMode extends GameModeState {
 	
@@ -20,10 +22,9 @@ public class GameEndlessMode extends GameModeState {
 	ShapeCollection shapes;
 	private int screenWidth;
 	private int screenHeight;
-	float[] textUpperCenter;
-	private float[] rectangleInUpperCenter;
 	private int rectangleWidth;
 	private int rectangleHeight;
+	private BarWithTextCollection interactionBars;
 	
 	
 	public GameEndlessMode(StateManager gsm , MouseTrack mouse) {
@@ -49,29 +50,27 @@ public class GameEndlessMode extends GameModeState {
 		screenWidth = Gdx.graphics.getWidth();
 		screenHeight = Gdx.graphics.getHeight();
 		
-		rectangleInUpperCenter = new float[2];
-		rectangleInUpperCenter[0] = screenWidth/2 - rectangleWidth / 2;
-		rectangleInUpperCenter[1] = screenHeight - rectangleHeight;
-		
 		rectangleWidth = 100; 
 		rectangleHeight  = 30;
 		
+	
 		
-		textUpperCenter = new float[2];
-		textUpperCenter[0] = screenWidth / 2; 
-		textUpperCenter[1] = screenHeight - spriteSize/2; 
-		
-		
-		interactionTexts = new TextCollection(
-				"nextGame" , 20 , "PROXIMO"  ,
-				new RgbaColor("white") , 
-				new FloatCoordinates(textUpperCenter[0],textUpperCenter[1])
+		interactionBars = new BarWithTextCollection(
+				BarWithTextCollectionParameters.getParameters(
+						"nextBar",
+						BarWithText.newBarWithText(
+								FloatCoordinates.newCoordinates(rectangleWidth, rectangleHeight),
+								FloatCoordinates.newCoordinates(screenWidth/2, screenHeight - spriteSize/2),
+								"PROXIMO",
+								Color.GRAY,
+								Color.WHITE
+								)
+						)
 				);
+				
 		
-		shapes = new ShapeCollection(
-				"nextGame" , new RgbaColor("gray")
-				);
 	}
+		
 
 	@Override
 	public void resize(int width, int height){
@@ -82,19 +81,24 @@ public class GameEndlessMode extends GameModeState {
 	public void handleInput() {
 		super.handleInput();
 		
-		Region2d nextGameRegion = new Region2d(
-				new FloatCoordinates(rectangleInUpperCenter[0] ,rectangleInUpperCenter[1]),
-				new FloatCoordinates(rectangleInUpperCenter[0] + rectangleWidth ,rectangleInUpperCenter[1] + rectangleHeight)
-				);
+		if(GameUtils.isIn2DSpaceBound(mouse.getMousePosition(), interactionBars.getBar("nextBar").getBarRegion())) {
+			Gdx.graphics.setSystemCursor(Cursor.SystemCursor.Hand);
+		}
+		else {
+			Gdx.graphics.setSystemCursor(Cursor.SystemCursor.Arrow);
+		}
 		
-		if(mouse.eventMouseLeftClickOnce()) {
+		
+
+		if(leftClickInteraction.inAction()) {
 			
 			if(!gameplayManager.isWinStatus()) {
 				return;
 			}
 			
-			if(GameUtils.isIn2DSpaceBound(mouse.getMousePosition(), nextGameRegion)) {
+			if(GameUtils.isIn2DSpaceBound(mouse.getMousePosition(), interactionBars.getBar("nextBar").getBarRegion())) {
 				((EndlessModeManager)gameplayManager).RebuildField((ClassicField)field);
+					leftClickInteraction.stopInteraction();
 			}
 			
 		}
@@ -107,9 +111,6 @@ public class GameEndlessMode extends GameModeState {
 		screenWidth = Gdx.graphics.getWidth();
 		screenHeight = Gdx.graphics.getHeight();
 		
-		rectangleInUpperCenter[0] = screenWidth/2 - rectangleWidth / 2;
-		rectangleInUpperCenter[1] = screenHeight - rectangleHeight;
-		
 		
 		super.update(dt);
 	}
@@ -119,19 +120,9 @@ public class GameEndlessMode extends GameModeState {
 		super.render(sprite);
 		
 		if(gameplayManager.isWinStatus()) {
-			shapes.shapesBegin("nextGame");
 			
-			shapes.setRect(
-					"nextGame" ,
-					new FloatCoordinates(rectangleInUpperCenter[0], rectangleInUpperCenter[1]),
-					new FloatCoordinates(rectangleWidth, rectangleHeight)
-					);
+			interactionBars.drawBars(sprite, "nextBar");
 			
-			shapes.shapesEnd("nextGame");
-			
-			sprite.begin();
-			TextDraw.draw(sprite, interactionTexts.getText("nextGame"));
-			sprite.end();
 			
 		}
 		
@@ -142,8 +133,8 @@ public class GameEndlessMode extends GameModeState {
 	@Override
 	public void dispose() {
 		super.dispose();
-		interactionTexts.disposeAll();
-		shapes.disposeAll();
+		interactionBars.disposeAll();
+		
 	}
 
 	

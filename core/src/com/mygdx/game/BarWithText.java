@@ -85,6 +85,38 @@ public class BarWithText {
 	}
 	
 	
+	public ShapeRenderer getShape() {
+		return shape;
+	}
+
+
+
+
+
+	public void setShape(ShapeRenderer shape) {
+		this.shape = shape;
+	}
+
+
+
+
+
+	public Text getText() {
+		return text;
+	}
+
+
+
+
+
+	public void setText(Text text) {
+		this.text = text;
+	}
+
+
+
+
+
 	public Region2d getBarRegion() {
 		return barRegion;
 	}
@@ -93,6 +125,11 @@ public class BarWithText {
 	
 	public static BarWithText newBarWithText(FloatCoordinates widthAndHeight ,FloatCoordinates barPosition,String stringText , Color barColor , Color textColor) {
 		return new BarWithText(widthAndHeight, barPosition, stringText, barColor, textColor);
+	}
+	
+	public void dispose() {
+		text.dispose();
+		shape.dispose();
 	}
 	
 	
