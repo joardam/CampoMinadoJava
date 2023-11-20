@@ -195,6 +195,8 @@ public abstract class GameModeState extends State{
     	   if(!GameUtils.isIn2DArrayBound(mouseFieldX ,mouseFieldY, cols,rows)) {
 				return;
 			}
+    	   
+    	  
        	gameplayManager.tryToToggleFlagThisCell(mouseFieldX,mouseFieldY, field);
        }
        

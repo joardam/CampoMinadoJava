@@ -15,14 +15,20 @@ import com.mygdx.gameField.gameplayManager.EndlessModeManager;
 import com.mygdx.mouseTrack.MouseTrack;
 import com.mygdx.utils.FloatCoordinates;
 import com.mygdx.utils.GameUtils;
+import com.mygdx.utils.InteractionManager;
 
 public class GameEndlessMode extends GameModeState {
 	
-	TextCollection interactionTexts;
-	ShapeCollection shapes;
 	private int rectangleWidth;
 	private int rectangleHeight;
+	private int pointsRectangleWidth;
+	private int pointsRectangleHeight;
 	private BarWithTextCollection interactionBars;
+	private BarWithTextCollection pointsBar;
+	private int gamePoints;
+	
+	
+	private InteractionManager gamePointsInteraction = new InteractionManager();
 	
 	
 	public GameEndlessMode(StateManager gsm , MouseTrack mouse) {
@@ -42,6 +48,10 @@ public class GameEndlessMode extends GameModeState {
 	
 	@Override
 	public void create() {
+		gamePoints = 0;
+		
+		gamePointsInteraction.startInteraction();
+		
 		gameplayManager = new EndlessModeManager();
 		field = new ClassicField();
 		super.create();
@@ -50,6 +60,9 @@ public class GameEndlessMode extends GameModeState {
 		rectangleWidth = 100; 
 		rectangleHeight  = 30;
 		
+		
+		pointsRectangleWidth = 120;
+		pointsRectangleHeight = 30;
 	
 		
 		interactionBars = new BarWithTextCollection(
@@ -66,6 +79,21 @@ public class GameEndlessMode extends GameModeState {
 				);
 				
 		
+		pointsBar = new BarWithTextCollection(
+				BarWithTextCollectionParameters.getParameters(
+						"pointsBar",
+						BarWithText.newBarWithText(
+								FloatCoordinates.newCoordinates(pointsRectangleWidth, pointsRectangleHeight),
+								FloatCoordinates.newCoordinates(pointsRectangleWidth/2, spriteSize/2),
+								"PONTOS : " + gamePoints,
+								Color.DARK_GRAY,
+								Color.WHITE
+								)
+						)
+				
+				);
+		
+		
 	}
 		
 
@@ -80,34 +108,44 @@ public class GameEndlessMode extends GameModeState {
 		
 		
 		if(gameplayManager.isWinStatus()) {
+			
+			
+			if(gamePointsInteraction.inAction()) {
+				gamePoints++;
+				gamePointsInteraction.stopInteraction();
+			}
+			
+			
+			
 			if(GameUtils.isIn2DSpaceBound(mouse.getMousePosition(), interactionBars.getBar("nextBar").getBarRegion())) {
 				Gdx.graphics.setSystemCursor(Cursor.SystemCursor.Hand);
-			}
-			
-		}
-		
-		
 
-		if(leftClickInteraction.inAction()) {
-			
-			
-			if(GameUtils.isIn2DSpaceBound(mouse.getMousePosition(), interactionBars.getBar("nextBar").getBarRegion())) {
-				((EndlessModeManager)gameplayManager).RebuildField((ClassicField)field);
+				if(leftClickInteraction.inAction()) {
+					if(GameUtils.isIn2DSpaceBound(mouse.getMousePosition(), interactionBars.getBar("nextBar").getBarRegion())) {						
+						((EndlessModeManager)gameplayManager).RebuildField((ClassicField)field);
+						gamePointsInteraction.startInteraction();
+						
 					
+					}
 			}
+				if(leftClickInteraction.inAction()) {
+					leftClickInteraction.stopInteraction();
+					}
 			
+				}
+			
+			}
+		
+		
+		if(leftClickInteraction.inAction()) {
 			leftClickInteraction.stopInteraction();
 		}
-		
-		
-	
-		
 	}
 
 	@Override
 	public void update(float dt) {
 
-		
+		pointsBar.getBar("pointsBar").setStringText("PONTOS : " + gamePoints);
 		super.update(dt);
 	}
 
@@ -115,8 +153,11 @@ public class GameEndlessMode extends GameModeState {
 	public void render(SpriteBatch sprite) {
 		super.render(sprite);
 		
+		pointsBar.drawBars(sprite, "pointsBar");
+		
 		if(gameplayManager.isWinStatus()) {
 			interactionBars.drawBars(sprite, "nextBar");
+			
 		}
 		
 		
