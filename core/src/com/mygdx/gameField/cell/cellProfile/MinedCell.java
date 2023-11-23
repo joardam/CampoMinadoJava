@@ -16,8 +16,27 @@ public class MinedCell extends CellProfile {
 	}
 
 	@Override
-	public void analyze(FieldCell cell) {
+	public void analyzeInWorking(FieldCell cell , String sideInteraction) {
 		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void analyzeStart(FieldCell cell) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setNearbyBombs(FieldCell cell) {
+		return;
+		
+	}
+	
+	@Override
+	public int countBomb(int counter) {
+		counter++;
+		return counter ;
 		
 	}
 

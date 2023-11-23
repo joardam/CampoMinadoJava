@@ -2,16 +2,17 @@ package com.mygdx.gameField.cell;
 
 import com.mygdx.gameField.cell.cellProfile.CellProfile;
 import com.mygdx.gameField.cell.cellProfile.MinedCell;
-import com.mygdx.gameField.cell.cellProfile.SafeCell;
-import com.mygdx.gameField.cell.state.CellState;
-import com.mygdx.gameField.cell.state.CoveredCellState;
-import com.mygdx.gameField.cell.state.UncoveredCellState;
+import com.mygdx.gameField.cell.cellProfile.safeCell.CompleteSafeCell;
+import com.mygdx.gameField.cell.cellProfile.safeCell.WarningSafeCell;
+import com.mygdx.gameField.cell.cellState.CellState;
+import com.mygdx.gameField.cell.cellState.Uncovered;
+import com.mygdx.gameField.cell.cellState.coveredCellState.NotFlagged;
 import com.mygdx.utils.Coordinates;
 
 public abstract class FieldCell {
 	
 	
-	private NearCells nearCells;
+	private NearCells nearCells = new NearCells();
 	
 	
 	public NearCells getNearCells() {
@@ -19,8 +20,8 @@ public abstract class FieldCell {
 	}
 
 	private Coordinates position;
-	private CellState cellState = new CoveredCellState();
-	private CellProfile cellType = new SafeCell();
+	private CellState cellState = new NotFlagged();
+	private CellProfile cellType = new CompleteSafeCell();
 
 	
 	
@@ -48,15 +49,19 @@ public abstract class FieldCell {
 
 	
 	public void setCellStateCovered() {
-		this.cellState = new CoveredCellState();
+		this.cellState = new NotFlagged();
+	}
+	
+	public void setCellProfileWarningSafeCell() {
+		this.cellType = new WarningSafeCell();
 	}
 	
 	public void toggleFlagState() {
-		((CoveredCellState) this.cellState).toggleFlag();
+		((NotFlagged) this.cellState).toggleFlag();
 	}
 	
 	public void setCellStateUncovered() {
-		this.cellState = new UncoveredCellState();
+		this.cellState = new Uncovered();
 	}
 	
 	public void Bombfy() {

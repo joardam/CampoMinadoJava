@@ -125,7 +125,9 @@ public abstract class GameModeState extends State{
 		field.fillCells(cols,rows);
 		field.setBombsQuantity(bombsQuantity);
 		field.placeBombs();
+		field.placeNearCellInEachCell();
 		field.placeCountersInSafeCells();
+		
 		
 		
 		
@@ -171,6 +173,7 @@ public abstract class GameModeState extends State{
 		 
 		if(mouse.eventMouseLeftClickOnce()) {
 			leftClickInteraction.startInteraction();
+			
 		}
 		
 		if(leftClickInteraction.inAction()) {
@@ -194,7 +197,7 @@ public abstract class GameModeState extends State{
 			}
 			
 	       	
-	       	System.out.println(difficulty);
+	 
        	
        }
        

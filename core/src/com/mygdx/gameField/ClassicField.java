@@ -14,7 +14,6 @@ public class ClassicField  extends Field{
 		            int posX = arrayPosX;
 		            int posY = arrayPosY;
 		            cells[posX][posY] = new ClassicCell(posX,posY);
-		            
 		        }
 		    }
 		    coveredCellsNumber = (cells.length) * (cells[0].length);

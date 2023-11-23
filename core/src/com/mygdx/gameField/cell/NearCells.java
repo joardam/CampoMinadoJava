@@ -71,6 +71,15 @@ public class NearCells{
 	    public void setBottomRightCell(FieldCell cell) {
 	        nearCells[7] = cell;
 	    }
+
+		public FieldCell[] getNearCellsArray() {
+			return nearCells;
+		}
+	    
+	    
+	    
+	
+	    
 	}
 
 	

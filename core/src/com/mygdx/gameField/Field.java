@@ -1,8 +1,10 @@
 package com.mygdx.gameField;
 
 import com.mygdx.gameField.cell.FieldCell;
+import com.mygdx.gameField.cell.NearCells;
 import com.mygdx.gameField.cell.cellProfile.MinedCell;
-import com.mygdx.gameField.cell.cellProfile.SafeCell;
+import com.mygdx.gameField.cell.cellProfile.safeCell.CompleteSafeCell;
+import com.mygdx.utils.Coordinates;
 import com.mygdx.utils.GameUtils;
 
 public abstract class Field implements FieldInterface{
@@ -10,6 +12,41 @@ public abstract class Field implements FieldInterface{
 	protected int coveredCellsNumber;
 	protected int bombsQuantity;
 	
+	
+	
+	
+	public void placeNearCellInEachCell(){
+		
+		  for (int arrayPosX = 0; arrayPosX < cells.length; arrayPosX++) {
+			  for (int arrayPosY = 0; arrayPosY < cells[arrayPosX].length; arrayPosY++) {
+		        		
+				  	int counter = 0; 
+		        	for(int i = +1 ; i >=  -1  ; i--) {
+		        		for(int k = -1 ; k <= +1 ; k++) {
+		        			
+		        			if(i == 0 && k == 0) {
+		        				continue;
+		        			}
+		        			
+		        			
+		       
+		        			if(GameUtils.isIn2DArrayBound(new Coordinates(arrayPosX + k,arrayPosY + i), cells.length, cells[arrayPosX].length)) {
+		        				
+		        				cells[arrayPosX][arrayPosY].getNearCells().getNearCellsArray()[counter] = cells[arrayPosX + k][arrayPosY  + i];
+		        			
+		        			}
+		        			
+		        			counter++;
+		        			
+		        		}
+		        			
+		        	}
+		        	
+		        	}
+		        }
+		
+		
+	}
 	
 	
 	public void setBombsQuantity(int bombsQuantity) {
@@ -57,13 +94,12 @@ public abstract class Field implements FieldInterface{
 	        for (int j = 0; j < cells[i].length; j++) {
 	            FieldCell currentCell = cells[i][j];
 
-	            if (currentCell.getCellType() instanceof SafeCell) {
-	                int bombCount = countNearbyBombs(i, j);
-	                ((SafeCell) currentCell.getCellType()).setNearBombs(bombCount);
+	            currentCell.getCellType().setNearbyBombs(currentCell);
+	            
 	            }
 	        }
 	    }
-	}
+	
 
 	public int countNearbyBombs(int x, int y) {
 	    int bombCount = 0;
