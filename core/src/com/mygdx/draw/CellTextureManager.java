@@ -1,8 +1,8 @@
 package com.mygdx.draw;
 
 import com.mygdx.gameField.cell.FieldCell;
-import com.mygdx.gameField.cell.cellType.MinedCell;
-import com.mygdx.gameField.cell.cellType.SafeCell;
+import com.mygdx.gameField.cell.cellProfile.MinedCell;
+import com.mygdx.gameField.cell.cellProfile.SafeCell;
 import com.mygdx.gameField.cell.state.*;
 
 
@@ -25,7 +25,7 @@ public class CellTextureManager {
 				return 9;
 			}
 			else if(cellInCol.getCellType() instanceof SafeCell) {
-				final int nearBombsNumber = cellInCol.getNearBombs();
+				final int nearBombsNumber = ((SafeCell) cellInCol.getCellType()).getNearBombs();
 				return nearBombsNumber;
 			}
 		}

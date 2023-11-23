@@ -2,8 +2,8 @@ package com.mygdx.gameField.gameplayManager;
 
 import com.mygdx.gameField.Field;
 import com.mygdx.gameField.cell.*;
-import com.mygdx.gameField.cell.cellType.MinedCell;
-import com.mygdx.gameField.cell.cellType.SafeCell;
+import com.mygdx.gameField.cell.cellProfile.MinedCell;
+import com.mygdx.gameField.cell.cellProfile.SafeCell;
 import com.mygdx.gameField.cell.state.CoveredCellState;
 import com.mygdx.gameField.cell.state.UncoveredCellState;
 import com.mygdx.utils.GameUtils;
@@ -99,7 +99,7 @@ public abstract class GameplayManager {
     	
 
         if (cells[arrayPosX][arrayPosY].getCellType() instanceof SafeCell &&
-                cells[arrayPosX][arrayPosY].getNearBombs() != 0) {
+               ((SafeCell) cells[arrayPosX][arrayPosY].getCellType()).getNearBombs() != 0) {
 
             
            

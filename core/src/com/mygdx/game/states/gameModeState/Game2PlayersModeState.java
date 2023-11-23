@@ -28,8 +28,8 @@ public class Game2PlayersModeState extends GameModeState {
 		
 	}
 
-	public Game2PlayersModeState(StateManager gsm, MouseTrack mouse, String difficultyStringIdNow) {
-		super(gsm , mouse, difficultyStringIdNow);
+	public Game2PlayersModeState(StateManager gsm, MouseTrack mouse, int difficulty) {
+		super(gsm , mouse, difficulty);
 		create();
 	}
 

@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Cursor;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 import com.mygdx.collections.ShapeCollection;
 import com.mygdx.collections.BarWithTextCollection.BarWithTextCollection;
 import com.mygdx.collections.BarWithTextCollection.BarWithTextCollectionParameters;
@@ -15,18 +16,18 @@ import com.mygdx.game.states.StateManager;
 import com.mygdx.game.states.gameModeState.Game2PlayersModeState;
 import com.mygdx.game.states.gameModeState.GameClassicModeState;
 import com.mygdx.game.states.gameModeState.GameCrazyModeState;
-import com.mygdx.game.states.gameModeState.GameEndlessMode;
+import com.mygdx.game.states.gameModeState.gameEndlessMode.GameEndlessMode;
 import com.mygdx.game.states.menuState.MenuDifficultyManager.MenuDifficultyManager;
 import com.mygdx.game.states.menuState.MenuDifficultyManager.MenuDifficultyManagerParameter;
 import com.mygdx.utils.RgbaColor;
 import com.mygdx.utils.FloatCoordinates;
 import com.mygdx.utils.GameUtils;
+import com.mygdx.utils.InteractionManager;
 
 
 public class MenuState extends State {
-	
 
-	private VideoSettings videoConfig = new VideoSettings();
+	
 	private BarWithTextCollection modeBars;
 	private BarWithTextCollection difficultyBars;
 	private MenuDifficultyManager menuDifficultyManager = new MenuDifficultyManager(
@@ -43,11 +44,16 @@ public class MenuState extends State {
     private float selectorRectangleWidth; 
 	private float selectorRectangleHeight;
 	
+	private FloatCoordinates scoreBoardRect;
+	
+	
 	private int spaceBetweenBars;
 	
 	private int screenWidth;
 	private int screenHeight;
 
+	
+	private InteractionManager renderInteraction = new InteractionManager();
 	
 	public MenuState(StateManager gsm) {
 		super(gsm);
@@ -60,6 +66,7 @@ public class MenuState extends State {
 	
 	@Override
 	public void configure() {
+		renderInteraction.startInteraction();
 		videoConfig.setCamera(cam);
 		videoConfig.SetVideoSize(700, 700);
 		videoConfig.setFixElements();
@@ -87,13 +94,27 @@ public class MenuState extends State {
 		selectorRectangleHeight  = rectangleHeight;
 		
 		
+		scoreBoardRect = new FloatCoordinates(((float) (rectangleWidth*0.6) ) , (float) (rectangleHeight*0.7));
+		
+		
 		
 		modeBars = new BarWithTextCollection(
+				
+				BarWithTextCollectionParameters.getParameters(
+						"scoreBoardBar" ,
+						BarWithText.newBarWithText(
+								FloatCoordinates.newCoordinates(scoreBoardRect.getCoordinateX(),scoreBoardRect.getCoordinateY() ) ,
+								FloatCoordinates.newCoordinates(screenWidth/2,screenHeight/2 - 1*spaceBetweenBars ),
+								"RANKING",Color.GRAY, Color.WHITE)
+				),
+				
+				
+				
 				BarWithTextCollectionParameters.getParameters(
 						"endlessBar" ,
 						BarWithText.newBarWithText(
 								FloatCoordinates.newCoordinates(rectangleWidth,rectangleHeight) ,
-								FloatCoordinates.newCoordinates(screenWidth/2,screenHeight/2 - spaceBetweenBars),
+								FloatCoordinates.newCoordinates(screenWidth/2,screenHeight/2 ),
 								"MODO SEM FIM",Color.GRAY, Color.WHITE) 
 						) ,
 				
@@ -101,7 +122,7 @@ public class MenuState extends State {
 						"crazyBar" ,
 						BarWithText.newBarWithText(
 								FloatCoordinates.newCoordinates(rectangleWidth,rectangleHeight) ,
-								FloatCoordinates.newCoordinates(screenWidth/2,screenHeight/2),
+								FloatCoordinates.newCoordinates(screenWidth/2,screenHeight/2 + spaceBetweenBars),
 								"MODO MALUCO",Color.GRAY, Color.GREEN)
 						),
 				
@@ -109,7 +130,7 @@ public class MenuState extends State {
 						"2PlayersBar" ,
 						BarWithText.newBarWithText(
 								FloatCoordinates.newCoordinates(rectangleWidth,rectangleHeight ) ,
-								FloatCoordinates.newCoordinates(screenWidth/2,screenHeight/2+ spaceBetweenBars ),
+								FloatCoordinates.newCoordinates(screenWidth/2,screenHeight/2+ 2*spaceBetweenBars ),
 								"MODO 2 JOGADORES",Color.GRAY, Color.WHITE)		
 				),
 				
@@ -117,7 +138,7 @@ public class MenuState extends State {
 						"classicBar" ,
 						BarWithText.newBarWithText(
 								FloatCoordinates.newCoordinates(rectangleWidth,rectangleHeight ) ,
-								FloatCoordinates.newCoordinates(screenWidth/2,screenHeight/2 + spaceBetweenBars * 2),
+								FloatCoordinates.newCoordinates(screenWidth/2,screenHeight/2 + spaceBetweenBars * 3),
 								"MODO CLASSICO",Color.GRAY, Color.WHITE)
 				)
 				
@@ -174,11 +195,16 @@ public class MenuState extends State {
 	
 	@Override
 	public void render(SpriteBatch sprite) {
+		if (!renderInteraction.inAction()) {
+			return;
+		}
+		
+		
 		Gdx.gl.glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
 		SpriteConfig.setProjectionMatrix(sprite, videoConfig);
 		
 			
-		modeBars.drawBars(sprite, "endlessBar" , "crazyBar" , "classicBar" , "2PlayersBar");
+		modeBars.drawBars(sprite, "endlessBar" , "crazyBar" , "classicBar" , "2PlayersBar", "scoreBoardBar");
 		difficultyBars.drawBars(sprite,"difficultyBar" , "increaseBar" , "decreaseBar");
 		
 		
@@ -199,28 +225,34 @@ public class MenuState extends State {
 			if (mouse.eventMouseLeftClickOnce())
 			{
 				if(GameUtils.isIn2DSpaceBound(
-						mouse.getMousePosition(),modeBars.getBar("classicBar").getBarRegion() )){
-					gsm.push(new GameClassicModeState(gsm,mouse,menuDifficultyManager.getDifficultyStringNow()));
+						mouse.getMousePosition(),modeBars.getBar("classicBar").getBarRegion())){
+					renderInteraction.stopInteraction();
+					gsm.push(new GameClassicModeState(gsm,mouse,menuDifficultyManager.getDifficultyIndexNow()));
+					
 					
 				}
 			
 				
 				else if(GameUtils.isIn2DSpaceBound(
 						mouse.getMousePosition(),modeBars.getBar("2PlayersBar").getBarRegion() )){
-					gsm.push(new Game2PlayersModeState(gsm,mouse,menuDifficultyManager.getDifficultyStringNow()));
+					renderInteraction.stopInteraction();
+					gsm.push(new Game2PlayersModeState(gsm,mouse,menuDifficultyManager.getDifficultyIndexNow()));
+					
 				
 				}
 				else if(GameUtils.isIn2DSpaceBound(
 						mouse.getMousePosition(),modeBars.getBar("crazyBar").getBarRegion() )){
+					renderInteraction.stopInteraction();
+					gsm.push(new GameCrazyModeState(gsm,mouse, menuDifficultyManager.getDifficultyIndexNow()));
 					
-					gsm.push(new GameCrazyModeState(gsm,mouse, menuDifficultyManager.getDifficultyStringNow()));
 					
 				
 				}
 				
 				else if(GameUtils.isIn2DSpaceBound(
 						mouse.getMousePosition(),modeBars.getBar("endlessBar").getBarRegion() )){
-					gsm.push(new GameEndlessMode(gsm,mouse));
+					renderInteraction.stopInteraction();
+					gsm.push(new GameEndlessMode(gsm,mouse,menuDifficultyManager.getDifficultyIndexNow()));
 				
 				}
 			

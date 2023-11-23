@@ -1,6 +1,7 @@
 package com.mygdx.text;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
@@ -12,7 +13,16 @@ public class Text {
     private FreeTypeFontParameter parameter = new FreeTypeFontParameter();
     private BitmapFont font;
     private String textString;
-    private FloatCoordinates textPosition = new FloatCoordinates();
+    
+    public FreeTypeFontGenerator getGenerator() {
+		return generator;
+	}
+
+	public void setGenerator(FreeTypeFontGenerator generator) {		
+		this.generator = generator;
+	}
+
+	private FloatCoordinates textPosition = new FloatCoordinates();
     
     public BitmapFont getFont() {
 		return font;
@@ -24,6 +34,9 @@ public class Text {
     
     public void initialize() {
     	font = generator.generateFont(parameter);
+    	generator.dispose();
+
+    	
     }
     
     
@@ -31,9 +44,12 @@ public class Text {
     	font.setColor(x1,x2,x3,x4);
     }
     
+    public void setColor(Color color) {
+    	font.setColor(color);
+    }
+    
     
     public void dispose() {
-    	generator.dispose();
     	font.dispose();
     }
     

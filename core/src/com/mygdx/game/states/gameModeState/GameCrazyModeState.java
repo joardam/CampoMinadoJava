@@ -15,15 +15,23 @@ public class GameCrazyModeState extends GameModeState{
 		create();
 	}
 	
-	public GameCrazyModeState(StateManager gsm, MouseTrack mouse, String difficultyStringIdNow) {
-		super(gsm , mouse, difficultyStringIdNow);
+	public GameCrazyModeState(StateManager gsm, MouseTrack mouse, int difficulty) {
+		super(gsm , mouse, difficulty);
 		create();
 	}
 
+	
 	@Override
-	public void create() {
+	public void configure() {
+		super.configure();
 		gameplayManager = new CrazyManager();
 		field = new CrazyField();
+	}
+	
+	
+	@Override
+	public void create() {
+		
 		
 		super.create();
 		

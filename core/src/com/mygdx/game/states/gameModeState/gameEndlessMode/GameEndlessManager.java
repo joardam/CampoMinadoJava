@@ -1,4 +1,4 @@
-package com.mygdx.game.states.gameModeState.gameModeManager;
+package com.mygdx.game.states.gameModeState.gameEndlessMode;
 
 import com.mygdx.utils.FloatCoordinates;
 import com.mygdx.utils.GameUtils;

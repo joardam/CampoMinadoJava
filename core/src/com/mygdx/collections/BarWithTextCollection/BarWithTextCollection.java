@@ -55,7 +55,6 @@ public class BarWithTextCollection {
 	
 	public void disposeAll() {
 		for(BarWithText bar : barMap.values()) {
-			bar.getShape().dispose();
 			bar.getText().dispose();
 		}	
 		

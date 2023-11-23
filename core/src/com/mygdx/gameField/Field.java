@@ -1,8 +1,8 @@
 package com.mygdx.gameField;
 
 import com.mygdx.gameField.cell.FieldCell;
-import com.mygdx.gameField.cell.cellType.MinedCell;
-import com.mygdx.gameField.cell.cellType.SafeCell;
+import com.mygdx.gameField.cell.cellProfile.MinedCell;
+import com.mygdx.gameField.cell.cellProfile.SafeCell;
 import com.mygdx.utils.GameUtils;
 
 public abstract class Field implements FieldInterface{
@@ -59,7 +59,7 @@ public abstract class Field implements FieldInterface{
 
 	            if (currentCell.getCellType() instanceof SafeCell) {
 	                int bombCount = countNearbyBombs(i, j);
-	                currentCell.setNearBombs(bombCount);
+	                ((SafeCell) currentCell.getCellType()).setNearBombs(bombCount);
 	            }
 	        }
 	    }

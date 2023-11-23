@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Cursor;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.mygdx.collections.TextCollection;
 import com.mygdx.config.SpriteConfig;
 import com.mygdx.config.VideoSettings;
@@ -25,11 +26,12 @@ import com.mygdx.utils.InteractionManager;
 
 public abstract class GameModeState extends State{
 	
+	
+	protected int difficulty;
 	protected int rows;
 	protected int cols;
 	protected Field field;
 	protected FieldDraw draw;
-	protected VideoSettings videoConfig = new VideoSettings();
 	protected GameplayManager gameplayManager;
 	protected TextCollection booleanEndStatus;
 	protected int bombsQuantity;
@@ -40,6 +42,7 @@ public abstract class GameModeState extends State{
 	protected int backToMenuRectangleHeight = 30;
 	protected InteractionManager leftClickInteraction = new InteractionManager();
 	protected InteractionManager renderInteraction = new InteractionManager();
+	protected ShapeRenderer  shape = new ShapeRenderer();
 	
 	
 	protected int spriteSize = 32;
@@ -54,28 +57,30 @@ public abstract class GameModeState extends State{
 		
 	}
 	
-	protected GameModeState(StateManager gsm, MouseTrack mouse , String difficulty) {
+	protected GameModeState(StateManager gsm, MouseTrack mouse , int difficulty) {
 		super(gsm, mouse);
 		
-		if(difficulty.equals("FACIL")){
+		if(difficulty == 0 ){
 			rows = 10;
 			cols = 10;
 			
 			bombsQuantity = 10;
 		}
-		else if(difficulty.equals("MEDIO")){
+		else if(difficulty == 1){
 			rows = 15;
 			cols = 16;
 			
 			bombsQuantity = 40;
 			
 		}
-		else if(difficulty.equals("DIFICIL")){
+		else if(difficulty == 2){
 			rows = 16;
 			cols = 30;
 			
 			bombsQuantity = 99;			
 		}
+		
+		this.difficulty = difficulty;
 		
 		configure();
 		
@@ -181,13 +186,15 @@ public abstract class GameModeState extends State{
 			       
 			
 			if(GameUtils.isIn2DArrayBound(mouseFieldX ,mouseFieldY, cols,rows)) {
-				gameplayManager.tryToUncoverThisCell(mouseFieldX , mouseFieldY, field);
-		        leftClickInteraction.stopInteraction();
+				if(!gameplayManager.getGameOverStatus()) {
+					gameplayManager.tryToUncoverThisCell(mouseFieldX , mouseFieldY, field);
+					leftClickInteraction.stopInteraction();
+				}
+				
 			}
 			
 	       	
-	       	
-	       	
+	       	System.out.println(difficulty);
        	
        }
        

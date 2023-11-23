@@ -1,24 +1,34 @@
 package com.mygdx.gameField.cell;
 
-import com.mygdx.gameField.cell.cellType.CellType;
-import com.mygdx.gameField.cell.cellType.SafeCell;
+import com.mygdx.gameField.cell.cellProfile.CellProfile;
+import com.mygdx.gameField.cell.cellProfile.MinedCell;
+import com.mygdx.gameField.cell.cellProfile.SafeCell;
 import com.mygdx.gameField.cell.state.CellState;
 import com.mygdx.gameField.cell.state.CoveredCellState;
 import com.mygdx.gameField.cell.state.UncoveredCellState;
 import com.mygdx.utils.Coordinates;
 
 public abstract class FieldCell {
+	
+	
+	private NearCells nearCells;
+	
+	
+	public NearCells getNearCells() {
+		return nearCells;
+	}
+
 	private Coordinates position;
 	private CellState cellState = new CoveredCellState();
-	private CellType cellType = new SafeCell();
-	private int nearBombs;
+	private CellProfile cellType = new SafeCell();
+
 	
 	
-	public CellType getCellType() {
+	public CellProfile getCellType() {
 		return cellType;
 	}
 
-	public void setCellType(CellType cellType) {
+	public void setCellType(CellProfile cellType) {
 		this.cellType = cellType;
 	}
 
@@ -49,6 +59,10 @@ public abstract class FieldCell {
 		this.cellState = new UncoveredCellState();
 	}
 	
+	public void Bombfy() {
+		this.cellType = new MinedCell();
+	}
+	
 	
 	public Coordinates getCellPosition() {
 		return this.position;
@@ -61,13 +75,6 @@ public abstract class FieldCell {
 	}
 	
 	
-	public void setNearBombs(int nearBombs) {
-		this.nearBombs = nearBombs;
-	}
-	
-	public int getNearBombs() {
-		return this.nearBombs;
-	}
 	
 	
 	

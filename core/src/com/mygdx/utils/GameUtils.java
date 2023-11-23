@@ -3,6 +3,10 @@ package com.mygdx.utils;
 
 import java.util.Random;
 
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
+
 public class GameUtils {
     public static int randomBetween(int min , int max) {
 
@@ -38,7 +42,6 @@ public class GameUtils {
     public static boolean isIn2DSpaceBound(FloatCoordinates coordinatesPos , Region2d region) {
     	return isIn2DSpaceBound(coordinatesPos,region.getInferiorLimit(),region.getSuperiorLimit());
     }
-    
     
     
 }

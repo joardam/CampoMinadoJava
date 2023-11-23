@@ -49,5 +49,9 @@ public class FloatCoordinates {
 	public static FloatCoordinates newCoordinates(float coordinateX , float coordinateY) {
 		return new FloatCoordinates(coordinateX,coordinateY);
 	}
+
+	public static FloatCoordinates newCoordinates(Coordinates nameSpaceSides) {
+		return new FloatCoordinates((float)nameSpaceSides.getCoordinateX(),(float)nameSpaceSides.getCoordinateY());
+	}
 }
 

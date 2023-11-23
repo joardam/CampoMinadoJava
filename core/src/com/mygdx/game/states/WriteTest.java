@@ -139,7 +139,6 @@ public class WriteTest extends State {
 	public void dispose() {
 		  stage.dispose();
 	      skin.dispose();
-
 	}
 	
 	private static class MaxCharacterFilter implements TextField.TextFieldFilter {

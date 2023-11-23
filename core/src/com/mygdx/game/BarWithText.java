@@ -2,73 +2,99 @@ package com.mygdx.game;
 
 
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.mygdx.draw.TextDraw;
 import com.mygdx.text.Text;
-import com.mygdx.utils.Coordinates;
 import com.mygdx.utils.FloatCoordinates;
 import com.mygdx.utils.Region2d;
 
 
 public class BarWithText {
-	private ShapeRenderer shape;
-	private Text text;
-	private String stringText;
-	private FloatCoordinates barPosition;
-	private FloatCoordinates widthAndHeight;
-	private Region2d barRegion;
+		private Rectangle bar;
+	    private Text text;
+	    private FloatCoordinates barPosition;
+	    private Region2d barRegion;
+	    private String stringText ;
+	    private Color barColor;
 	
 	
 	
-	
-	public BarWithText(FloatCoordinates widthAndHeight ,FloatCoordinates barPosition,String stringText , Color barColor , Color textColor) {		
+	public BarWithText(FloatCoordinates size,FloatCoordinates barPosition ,String stringText , Color barColor , Color textColor) {		
 		
-		//transfer the point to center
-		this.barPosition = new FloatCoordinates(barPosition.getCoordinateX() - widthAndHeight.getCoordinateX()/2 ,barPosition.getCoordinateY() - widthAndHeight.getCoordinateY()/2  );
-		this.widthAndHeight = widthAndHeight;
+		this.barPosition = barPosition;
+		this.text = new Text();
 		
-		shape = new ShapeRenderer();		
-		shape.setColor(barColor);
-		
-		text = new Text();
-		int textSizeHeight = (int) (0.65 * widthAndHeight.getCoordinateY());
-		text.setSize(textSizeHeight);
-		text.initialize();
-		text.setTextString(stringText);
-		text.getFont().setColor(textColor);
-		
-		GlyphLayout layout = new GlyphLayout(text.getFont(), text.getTextString());
+		this.bar = new Rectangle(barPosition.getCoordinateX() -  size.getCoordinateX()/2, barPosition.getCoordinateY() - size.getCoordinateY()/2, size.getCoordinateX(), size.getCoordinateY());
+	    this.barColor = barColor;
+	    this.stringText = stringText;
+	   
+	    
+	    
+	    text.setSize((int) (0.60* size.getCoordinateY()));
+	    text.initialize();
+	    text.setColor(textColor);
+	    text.setTextString(stringText);
+	    
+	    
+	    GlyphLayout layout = new GlyphLayout(text.getFont(), stringText);
 
-		float centerX = this.barPosition.getCoordinateX() + this.widthAndHeight.getCoordinateX()/2 - layout.width / 2;
-		float centerY = this.barPosition.getCoordinateY() + this.widthAndHeight.getCoordinateY()/2 + layout.height / 2;
+		float centerX = bar.x + size.getCoordinateX()/2 - layout.width / 2;
+		float centerY = bar.y + size.getCoordinateY()/2 + layout.height /2;
 
 		
 		text.setTextPosition(centerX , centerY);
+	 
+	    
 		
 		barRegion = new Region2d(
-				new FloatCoordinates(this.barPosition) , 
-				new FloatCoordinates(this.barPosition.getCoordinateX() + this.widthAndHeight.getCoordinateX(), this.barPosition.getCoordinateY() + this.widthAndHeight.getCoordinateY()));
+				new FloatCoordinates(bar.x ,bar.y) , 
+				new FloatCoordinates( bar.x + size.getCoordinateX() , bar.y + size.getCoordinateY()
+						)
+				);
 		
 
 	}
 	
 	
 	
+	
+	
+	 public Text getText() {
+		return text;
+	}
+
+
+	private Texture createTexture(Color color) {
+	        Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
+	        pixmap.setColor(color);
+	        pixmap.fill();
+	        Texture texture = new Texture(pixmap);
+	        pixmap.dispose();
+	        return texture;
+	    }
 
 	
-	public void drawBar(SpriteBatch sprite) {
-		shape.begin(ShapeType.Filled);
-		shape.rect(barPosition.getCoordinateX(),barPosition.getCoordinateY() ,widthAndHeight.getCoordinateX() , widthAndHeight.getCoordinateY());
-		shape.end();
+	
+	
+	
+	public void drawBar(SpriteBatch spriteBatch) {
+	
+		spriteBatch.begin();
 		
+        spriteBatch.draw(createTexture(barColor), bar.x, bar.y, bar.width, bar.height);
+		TextDraw.draw(spriteBatch, text);
 		
-		sprite.begin();
-		TextDraw.draw(sprite, text);
-		sprite.end();
+		spriteBatch.end();
 		
 	}
 
@@ -78,40 +104,8 @@ public class BarWithText {
 	}
 	
 	public void setStringText(String stringText) {
-		this.text.setTextString(stringText); 
+		text.setTextString(stringText);
 	}
-	
-	
-	public ShapeRenderer getShape() {
-		return shape;
-	}
-
-
-
-
-
-	public void setShape(ShapeRenderer shape) {
-		this.shape = shape;
-	}
-
-
-
-
-
-	public Text getText() {
-		return text;
-	}
-
-
-
-
-
-	public void setText(Text text) {
-		this.text = text;
-	}
-
-
-
 
 
 	public Region2d getBarRegion() {
@@ -125,8 +119,7 @@ public class BarWithText {
 	}
 	
 	public void dispose() {
-		text.dispose();
-		shape.dispose();
+		text.getFont().dispose();
 	}
 	
 	

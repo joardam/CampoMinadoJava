@@ -4,8 +4,8 @@ package com.mygdx.gameField.gameplayManager;
 import com.mygdx.gameField.CrazyField;
 import com.mygdx.gameField.Field;
 import com.mygdx.gameField.cell.CrazyModeCell;
-import com.mygdx.gameField.cell.cellType.MinedCell;
-import com.mygdx.gameField.cell.cellType.SafeCell;
+import com.mygdx.gameField.cell.cellProfile.MinedCell;
+import com.mygdx.gameField.cell.cellProfile.SafeCell;
 import com.mygdx.gameField.cell.state.UncoveredCellState;
 import com.mygdx.utils.GameUtils;
 
