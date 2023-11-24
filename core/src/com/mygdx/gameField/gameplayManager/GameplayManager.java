@@ -5,15 +5,19 @@ import com.mygdx.gameField.cell.*;
 import com.mygdx.gameField.cell.characteristics.cellprofile.MinedCell;
 import com.mygdx.gameField.cell.characteristics.cellprofile.safeCell.CompleteSafeCell;
 import com.mygdx.gameField.cell.characteristics.cellprofile.safeCell.WarningSafeCell;
+import com.mygdx.gameField.cell.characteristics.explosionState.Exploded;
 import com.mygdx.gameField.cell.characteristics.state.Uncovered;
 import com.mygdx.gameField.cell.characteristics.state.covered.NotFlagged;
+import com.mygdx.gameField.gameplayManager.gameStatus.GameStatus;
+import com.mygdx.gameField.gameplayManager.gameStatus.Looser;
+import com.mygdx.gameField.gameplayManager.gameStatus.Winner;
 import com.mygdx.utils.GameUtils;
 
 public abstract class GameplayManager {
 	protected boolean winStatus = false;
 	protected boolean gameOverStatus = false;
-
-
+	
+	protected GameStatus gameStatus;
 	
 	
 	
@@ -25,6 +29,13 @@ public abstract class GameplayManager {
 	        int count = 0;
 	       
 	        cell.getCharacteristics().startAnalyzeInteraction();
+	        cell.analyzeLoss(gameStatus);
+	        
+	        
+	        if (cell.getCharacteristics().getExplosionState() instanceof Exploded) {
+	        	gameOverStatus = true;
+	        }
+	        
 	        
 	        
 	        for (int i = 0; i < cells.length; i++) {
@@ -39,16 +50,12 @@ public abstract class GameplayManager {
 	        
 	        
 	        if(field.getBombsQuantity() == (field.getCoveredCellsNumber() - count)) {
+	        	this.gameStatus.declareWin();
 	        	this.winStatus = true;
 	        	explodeField(cell,cells);
 	        }
 	        
 	        
-//	        if (cell.getProfile() instanceof MinedCell) {
-//	            explodeField(cell, cells);
-//	            this.gameOverStatus = true;
-//	        }
-	       
 	        
 	        
 	        if((gameOverStatus == true) || (winStatus == true)) {
@@ -78,49 +85,7 @@ public abstract class GameplayManager {
         }
     }
 
-    public  void uncoverFlood(FieldCell[][] cells, int arrayPosX, int arrayPosY, boolean[][] virtualArrayCheck , String state) {
-    	
-    	if (!GameUtils.isIn2DArrayBound(arrayPosX, arrayPosY, cells.length, cells[0].length) ||
-                virtualArrayCheck[arrayPosX][arrayPosY] ||
-                (cells[arrayPosX][arrayPosY].getProfile() instanceof MinedCell)) {
-            return;
-        }
-    	
-    	
-
-        if (cells[arrayPosX][arrayPosY].getProfile() instanceof WarningSafeCell) {
-
-           
-            cells[arrayPosX][arrayPosY].setCellStateUncovered();
-           
-           if(state.equals("no")) {
-        	   return;
-           } 
-           
-           if((state.equals("ve"))) {
-        	   uncoverFlood(cells , arrayPosX - 1 , arrayPosY , virtualArrayCheck ,"no");
-        	   uncoverFlood(cells , arrayPosX + 1, arrayPosY ,  virtualArrayCheck ,"no");
-           }
-           if((state.equals("ho"))) {
-        	   uncoverFlood(cells , arrayPosX , arrayPosY - 1, virtualArrayCheck , "no");
-        	   uncoverFlood(cells , arrayPosX, arrayPosY  + 1, virtualArrayCheck , "no");
-           }
-           
-            return;
-        }
-
-        	virtualArrayCheck[arrayPosX][arrayPosY] = true;
-        	cells[arrayPosX][arrayPosY].setCellStateUncovered();
-            
-            
-  
-            uncoverFlood(cells, arrayPosX - 1, arrayPosY, virtualArrayCheck , "ho");
-            uncoverFlood(cells, arrayPosX + 1, arrayPosY, virtualArrayCheck , "ho");
-            uncoverFlood(cells, arrayPosX, arrayPosY - 1, virtualArrayCheck , "ve");
-            uncoverFlood(cells, arrayPosX, arrayPosY + 1, virtualArrayCheck,  "ve");
-
-    }
-
+   
   
     
     
@@ -135,8 +100,15 @@ public abstract class GameplayManager {
     public boolean isWinStatus() {
 		return winStatus;
 	}
-
     
+    
+    public void declareWin() {
+    	this.gameStatus = new Winner(this); 
+    }
+    
+    public void declareLoss() {
+    	this.gameStatus = new Looser(this);
+    }
 
     
     
