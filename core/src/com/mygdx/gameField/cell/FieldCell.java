@@ -1,12 +1,13 @@
 package com.mygdx.gameField.cell;
 
-import com.mygdx.gameField.cell.cellProfile.CellProfile;
-import com.mygdx.gameField.cell.cellProfile.MinedCell;
-import com.mygdx.gameField.cell.cellProfile.safeCell.CompleteSafeCell;
-import com.mygdx.gameField.cell.cellProfile.safeCell.WarningSafeCell;
-import com.mygdx.gameField.cell.cellState.CellState;
-import com.mygdx.gameField.cell.cellState.Uncovered;
-import com.mygdx.gameField.cell.cellState.coveredCellState.NotFlagged;
+import com.mygdx.gameField.cell.characteristics.Characteristics;
+import com.mygdx.gameField.cell.characteristics.cellprofile.CellProfile;
+import com.mygdx.gameField.cell.characteristics.cellprofile.MinedCell;
+import com.mygdx.gameField.cell.characteristics.cellprofile.safeCell.CompleteSafeCell;
+import com.mygdx.gameField.cell.characteristics.cellprofile.safeCell.WarningSafeCell;
+import com.mygdx.gameField.cell.characteristics.state.CellState;
+import com.mygdx.gameField.cell.characteristics.state.Uncovered;
+import com.mygdx.gameField.cell.characteristics.state.covered.NotFlagged;
 import com.mygdx.utils.Coordinates;
 
 public abstract class FieldCell {
@@ -19,18 +20,26 @@ public abstract class FieldCell {
 		return nearCells;
 	}
 
+	
 	private Coordinates position;
-	private CellState cellState = new NotFlagged();
-	private CellProfile cellType = new CompleteSafeCell();
-
 	
-	
-	public CellProfile getCellType() {
-		return cellType;
+	public Characteristics getCharacteristics() {
+		return characteristics;
 	}
 
-	public void setCellType(CellProfile cellType) {
-		this.cellType = cellType;
+
+	private Characteristics characteristics = new Characteristics(this);
+	
+
+	
+	
+	
+	public CellProfile getProfile() {
+		return characteristics.getProfile();
+	}
+
+	public void setProfile(CellProfile cellProfile) {
+		this.characteristics.setProfile(cellProfile);
 	}
 
 	public FieldCell() {
@@ -49,23 +58,23 @@ public abstract class FieldCell {
 
 	
 	public void setCellStateCovered() {
-		this.cellState = new NotFlagged();
+		this.characteristics.setState(new NotFlagged());
 	}
 	
 	public void setCellProfileWarningSafeCell() {
-		this.cellType = new WarningSafeCell();
+		this.characteristics.setProfile(new WarningSafeCell()); 
 	}
 	
-	public void toggleFlagState() {
-		((NotFlagged) this.cellState).toggleFlag();
+	public void interactFlag() {
+		this.characteristics.interactFlag();
 	}
 	
 	public void setCellStateUncovered() {
-		this.cellState = new Uncovered();
+		this.characteristics.setState(new Uncovered());
 	}
 	
 	public void Bombfy() {
-		this.cellType = new MinedCell();
+		this.characteristics.setProfile(new MinedCell());
 	}
 	
 	
@@ -76,7 +85,7 @@ public abstract class FieldCell {
 	
 	
 	public CellState getCellState() {
-		return this.cellState;
+		return this.characteristics.getState();
 	}
 	
 	

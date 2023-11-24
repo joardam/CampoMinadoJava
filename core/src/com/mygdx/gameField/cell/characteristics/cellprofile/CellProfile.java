@@ -1,4 +1,4 @@
-package com.mygdx.gameField.cell.cellProfile;
+package com.mygdx.gameField.cell.characteristics.cellprofile;
 
 import com.mygdx.gameField.cell.FieldCell;
 
@@ -12,5 +12,6 @@ public abstract class CellProfile implements CellProfileInterface{
 		return;
 		
 	}
+
 
 }

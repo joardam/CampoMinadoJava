@@ -2,11 +2,11 @@ package com.mygdx.gameField.gameplayManager;
 
 import com.mygdx.gameField.Field;
 import com.mygdx.gameField.cell.*;
-import com.mygdx.gameField.cell.cellProfile.MinedCell;
-import com.mygdx.gameField.cell.cellProfile.safeCell.CompleteSafeCell;
-import com.mygdx.gameField.cell.cellProfile.safeCell.WarningSafeCell;
-import com.mygdx.gameField.cell.cellState.Uncovered;
-import com.mygdx.gameField.cell.cellState.coveredCellState.NotFlagged;
+import com.mygdx.gameField.cell.characteristics.cellprofile.MinedCell;
+import com.mygdx.gameField.cell.characteristics.cellprofile.safeCell.CompleteSafeCell;
+import com.mygdx.gameField.cell.characteristics.cellprofile.safeCell.WarningSafeCell;
+import com.mygdx.gameField.cell.characteristics.state.Uncovered;
+import com.mygdx.gameField.cell.characteristics.state.covered.NotFlagged;
 import com.mygdx.utils.GameUtils;
 
 public abstract class GameplayManager {
@@ -24,20 +24,7 @@ public abstract class GameplayManager {
 	        FieldCell cell = cells[posX][posY];
 	        int count = 0;
 	       
-	        
-	        if((cell.getCellState() instanceof NotFlagged ) && ((NotFlagged) cell.getCellState()).isFlagged()) {
-	        	return;
-	        }
-	        
-	        if(cell.getCellState() instanceof Uncovered) {
-	        	return;
-	        }
-	        
-	        if (cell.getCellType() instanceof CompleteSafeCell || cell.getCellType() instanceof WarningSafeCell) {
-	            boolean[][] virtualArrayForFieldCheck = new boolean[cells.length][cells[0].length];
-	            uncoverFlood(cells, posX, posY, virtualArrayForFieldCheck , "no");
-	            
-	        }
+	        cell.getCharacteristics().startAnalyzeInteraction();
 	        
 	        
 	        for (int i = 0; i < cells.length; i++) {
@@ -57,10 +44,10 @@ public abstract class GameplayManager {
 	        }
 	        
 	        
-	        if (cell.getCellType() instanceof MinedCell) {
-	            explodeField(cell, cells);
-	            this.gameOverStatus = true;
-	        }
+//	        if (cell.getProfile() instanceof MinedCell) {
+//	            explodeField(cell, cells);
+//	            this.gameOverStatus = true;
+//	        }
 	       
 	        
 	        
@@ -73,11 +60,13 @@ public abstract class GameplayManager {
 	
     public void tryToToggleFlagThisCell(int posX,int posY, Field field) {
         FieldCell cell = field.getCells()[posX][posY];
-        if(!(cell.getCellState() instanceof NotFlagged)) {
-			return;
-		}
-        cell.toggleFlagState();
+        cell.interactFlag();
     }
+    
+    
+    
+    
+    
 
     public  void explodeField(FieldCell cell, FieldCell[][] cells) {
         for (int i = 0; i < cells.length; i++) {
@@ -93,13 +82,13 @@ public abstract class GameplayManager {
     	
     	if (!GameUtils.isIn2DArrayBound(arrayPosX, arrayPosY, cells.length, cells[0].length) ||
                 virtualArrayCheck[arrayPosX][arrayPosY] ||
-                (cells[arrayPosX][arrayPosY].getCellType() instanceof MinedCell)) {
+                (cells[arrayPosX][arrayPosY].getProfile() instanceof MinedCell)) {
             return;
         }
     	
     	
 
-        if (cells[arrayPosX][arrayPosY].getCellType() instanceof WarningSafeCell) {
+        if (cells[arrayPosX][arrayPosY].getProfile() instanceof WarningSafeCell) {
 
            
             cells[arrayPosX][arrayPosY].setCellStateUncovered();

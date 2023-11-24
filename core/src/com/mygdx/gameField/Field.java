@@ -2,8 +2,8 @@ package com.mygdx.gameField;
 
 import com.mygdx.gameField.cell.FieldCell;
 import com.mygdx.gameField.cell.NearCells;
-import com.mygdx.gameField.cell.cellProfile.MinedCell;
-import com.mygdx.gameField.cell.cellProfile.safeCell.CompleteSafeCell;
+import com.mygdx.gameField.cell.characteristics.cellprofile.MinedCell;
+import com.mygdx.gameField.cell.characteristics.cellprofile.safeCell.CompleteSafeCell;
 import com.mygdx.utils.Coordinates;
 import com.mygdx.utils.GameUtils;
 
@@ -63,12 +63,12 @@ public abstract class Field implements FieldInterface{
 			int bombX = GameUtils.randomBetween(0, cells.length - 1);
 			int bombY = GameUtils.randomBetween(0, cells[0].length - 1);
 
-			if (cells[bombX][bombY].getCellType() instanceof MinedCell) {
+			if (cells[bombX][bombY].getProfile() instanceof MinedCell) {
 				i--;
 				continue;
 			}
 			else {
-				cells[bombX][bombY].setCellType(new MinedCell());
+				cells[bombX][bombY].setProfile(new MinedCell());
 			
 			};
 
@@ -94,7 +94,7 @@ public abstract class Field implements FieldInterface{
 	        for (int j = 0; j < cells[i].length; j++) {
 	            FieldCell currentCell = cells[i][j];
 
-	            currentCell.getCellType().setNearbyBombs(currentCell);
+	            currentCell.getProfile().setNearbyBombs(currentCell);
 	            
 	            }
 	        }
@@ -112,7 +112,7 @@ public abstract class Field implements FieldInterface{
 	            int loopY = y + l;
 
 	            if (GameUtils.isIn2DArrayBound(loopX, loopY, cells.length, cells[0].length)) {
-	                if (cells[loopX][loopY].getCellType() instanceof MinedCell) {
+	                if (cells[loopX][loopY].getProfile() instanceof MinedCell) {
 	                    bombCount++;
 	                }
 	            }

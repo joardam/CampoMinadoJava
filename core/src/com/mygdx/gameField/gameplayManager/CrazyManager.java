@@ -4,9 +4,9 @@ package com.mygdx.gameField.gameplayManager;
 import com.mygdx.gameField.CrazyField;
 import com.mygdx.gameField.Field;
 import com.mygdx.gameField.cell.CrazyModeCell;
-import com.mygdx.gameField.cell.cellProfile.MinedCell;
-import com.mygdx.gameField.cell.cellProfile.safeCell.CompleteSafeCell;
-import com.mygdx.gameField.cell.cellState.Uncovered;
+import com.mygdx.gameField.cell.characteristics.cellprofile.MinedCell;
+import com.mygdx.gameField.cell.characteristics.cellprofile.safeCell.CompleteSafeCell;
+import com.mygdx.gameField.cell.characteristics.state.Uncovered;
 import com.mygdx.utils.GameUtils;
 
 public class CrazyManager extends GameplayManager {
@@ -38,8 +38,8 @@ public class CrazyManager extends GameplayManager {
 	        	return;
 	        }
 	        
-	        if(cell.getCellType() instanceof CompleteSafeCell) {
-	        	cell.setCellType(new MinedCell());
+	        if(cell.getProfile() instanceof CompleteSafeCell) {
+	        	cell.setProfile(new MinedCell());
 	        	cell.activate();
 	        	((CrazyField) field).increaseBombsQuantity();
 	        	 field.placeCountersInSafeCells();
@@ -47,7 +47,7 @@ public class CrazyManager extends GameplayManager {
 	        	
 	        }
 	        else {
-	        	cell.setCellType(new CompleteSafeCell());
+	        	cell.setProfile(new CompleteSafeCell());
 	        	cell.activate();
 	        	((CrazyField) field).decreaseBombsQuantity();
 	        	 field.placeCountersInSafeCells();

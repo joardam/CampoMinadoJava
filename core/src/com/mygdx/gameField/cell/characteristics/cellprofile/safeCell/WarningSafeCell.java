@@ -1,6 +1,7 @@
-package com.mygdx.gameField.cell.cellProfile.safeCell;
+package com.mygdx.gameField.cell.characteristics.cellprofile.safeCell;
 
 import com.mygdx.gameField.cell.FieldCell;
+import com.mygdx.gameField.cell.characteristics.Characteristics;
 
 public class WarningSafeCell extends SafeCell {
 
@@ -19,17 +20,9 @@ public class WarningSafeCell extends SafeCell {
 		
 	}
 
-	@Override
-	public void analyzeStart(FieldCell cell) {
-		return;
-		
-	}
+	
 
-	@Override
-	public void analyzeInWorking(FieldCell cell, String sideInteraction) {
-		//do the observation based on the sideInteraction
-		return;
-	}
+
 
 	
 	
@@ -39,6 +32,19 @@ public class WarningSafeCell extends SafeCell {
 
 	public int getNearbyBombs() {
 		return nearbyBombs;
+	}
+
+	@Override
+	public void analyzeStart(Characteristics characteristics) {
+		characteristics.uncover();
+		return;
+		
+	}
+
+	@Override
+	public void analyzeWorking(Characteristics characteristics) {
+		characteristics.uncover();
+		return;
 	}
 
 	
