@@ -9,8 +9,7 @@ public class EndlessModeManager extends ClassicManager {
 		field.placeBombs();
 		field.placeCountersInSafeCells();
 		
-		winStatus = false;
-		
+		restartGame();
 		
 	}
 }

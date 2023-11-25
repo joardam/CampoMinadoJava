@@ -111,7 +111,10 @@ public class Game2PlayersModeState extends GameModeState {
 	
 
 
-	
+	@Override
+	public void drawLossCase(SpriteBatch sprite) {
+		TextDraw.draw(sprite, booleanEndStatus.getText("loose"));
+	}
 	
 	
 	

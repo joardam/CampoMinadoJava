@@ -1,23 +1,30 @@
 package com.mygdx.gameField.cell.characteristics;
 
+import com.mygdx.gameField.Field;
 import com.mygdx.gameField.cell.FieldCell;
 import com.mygdx.gameField.cell.characteristics.cellprofile.CellProfile;
-import com.mygdx.gameField.cell.characteristics.cellprofile.safeCell.CompleteSafeCell;
+import com.mygdx.gameField.cell.characteristics.cellprofile.MinedCell;
+import com.mygdx.gameField.cell.characteristics.cellprofile.safeCell.CompleteSafeCellOfClassicMode;
 import com.mygdx.gameField.cell.characteristics.cellprofile.safeCell.SafeCell;
+import com.mygdx.gameField.cell.characteristics.cellprofile.safeCell.WarningSafeCellOfClassicMode;
 import com.mygdx.gameField.cell.characteristics.explosionState.Exploded;
 import com.mygdx.gameField.cell.characteristics.explosionState.ExplosionState;
 import com.mygdx.gameField.cell.characteristics.explosionState.NotExploded;
 import com.mygdx.gameField.cell.characteristics.state.CoveredState;
-import com.mygdx.gameField.cell.characteristics.state.covered.NotFlagged;
+import com.mygdx.gameField.cell.characteristics.state.covered.flagged.FlaggedOfClassicMode;
+import com.mygdx.gameField.cell.characteristics.state.covered.flagged.FlaggedOfTwoPlayersMode;
+import com.mygdx.gameField.cell.characteristics.state.covered.notFlagged.NotFlaggedOfClassicMode;
+import com.mygdx.gameField.cell.characteristics.state.uncovered.UncoveredOfClassicMode;
+import com.mygdx.gameField.gameplayManager.GameplayManager;
 import com.mygdx.gameField.gameplayManager.gameStatus.GameStatus;
 
-public class Characteristics {
-	private CellProfile profile = new CompleteSafeCell();
-	private CoveredState coveredState = new NotFlagged();
-	private ExplosionState explosionState = new NotExploded();
+public abstract class Characteristics {
+	protected CellProfile profile;
+	protected CoveredState coveredState;
+	protected ExplosionState explosionState = new NotExploded();
 	
 	
-	private FieldCell cell;
+	protected FieldCell cell;
 	
 	public Characteristics(FieldCell cell) {
 		this.cell = cell;
@@ -33,10 +40,7 @@ public class Characteristics {
 		
 	}
 	
-	public void uncover() {
-		cell.setCellStateUncovered();
-		
-	}
+	public abstract void uncover();
 	
 	
 	public void startExplosionChain() {
@@ -97,6 +101,22 @@ public class Characteristics {
 	public void setProfile(CellProfile profile) {
 		this.profile = profile;
 	}
+	
+	public void setMinedCell() {
+		this.profile = new MinedCell();
+		
+	}
+	public void setCompleteSafeCell() {
+		this.profile = new CompleteSafeCellOfClassicMode();
+	}
+	
+	public void setWarningSafeCell() {
+		this.profile = new WarningSafeCellOfClassicMode();
+	}
+	
+	public void setUncovered() {
+		this.coveredState = new UncoveredOfClassicMode();
+	}
 
 	public CoveredState getCoveredState() {
 		return coveredState;
@@ -111,26 +131,56 @@ public class Characteristics {
 	}
 	
 	
-	
 	public void setNotFlagged() {
-		this.coveredState = new NotFlagged();
+		this.coveredState = new NotFlaggedOfClassicMode();
+	}
+	
+	public void setFlagged() {
+		this.coveredState = new FlaggedOfClassicMode();
 	}
 	
 	
 	public void interactFlag() {
-	
 		coveredState.interactFlag(this);
-		
 	}
 	
 	public void analyzeLoss(GameStatus gameStatus) {
 		explosionState.analyzeLoss(gameStatus);
 	}
 	
+	
+	public void analyzeWin(Field field , GameStatus gameStatus) {
+		int counter = 0;
+		int bombsQuantity = field.getBombsQuantity();
+		FieldCell[][] cells = field.getCells();	
+		
+		  for (int arrayPosX = 0; arrayPosX < cells.length; arrayPosX++) {
+			  for (int arrayPosY = 0; arrayPosY < cells[arrayPosX].length; arrayPosY++) {
+				  FieldCell cellNow = cells[arrayPosX][arrayPosY];
+				  Characteristics characteristicsNow = cellNow.getCharacteristics();
+				  
+				  counter = characteristicsNow.coveredState.analyzeWin(counter);
+			  }
+		  }
+		  
+		  
+		  if(counter == bombsQuantity) {
+			  gameStatus.declareWin();
+			  startExplosionChain();
+		  }
+		
+		
+		
+	}
 
 	
 	public Characteristics returnThis() {
 		return this;
+	}
+
+	public void passPlayerIndexFilter(GameplayManager gameplayManager) {
+		coveredState.passPlayerIndexFilter(gameplayManager);
+		
 	}
 		
 	}

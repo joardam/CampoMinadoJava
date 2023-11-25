@@ -2,11 +2,14 @@ package com.mygdx.gameField.gameplayManager.gameStatus;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.states.gameModeState.GameModeState;
+import com.mygdx.gameField.Field;
+import com.mygdx.gameField.cell.FieldCell;
 import com.mygdx.gameField.gameplayManager.GameplayManager;
+import com.mygdx.gameField.gameplayManager.Mode2PlayersManager;
 
-public class Winner extends GameStatus {
+public class Playing extends GameStatus {
 
-	public Winner(GameplayManager gameplayManager) {
+	public Playing(GameplayManager gameplayManager) {
 		super(gameplayManager);
 		
 	}
@@ -14,25 +17,35 @@ public class Winner extends GameStatus {
 	@Override
 	public void declareLoss() {
 		gameplayManager.declareLoss();
-		
+
 	}
 
 	@Override
 	public void declareWin() {
-		return;
-		
+		gameplayManager.declareWin();
+
 	}
 
 	@Override
 	public void interactLossStatus(GameModeState gameModeState, SpriteBatch sprite) {
 		return;
-		
 	}
 
 	@Override
 	public void interactWinStatus(GameModeState gameModeState, SpriteBatch sprite) {
-		gameModeState.drawWinCase(sprite);
-		
+		return;
+
 	}
+	
+	public void tryToUncoverThisCellFilter(int posX, int posY, Field field) {
+		gameplayManager.tryToUncoverThisCell(posX, posY, field);
+	}
+
+	@Override
+	public void passPlayerIndexFilter(FieldCell cell) {
+		cell.passPlayerIndexFilter(gameplayManager);
+	}
+	
+	
 
 }

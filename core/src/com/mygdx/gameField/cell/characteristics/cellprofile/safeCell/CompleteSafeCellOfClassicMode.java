@@ -4,11 +4,11 @@ import com.mygdx.gameField.cell.FieldCell;
 import com.mygdx.gameField.cell.characteristics.Characteristics;
 import com.mygdx.gameField.cell.characteristics.cellprofile.CellProfile;
 
-public class CompleteSafeCell extends SafeCell{
+public class CompleteSafeCellOfClassicMode extends SafeCell{
 	
 
 	
-	public CompleteSafeCell() {
+	public CompleteSafeCellOfClassicMode() {
 		
 	}
 
@@ -22,15 +22,6 @@ public class CompleteSafeCell extends SafeCell{
 		
 		
 	}
-	
-	
-	
-
-	
-
-	
-	
-	
 	
 	@Override
 	public void setNearbyBombs(FieldCell cell) {
@@ -51,7 +42,7 @@ public class CompleteSafeCell extends SafeCell{
 		if(counterBombs > 0) {
 			cell.setCellProfileWarningSafeCell();
 			cell.getProfile().setNearbyBombs(cell);
-			((WarningSafeCell)cell.getProfile()).setNearbyBombs(counterBombs);
+			((WarningSafeCellOfClassicMode)cell.getProfile()).setNearbyBombs(counterBombs);
 		}
 		
 		
@@ -62,6 +53,7 @@ public class CompleteSafeCell extends SafeCell{
 
 	@Override
 	public void analyzeStart(Characteristics characteristics) {
+		characteristics.uncover();
 		characteristics.analyzeWorking();
 		
 	}

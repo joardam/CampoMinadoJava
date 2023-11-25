@@ -5,11 +5,6 @@ public class CrazyModeCell extends FieldCell {
 	private boolean crazyCell = false;
 	private boolean activated = false;
 	
-	
-	
-	public CrazyModeCell() {
-		super();
-	}
 
 	public CrazyModeCell(int x, int y) {
 		super(x, y);

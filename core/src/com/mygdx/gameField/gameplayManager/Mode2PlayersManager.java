@@ -2,12 +2,13 @@ package com.mygdx.gameField.gameplayManager;
 import com.mygdx.collections.TextCollection;
 import com.mygdx.gameField.ClassicField;
 import com.mygdx.gameField.Field;
+import com.mygdx.gameField.cell.FieldCell;
+import com.mygdx.gameField.cell.characteristics.CharacteristicsOfTwoPlayersMode;
 
 public class Mode2PlayersManager extends GameplayManager {
-	RoundPlayerManager roundManager ;
+	RoundPlayerManager roundManager;
 	
-	
-	
+
 	
 	 public RoundPlayerManager getRoundManager() {
 		return roundManager;
@@ -21,21 +22,30 @@ public class Mode2PlayersManager extends GameplayManager {
 	}
 
 
-
 	@Override
-	public void tryToUncoverThisCell(int posX ,int posY, Field field) {
+	public void startTryToUncoverThisCell(int posX ,int posY, Field field) {
 	  
-		 super.tryToUncoverThisCell(posX,posY,field);
-	  
-	    	if((gameOverStatus == true) || (winStatus == true)) {
-	        	return;
-	    	}
+		FieldCell[][] cells = field.getCells();
+        FieldCell cell = cells[posX][posY];
+       
+        ((CharacteristicsOfTwoPlayersMode)cell.getCharacteristics()).startAnalyzeInteraction(roundManager);
+        
+        cell.analyzeLoss(gameStatus);
+        cell.analyzeWin(field, gameStatus);
+		 
+			 
+		 }
 	        
-	       roundManager.passPlayerIndex();
-	        
-	        
-	    }
 
+
+//intern methods e classes
+	
+	public void passPlayerIndex() {
+		 roundManager.passPlayerIndex();
+	}
+	
+	    
+	    
 	   
 	    
 	    

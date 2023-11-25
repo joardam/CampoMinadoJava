@@ -250,7 +250,7 @@ public class GameEndlessMode extends GameModeState {
 	@Override
 	public void update(float dt) {
 
-		if(gameplayManager.isWinStatus()) {
+//		if(gameplayManager.isWinStatus()) {
 			
 			if(!gamePointsInteraction.inAction()) {
 				gamePointsInteraction.startInteraction();
@@ -258,13 +258,13 @@ public class GameEndlessMode extends GameModeState {
 				
 			}
 			
-		}
+//		}
 		
-		if(gameplayManager.getGameOverStatus()) {
+//		if(gameplayManager.getGameOverStatus()) {
 			if(!addNameInteraction.inAction()) {
 				addNameInteraction.startInteraction();
 			}
-		}
+//		}
 		
 		
 		pointsBar.getBar("pointsBar").setStringText("PONTOS : " + gamePoints);
@@ -278,9 +278,9 @@ public class GameEndlessMode extends GameModeState {
 		
 		pointsBar.drawBars(sprite, "pointsBar");
 		
-		if(gameplayManager.isWinStatus()) {
+//		if(gameplayManager.isWinStatus()) {
 			nextGameBar.drawBars(sprite, "nextBar");
-		}
+//		}
 		
 	
 		if(addNameInteraction.inAction()) {
