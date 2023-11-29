@@ -24,7 +24,10 @@ public class Looser extends GameStatus {
 
 	@Override
 	public void interactLossStatus(GameModeState gameModeState, SpriteBatch sprite) {
+	
 		gameModeState.drawLossCase(sprite);
+		
+		
 		
 	}
 
@@ -33,5 +36,6 @@ public class Looser extends GameStatus {
 		return;
 		
 	}
-
+	
+	
 }

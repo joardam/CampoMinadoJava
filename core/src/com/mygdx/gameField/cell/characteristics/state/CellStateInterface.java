@@ -10,6 +10,7 @@ public interface CellStateInterface {
 	public void interactFlag(Characteristics characteristics);
 	public int analyzeWin(int counter);	
 		
+		
 	
 	
 }

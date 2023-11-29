@@ -23,29 +23,21 @@ public class Mode2PlayersManager extends GameplayManager {
 
 
 	@Override
-	public void startTryToUncoverThisCell(int posX ,int posY, Field field) {
+	public void tryToUncoverThisCell(int posX ,int posY, Field field) {
 	  
-		FieldCell[][] cells = field.getCells();
-        FieldCell cell = cells[posX][posY];
-       
-        ((CharacteristicsOfTwoPlayersMode)cell.getCharacteristics()).startAnalyzeInteraction(roundManager);
-        
-        cell.analyzeLoss(gameStatus);
-        cell.analyzeWin(field, gameStatus);
-		 
-			 
-		 }
+		
+		
+		super.tryToUncoverThisCell(posX,posY,field);
+	  
+	    	if((gameOverStatus == true) || (winStatus == true)) {
+	        	return;
+	    	}
 	        
+	       roundManager.passPlayerIndex();
+	        
+	        
+	    }
 
-
-//intern methods e classes
-	
-	public void passPlayerIndex() {
-		 roundManager.passPlayerIndex();
-	}
-	
-	    
-	    
 	   
 	    
 	    

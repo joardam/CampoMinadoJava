@@ -243,7 +243,6 @@ public abstract class GameModeState extends State{
         gameplayManager.getGameStatus().interactWinStatus(this, sprite);
         gameplayManager.getGameStatus().interactLossStatus(this, sprite);
         
-            
         sprite.end();
         
 		
@@ -257,7 +256,7 @@ public abstract class GameModeState extends State{
 		
 	}
 	
-	//inside methods and classes
+	//inside
 	
 	public void drawLossCase(SpriteBatch sprite) {
 		TextDraw.draw(sprite, booleanEndStatus.getText("loose"));
@@ -266,8 +265,7 @@ public abstract class GameModeState extends State{
 	public void drawWinCase(SpriteBatch sprite) {
 		TextDraw.draw(sprite, booleanEndStatus.getText("win"));
 	}
-	
-//	public void 
+
 	
 }
 

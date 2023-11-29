@@ -6,25 +6,20 @@ import com.mygdx.gameField.cell.characteristics.cellprofile.CellProfile;
 import com.mygdx.gameField.cell.characteristics.cellprofile.MinedCell;
 import com.mygdx.gameField.cell.characteristics.cellprofile.safeCell.CompleteSafeCellOfClassicMode;
 import com.mygdx.gameField.cell.characteristics.cellprofile.safeCell.SafeCell;
-import com.mygdx.gameField.cell.characteristics.cellprofile.safeCell.WarningSafeCellOfClassicMode;
 import com.mygdx.gameField.cell.characteristics.explosionState.Exploded;
 import com.mygdx.gameField.cell.characteristics.explosionState.ExplosionState;
 import com.mygdx.gameField.cell.characteristics.explosionState.NotExploded;
 import com.mygdx.gameField.cell.characteristics.state.CoveredState;
-import com.mygdx.gameField.cell.characteristics.state.covered.flagged.FlaggedOfClassicMode;
-import com.mygdx.gameField.cell.characteristics.state.covered.flagged.FlaggedOfTwoPlayersMode;
-import com.mygdx.gameField.cell.characteristics.state.covered.notFlagged.NotFlaggedOfClassicMode;
-import com.mygdx.gameField.cell.characteristics.state.uncovered.UncoveredOfClassicMode;
-import com.mygdx.gameField.gameplayManager.GameplayManager;
+import com.mygdx.gameField.cell.characteristics.state.covered.NotFlagged;
 import com.mygdx.gameField.gameplayManager.gameStatus.GameStatus;
 
-public abstract class Characteristics {
-	protected CellProfile profile;
-	protected CoveredState coveredState;
-	protected ExplosionState explosionState = new NotExploded();
+public class Characteristics {
+	private CellProfile profile = new CompleteSafeCell();
+	private CoveredState coveredState = new NotFlagged();
+	private ExplosionState explosionState = new NotExploded();
 	
 	
-	protected FieldCell cell;
+	private FieldCell cell;
 	
 	public Characteristics(FieldCell cell) {
 		this.cell = cell;
@@ -40,7 +35,10 @@ public abstract class Characteristics {
 		
 	}
 	
-	public abstract void uncover();
+	public void uncover() {
+		cell.setCellStateUncovered();
+		
+	}
 	
 	
 	public void startExplosionChain() {
@@ -101,22 +99,6 @@ public abstract class Characteristics {
 	public void setProfile(CellProfile profile) {
 		this.profile = profile;
 	}
-	
-	public void setMinedCell() {
-		this.profile = new MinedCell();
-		
-	}
-	public void setCompleteSafeCell() {
-		this.profile = new CompleteSafeCellOfClassicMode();
-	}
-	
-	public void setWarningSafeCell() {
-		this.profile = new WarningSafeCellOfClassicMode();
-	}
-	
-	public void setUncovered() {
-		this.coveredState = new UncoveredOfClassicMode();
-	}
 
 	public CoveredState getCoveredState() {
 		return coveredState;
@@ -131,24 +113,29 @@ public abstract class Characteristics {
 	}
 	
 	
-	public void setNotFlagged() {
-		this.coveredState = new NotFlaggedOfClassicMode();
-	}
 	
-	public void setFlagged() {
-		this.coveredState = new FlaggedOfClassicMode();
+	public void setNotFlagged() {
+		this.coveredState = new NotFlagged();
 	}
 	
 	
 	public void interactFlag() {
+	
 		coveredState.interactFlag(this);
+		
 	}
 	
 	public void analyzeLoss(GameStatus gameStatus) {
 		explosionState.analyzeLoss(gameStatus);
 	}
 	
+
 	
+	public Characteristics returnThis() {
+		return this;
+	}
+
+
 	public void analyzeWin(Field field , GameStatus gameStatus) {
 		int counter = 0;
 		int bombsQuantity = field.getBombsQuantity();
@@ -170,16 +157,6 @@ public abstract class Characteristics {
 		  }
 		
 		
-		
-	}
-
-	
-	public Characteristics returnThis() {
-		return this;
-	}
-
-	public void passPlayerIndexFilter(GameplayManager gameplayManager) {
-		coveredState.passPlayerIndexFilter(gameplayManager);
 		
 	}
 		
