@@ -131,6 +131,7 @@ public abstract class GameModeState extends State{
 		
 		
 		
+		
 		int screenWidth = Gdx.graphics.getWidth(); 
 		
 		
@@ -171,7 +172,8 @@ public abstract class GameModeState extends State{
 		 }
 		 
 		 
-		if(mouse.eventMouseLeftClickOnce()) {
+		
+		 if(mouse.eventMouseLeftClickOnce()) {
 			leftClickInteraction.startInteraction();
 			
 		}
@@ -189,10 +191,8 @@ public abstract class GameModeState extends State{
 			       
 			
 			if(GameUtils.isIn2DArrayBound(mouseFieldX ,mouseFieldY, cols,rows)) {
-				if(!gameplayManager.getGameOverStatus()) {
-					gameplayManager.tryToUncoverThisCell(mouseFieldX , mouseFieldY, field);
+					gameplayManager.startTryToUncoverThisCell(mouseFieldX , mouseFieldY, field);
 					leftClickInteraction.stopInteraction();
-				}
 				
 			}
 			
@@ -267,7 +267,10 @@ public abstract class GameModeState extends State{
 	}
 
 
+
 	
-	
+
 	
 }
+
+

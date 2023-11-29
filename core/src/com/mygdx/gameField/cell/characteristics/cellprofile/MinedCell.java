@@ -13,7 +13,6 @@ public class MinedCell extends CellProfile {
 
 	@Override
 	public void flagInteract(FieldCell cell) {
-		// TODO Auto-generated method stub
 		
 	}
 

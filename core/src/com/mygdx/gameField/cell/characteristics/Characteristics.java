@@ -1,9 +1,11 @@
 package com.mygdx.gameField.cell.characteristics;
 
 import com.mygdx.gameField.Field;
+import com.mygdx.gameField.Field;
 import com.mygdx.gameField.cell.FieldCell;
 import com.mygdx.gameField.cell.characteristics.cellprofile.CellProfile;
-import com.mygdx.gameField.cell.characteristics.cellprofile.safeCell.CompleteSafeCell;
+import com.mygdx.gameField.cell.characteristics.cellprofile.MinedCell;
+import com.mygdx.gameField.cell.characteristics.cellprofile.safeCell.CompleteSafeCellOfClassicMode;
 import com.mygdx.gameField.cell.characteristics.cellprofile.safeCell.SafeCell;
 import com.mygdx.gameField.cell.characteristics.explosionState.Exploded;
 import com.mygdx.gameField.cell.characteristics.explosionState.ExplosionState;
@@ -103,6 +105,8 @@ public class Characteristics {
 		return coveredState;
 	}
 
+	public void setCoveredState(CoveredState state) {
+		this.coveredState = state;
 	public void setCoveredState(CoveredState state) {
 		this.coveredState = state;
 	}

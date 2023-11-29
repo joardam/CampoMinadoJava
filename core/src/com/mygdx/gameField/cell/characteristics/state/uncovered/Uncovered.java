@@ -1,33 +1,22 @@
-package com.mygdx.gameField.cell.characteristics.state;
-
+package com.mygdx.gameField.cell.characteristics.state.uncovered;
 
 import com.mygdx.gameField.cell.characteristics.Characteristics;
+import com.mygdx.gameField.cell.characteristics.state.CoveredState;
 
-public class Uncovered extends CoveredState {
-	
-	@Override
-	public void analyzeStart(Characteristics characteristics) {
-		super.analyzeStart(characteristics);
-	}
+public abstract class Uncovered extends CoveredState{
 
 	@Override
 	public void analyzeWorking(Characteristics characteristics) {
-		return;
-		
 	}
 
 	@Override
 	public void interactFlag(Characteristics characteristics) {
-		return;
 		
 	}
-	
+
 	@Override
 	public int analyzeWin(int counter) {
-		return counter;
+		return 0;
 	}
 
-	
-
-	
 }

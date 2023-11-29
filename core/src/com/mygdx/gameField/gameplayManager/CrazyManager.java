@@ -5,8 +5,8 @@ import com.mygdx.gameField.CrazyField;
 import com.mygdx.gameField.Field;
 import com.mygdx.gameField.cell.CrazyModeCell;
 import com.mygdx.gameField.cell.characteristics.cellprofile.MinedCell;
-import com.mygdx.gameField.cell.characteristics.cellprofile.safeCell.CompleteSafeCell;
-import com.mygdx.gameField.cell.characteristics.state.Uncovered;
+import com.mygdx.gameField.cell.characteristics.cellprofile.safeCell.CompleteSafeCellOfClassicMode;
+import com.mygdx.gameField.cell.characteristics.state.uncovered.UncoveredOfClassicMode;
 import com.mygdx.utils.GameUtils;
 
 public class CrazyManager extends GameplayManager {
@@ -19,7 +19,7 @@ public class CrazyManager extends GameplayManager {
 			super.tryToToggleFlagThisCell(posX, posY, field);
 	        CrazyModeCell cell = (CrazyModeCell) field.getCells()[posX][posY];
 	        
-	        if(cell.getCellState() instanceof Uncovered) {
+	        if(cell.getCellState() instanceof UncoveredOfClassicMode) {
 	        	return;
 	        }
 	        
@@ -38,7 +38,7 @@ public class CrazyManager extends GameplayManager {
 	        	return;
 	        }
 	        
-	        if(cell.getProfile() instanceof CompleteSafeCell) {
+	        if(cell.getProfile() instanceof CompleteSafeCellOfClassicMode) {
 	        	cell.setProfile(new MinedCell());
 	        	cell.activate();
 	        	((CrazyField) field).increaseBombsQuantity();
@@ -47,12 +47,12 @@ public class CrazyManager extends GameplayManager {
 	        	
 	        }
 	        else {
-	        	cell.setProfile(new CompleteSafeCell());
+	        	cell.setProfile(new CompleteSafeCellOfClassicMode());
 	        	cell.activate();
 	        	((CrazyField) field).decreaseBombsQuantity();
 	        	 field.placeCountersInSafeCells();
 	        	 super.tryToToggleFlagThisCell(posX, posY, field);
-	        	 super.tryToUncoverThisCell(posX, posY, field);
+	        	 super.startTryToUncoverThisCell(posX, posY, field);
 	        }
 	        
 	       

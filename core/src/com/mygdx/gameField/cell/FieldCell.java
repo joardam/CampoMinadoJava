@@ -13,8 +13,7 @@ import com.mygdx.gameField.gameplayManager.gameStatus.GameStatus;
 import com.mygdx.utils.Coordinates;
 
 public abstract class FieldCell {
-	
-	
+
 	private NearCells nearCells = new NearCells();
 	private Characteristics characteristics = new Characteristics(this);
 	private Coordinates position;
@@ -24,12 +23,10 @@ public abstract class FieldCell {
 		return nearCells;
 	}
 
-	
 	public Characteristics getCharacteristics() {
 		return characteristics;
 	}
 
-	
 	public CellProfile getProfile() {
 		return characteristics.getProfile();
 	}
@@ -38,29 +35,23 @@ public abstract class FieldCell {
 		this.characteristics.setProfile(cellProfile);
 	}
 
-	public FieldCell() {
-		
-	}
-	
-	public FieldCell(int x , int y) {
-		this.position = new Coordinates(x,y);
-	
-	}
-	
-	
-	public void setPosition(int x ,int y){
-		this.position = new Coordinates(x,y);
+	public FieldCell(int x, int y) {
+		this.position = new Coordinates(x, y);
+
 	}
 
-	
+	public void setPosition(int x, int y) {
+		this.position = new Coordinates(x, y);
+	}
+
 	public void setCellStateCovered() {
 		this.characteristics.setCoveredState(new NotFlagged());
 	}
-	
+
 	public void setCellProfileWarningSafeCell() {
-		this.characteristics.setProfile(new WarningSafeCell()); 
+		this.characteristics.setProfile(new WarningSafeCell());
 	}
-	
+
 	public void interactFlag() {
 		this.characteristics.interactFlag();
 	}
@@ -72,8 +63,7 @@ public abstract class FieldCell {
 	public void Bombfy() {
 		this.characteristics.setProfile(new MinedCell());
 	}
-	
-	
+
 	public Coordinates getCellPosition() {
 		return this.position;
 	}
