@@ -46,9 +46,7 @@ public class GameCrazyModeState extends GameModeState{
 	@Override
 	public void handleInput() {
 		super.handleInput();
-		if(leftClickInteraction.inAction()) {
-			leftClickInteraction.stopInteraction();
-		}
+
 	}
 
 	@Override

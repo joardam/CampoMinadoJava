@@ -3,6 +3,8 @@ package com.mygdx.gameField.cell.characteristics.cellprofile;
 import com.mygdx.gameField.cell.FieldCell;
 import com.mygdx.gameField.cell.characteristics.Characteristics;
 import com.mygdx.gameField.cell.characteristics.explosionState.Exploded;
+import com.mygdx.gameField.gameplayManager.RoundPlayerManager;
+import com.mygdx.gameField.gameplayManager.gameStatus.GameStatus;
 
 public class MinedCell extends CellProfile {
 
@@ -13,7 +15,7 @@ public class MinedCell extends CellProfile {
 
 	@Override
 	public void flagInteract(FieldCell cell) {
-		// TODO Auto-generated method stub
+		return;
 		
 	}
 
@@ -45,6 +47,19 @@ public class MinedCell extends CellProfile {
 	public void analyzeWorking(Characteristics characteristics) {
 		return;
 		
+	}
+
+	
+
+	@Override
+	public void passRoundFilter(Characteristics characteristics, RoundPlayerManager roundManager) {
+		return;
+		
+	}
+
+	@Override
+	public int getCellTextureId() {
+		return 9;
 	}
 
 	

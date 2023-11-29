@@ -47,6 +47,11 @@ public class WarningSafeCell extends SafeCell {
 		return;
 	}
 
+	@Override
+	public int getCellTextureId() {
+		return nearbyBombs;
+	}
+
 	
 	
 	

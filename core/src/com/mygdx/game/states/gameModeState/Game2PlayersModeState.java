@@ -65,6 +65,7 @@ public class Game2PlayersModeState extends GameModeState {
 
 	
 	
+	
 	@Override
 	public void resize(int width, int height) {
 		super.resize(width, height);
@@ -75,9 +76,6 @@ public class Game2PlayersModeState extends GameModeState {
 	@Override 
 	public void handleInput() {
 		super.handleInput();
-		if(leftClickInteraction.inAction()) {
-			leftClickInteraction.stopInteraction();
-		}
 	}
 	
 	@Override
@@ -111,7 +109,14 @@ public class Game2PlayersModeState extends GameModeState {
 	
 
 
+	//inside
 	
+	@Override
+	public void leftClickInteraction(int mouseFieldX, int mouseFieldY) {
+		super.leftClickInteraction(mouseFieldX, mouseFieldY);
+		
+	}
+
 	
 	
 	

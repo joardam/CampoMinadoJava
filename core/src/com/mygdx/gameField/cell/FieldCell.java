@@ -9,10 +9,11 @@ import com.mygdx.gameField.cell.characteristics.cellprofile.safeCell.WarningSafe
 import com.mygdx.gameField.cell.characteristics.state.CoveredState;
 import com.mygdx.gameField.cell.characteristics.state.Uncovered;
 import com.mygdx.gameField.cell.characteristics.state.covered.NotFlagged;
+import com.mygdx.gameField.gameplayManager.RoundPlayerManager;
 import com.mygdx.gameField.gameplayManager.gameStatus.GameStatus;
 import com.mygdx.utils.Coordinates;
 
-public abstract class FieldCell {
+public abstract class FieldCell implements TwoPlayersModeCellMethods{
 	
 	
 	private NearCells nearCells = new NearCells();
@@ -94,5 +95,24 @@ public abstract class FieldCell {
 		characteristics.analyzeWin(field, gameStatus);
 
 	}
+
+
+	@Override
+	public void roundPassFilter(RoundPlayerManager roundManager) {
+		characteristics.roundPassFilter(roundManager);
+		
+	}
+
+
+	public int getCellTextureId() {
+		return characteristics.getCellTextureId();
+		
+	};
+
+
+	
+
+	
+	
 	
 }

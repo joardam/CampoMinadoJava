@@ -3,6 +3,7 @@ package com.mygdx.gameField.cell.characteristics.cellprofile.safeCell;
 import com.mygdx.gameField.cell.FieldCell;
 import com.mygdx.gameField.cell.characteristics.Characteristics;
 import com.mygdx.gameField.cell.characteristics.cellprofile.CellProfile;
+import com.mygdx.gameField.gameplayManager.RoundPlayerManager;
 
 public class CompleteSafeCell extends SafeCell{
 	
@@ -71,5 +72,12 @@ public class CompleteSafeCell extends SafeCell{
 		characteristics.uncover();
 		characteristics.analyzeWorking();
 	}
+
+	@Override
+	public int getCellTextureId() {
+		return 0;
+	}
+
+	
 }
 

@@ -40,7 +40,6 @@ public abstract class GameModeState extends State{
 	protected float screenHeight;
 	protected int backToMenuRectangleWidth = 100;
 	protected int backToMenuRectangleHeight = 30;
-	protected InteractionManager leftClickInteraction = new InteractionManager();
 	protected InteractionManager renderInteraction = new InteractionManager();
 	protected ShapeRenderer  shape = new ShapeRenderer();
 	
@@ -171,35 +170,14 @@ public abstract class GameModeState extends State{
 		 }
 		 
 		 
-		if(mouse.eventMouseLeftClickOnce()) {
-			leftClickInteraction.startInteraction();
+		
+		 if(mouse.eventMouseLeftClickOnce()) {
+			this.leftClickInteraction(mouseFieldX, mouseFieldY);
+			
 			
 		}
 		
-		if(leftClickInteraction.inAction()) {
-			
-			 if(GameUtils.isIn2DSpaceBound(mouse.getMousePosition(),backToMenu.getBarRegion())) {
-				 renderInteraction.stopInteraction();
-				 
-				 gsm.pop();
-				 dispose();
-				 gsm.configure();
-				 leftClickInteraction.stopInteraction();
-			 }
-			       
-			
-			if(GameUtils.isIn2DArrayBound(mouseFieldX ,mouseFieldY, cols,rows)) {
-				if(!gameplayManager.getGameOverStatus()) {
-					gameplayManager.tryToUncoverThisCell(mouseFieldX , mouseFieldY, field);
-					leftClickInteraction.stopInteraction();
-				}
-				
-			}
-			
-	       	
-	 
-       	
-       }
+		
        
        if(mouse.eventMouseRightClickOnce()) {
     	   if(!GameUtils.isIn2DArrayBound(mouseFieldX ,mouseFieldY, cols,rows)) {
@@ -266,7 +244,28 @@ public abstract class GameModeState extends State{
 		TextDraw.draw(sprite, booleanEndStatus.getText("win"));
 	}
 
-
+	
+	public void leftClickInteraction(int mouseFieldX, int mouseFieldY) {
+		 if(GameUtils.isIn2DSpaceBound(mouse.getMousePosition(),backToMenu.getBarRegion())) {
+			 renderInteraction.stopInteraction();
+			 
+			 gsm.pop();
+			 dispose();
+			 gsm.configure();
+			 return;
+		 }
+		       
+		
+		if(GameUtils.isIn2DArrayBound(mouseFieldX ,mouseFieldY, cols,rows)) {
+			if(!gameplayManager.getGameOverStatus()) {
+				gameplayManager.tryToUncoverThisCell(mouseFieldX , mouseFieldY, field);
+				return;
+			}
+			
+		}
+		
+	}
+	
 	
 	
 	

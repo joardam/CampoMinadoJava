@@ -2,6 +2,8 @@ package com.mygdx.gameField.cell.characteristics.state.covered;
 
 import com.mygdx.gameField.cell.FieldCell;
 import com.mygdx.gameField.cell.characteristics.Characteristics;
+import com.mygdx.gameField.gameplayManager.RoundPlayerManager;
+import com.mygdx.gameField.gameplayManager.gameStatus.GameStatus;
 
 public class Flagged extends Covered{
 	
@@ -25,6 +27,19 @@ public class Flagged extends Covered{
 		
 		
 	}
+
+	@Override
+	public void roundPassFilter(Characteristics characteristics, RoundPlayerManager roundManager) {
+		return;
+		
+	}
+
+	@Override
+	public int getCellTextureId(Characteristics characteristics) {
+		return 11;
+	}
+
+	
 
 	
 	

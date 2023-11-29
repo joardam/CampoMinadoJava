@@ -16,6 +16,9 @@ public abstract class Covered extends CoveredState{
 		counter++;
 		return counter;
 	}
+	
+	
+	
 
 }
 

@@ -1,6 +1,7 @@
 package com.mygdx.gameField.gameplayManager;
 
 import com.mygdx.gameField.ClassicField;
+import com.mygdx.utils.InteractionManager;
 
 public class EndlessModeManager extends ClassicManager {
 	
@@ -11,6 +12,18 @@ public class EndlessModeManager extends ClassicManager {
 		
 		winStatus = false;
 		
+		
+	}
+	
+	
+	public void winInEndlessShowAddNameInteraction(InteractionManager gamePointsInteraction , int gamePoints){
+		gameStatus.winInEndlessInteraction(gamePointsInteraction , gamePoints);
+		
+	}
+
+
+	public void looseInEndlessShowAddNameInteraction(InteractionManager addNameInteraction) {
+		gameStatus.looseInEndlessInteraction(addNameInteraction);
 		
 	}
 }

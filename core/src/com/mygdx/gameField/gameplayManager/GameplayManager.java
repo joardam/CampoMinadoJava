@@ -38,6 +38,9 @@ public abstract class GameplayManager {
 		cell.getCharacteristics().startAnalyzeInteraction();
 		cell.analyzeLoss(gameStatus);
 		cell.analyzeWin(field, gameStatus);
+		
+		
+		
 
 	}
 

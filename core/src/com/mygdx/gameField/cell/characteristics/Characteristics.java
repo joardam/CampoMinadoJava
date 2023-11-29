@@ -10,9 +10,10 @@ import com.mygdx.gameField.cell.characteristics.explosionState.ExplosionState;
 import com.mygdx.gameField.cell.characteristics.explosionState.NotExploded;
 import com.mygdx.gameField.cell.characteristics.state.CoveredState;
 import com.mygdx.gameField.cell.characteristics.state.covered.NotFlagged;
+import com.mygdx.gameField.gameplayManager.RoundPlayerManager;
 import com.mygdx.gameField.gameplayManager.gameStatus.GameStatus;
 
-public class Characteristics {
+public class Characteristics implements CharacteristicsOfTwoPlayersModeInterface{
 	private CellProfile profile = new CompleteSafeCell();
 	private CoveredState coveredState = new NotFlagged();
 	private ExplosionState explosionState = new NotExploded();
@@ -157,6 +158,30 @@ public class Characteristics {
 		
 		
 		
+	}
+
+	@Override
+	public void roundPassFilter(RoundPlayerManager roundManager) {
+		coveredState.roundPassFilter(this,roundManager);
+		
+	}
+
+	public void passToProfileRoundPassFilter(RoundPlayerManager roundManager) {
+		profile.passRoundFilter(this,roundManager);
+	}
+
+	
+	public void passRound(RoundPlayerManager roundManager) {
+			roundManager.passPlayerIndex();
+		
+	}
+
+	public int getCellTextureId() {
+		return coveredState.getCellTextureId(this);
+	}
+
+	public int passToPofileGetCellTextureId() {
+		return profile.getCellTextureId();
 	}
 		
 	}
