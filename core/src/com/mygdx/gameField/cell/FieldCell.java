@@ -1,19 +1,23 @@
 package com.mygdx.gameField.cell;
 
+import com.mygdx.gameField.Field;
 import com.mygdx.gameField.cell.characteristics.Characteristics;
 import com.mygdx.gameField.cell.characteristics.cellprofile.CellProfile;
 import com.mygdx.gameField.cell.characteristics.cellprofile.MinedCell;
 import com.mygdx.gameField.cell.characteristics.cellprofile.safeCell.CompleteSafeCell;
 import com.mygdx.gameField.cell.characteristics.cellprofile.safeCell.WarningSafeCell;
-import com.mygdx.gameField.cell.characteristics.state.CellState;
+import com.mygdx.gameField.cell.characteristics.state.CoveredState;
 import com.mygdx.gameField.cell.characteristics.state.Uncovered;
 import com.mygdx.gameField.cell.characteristics.state.covered.NotFlagged;
+import com.mygdx.gameField.gameplayManager.gameStatus.GameStatus;
 import com.mygdx.utils.Coordinates;
 
 public abstract class FieldCell {
 	
 	
 	private NearCells nearCells = new NearCells();
+	private Characteristics characteristics = new Characteristics(this);
+	private Coordinates position;
 	
 	
 	public NearCells getNearCells() {
@@ -21,18 +25,10 @@ public abstract class FieldCell {
 	}
 
 	
-	private Coordinates position;
-	
 	public Characteristics getCharacteristics() {
 		return characteristics;
 	}
 
-
-	private Characteristics characteristics = new Characteristics(this);
-	
-
-	
-	
 	
 	public CellProfile getProfile() {
 		return characteristics.getProfile();
@@ -58,7 +54,7 @@ public abstract class FieldCell {
 
 	
 	public void setCellStateCovered() {
-		this.characteristics.setState(new NotFlagged());
+		this.characteristics.setCoveredState(new NotFlagged());
 	}
 	
 	public void setCellProfileWarningSafeCell() {
@@ -70,7 +66,7 @@ public abstract class FieldCell {
 	}
 	
 	public void setCellStateUncovered() {
-		this.characteristics.setState(new Uncovered());
+		this.characteristics.setCoveredState(new Uncovered());
 	}
 	
 	public void Bombfy() {
@@ -84,12 +80,19 @@ public abstract class FieldCell {
 	
 	
 	
-	public CellState getCellState() {
-		return this.characteristics.getState();
+	public CoveredState getCellState() {
+		return this.characteristics.getCoveredState();
 	}
 	
 	
+	public void analyzeLoss(GameStatus gameStatus) {
+		this.characteristics.analyzeLoss(gameStatus);
+		
+	}
 	
-	
+	public void analyzeWin(Field field, GameStatus gameStatus) {
+		characteristics.analyzeWin(field, gameStatus);
+
+	}
 	
 }

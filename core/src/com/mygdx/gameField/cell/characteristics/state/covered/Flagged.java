@@ -19,7 +19,7 @@ public class Flagged extends Covered{
 
 	@Override
 	public void interactFlag(Characteristics characteristics) {
-		characteristics.setState(new NotFlagged());
+		characteristics.setCoveredState(new NotFlagged());
 
 		
 		

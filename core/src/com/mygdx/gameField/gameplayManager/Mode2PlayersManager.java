@@ -25,7 +25,9 @@ public class Mode2PlayersManager extends GameplayManager {
 	@Override
 	public void tryToUncoverThisCell(int posX ,int posY, Field field) {
 	  
-		 super.tryToUncoverThisCell(posX,posY,field);
+		
+		
+		super.tryToUncoverThisCell(posX,posY,field);
 	  
 	    	if((gameOverStatus == true) || (winStatus == true)) {
 	        	return;

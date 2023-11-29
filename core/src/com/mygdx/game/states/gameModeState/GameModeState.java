@@ -240,13 +240,8 @@ public abstract class GameModeState extends State{
         draw.drawField(sprite, texture);
        
         
-        
-        if(gameplayManager.getGameOverStatus()) {
-        	TextDraw.draw(sprite, booleanEndStatus.getText("loose"));
-		}
-        else if (gameplayManager.isWinStatus()) {
-        	TextDraw.draw(sprite, booleanEndStatus.getText("win"));
-        }
+        gameplayManager.getGameStatus().interactWinStatus(this, sprite);
+        gameplayManager.getGameStatus().interactLossStatus(this, sprite);
         
         sprite.end();
         
@@ -260,6 +255,18 @@ public abstract class GameModeState extends State{
 		booleanEndStatus.disposeAll();
 		
 	}
+
+	//inside
+	
+	public void drawLossCase(SpriteBatch sprite) {
+		TextDraw.draw(sprite, booleanEndStatus.getText("loose"));
+	}
+	
+	public void drawWinCase(SpriteBatch sprite) {
+		TextDraw.draw(sprite, booleanEndStatus.getText("win"));
+	}
+
+
 	
 	
 	

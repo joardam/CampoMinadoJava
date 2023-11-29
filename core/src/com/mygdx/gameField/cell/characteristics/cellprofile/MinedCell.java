@@ -2,6 +2,7 @@ package com.mygdx.gameField.cell.characteristics.cellprofile;
 
 import com.mygdx.gameField.cell.FieldCell;
 import com.mygdx.gameField.cell.characteristics.Characteristics;
+import com.mygdx.gameField.cell.characteristics.explosionState.Exploded;
 
 public class MinedCell extends CellProfile {
 
@@ -34,7 +35,8 @@ public class MinedCell extends CellProfile {
 
 	@Override
 	public void analyzeStart(Characteristics characteristics) {
-		//explode 
+		characteristics.startExplosionChain();
+		
 		return;
 		
 	}

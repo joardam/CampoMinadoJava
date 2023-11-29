@@ -7,6 +7,7 @@ public interface CellStateInterface {
 	public void analyzeStart(Characteristics characteristics);
 	public void analyzeWorking(Characteristics characteristics);
 	public void interactFlag(Characteristics characteristics);
+	public int analyzeWin(int counter);	
 		
 		
 	
