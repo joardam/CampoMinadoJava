@@ -12,6 +12,7 @@ import com.mygdx.gameField.cell.characteristics.state.CoveredState;
 import com.mygdx.gameField.cell.characteristics.state.covered.NotFlagged;
 import com.mygdx.gameField.gameplayManager.RoundPlayerManager;
 import com.mygdx.gameField.gameplayManager.gameStatus.GameStatus;
+import com.mygdx.utils.GameUtils;
 
 public class Characteristics implements CharacteristicsOfTwoPlayersModeInterface{
 	private CellProfile profile = new CompleteSafeCell();
@@ -25,13 +26,13 @@ public class Characteristics implements CharacteristicsOfTwoPlayersModeInterface
 		this.cell = cell;
 	}
 	
-	public void startAnalyzeInteraction() {
-		coveredState.analyzeStart(this);
+	public void startAnalyzeInteraction(Field field) {
+		coveredState.analyzeStart(this,field);
 		
 	}
 
-	public void passToProfileAnalyzeStart() {
-		profile.analyzeStart(this);
+	public void passToProfileAnalyzeStart(Field field) {
+		profile.analyzeStart(this , field);
 		
 	}
 	
@@ -65,28 +66,36 @@ public class Characteristics implements CharacteristicsOfTwoPlayersModeInterface
 	
 	
 	
-	public void analyzeWorking() {
-		for(int i = 0;i <= 7 ; i++) {
-			FieldCell cellNow = cell.getNearCells().getNearCellsArray()[i];
-			
-			if(!(cellNow == null)){
-				passToCoveredStateAnalyzeWorking(cellNow);
+	public void analyzeWorking(Field field) {
+		FieldCell[][] cells = field.getCells();
+		
+		
+		int posX = cell.getCellPosition().getCoordinateX();
+		int posY = cell.getCellPosition().getCoordinateY();
+		
+		for(int i = -1 ; i <= +1 ; i++) {
+			for(int j = -1 ; j <= +1 ; j++) {
+				
+				if(GameUtils.isIn2DArrayBound(posX + i, posY + j, cells.length, cells[0].length)) {
+					passToCoveredStateAnalyzeWorking(field , cells[posX + i][posY + j] , this);
+				}
 			}
+			
 		}
+		
+		
 	}
 	
 
-	public void passToCoveredStateAnalyzeWorking(FieldCell cellNow) {
+	public void passToCoveredStateAnalyzeWorking(Field field, FieldCell cellNow, Characteristics characteristics) {
 				Characteristics characteristicsNow = cellNow.getCharacteristics();
-				characteristicsNow.getCoveredState().analyzeWorking(characteristicsNow.returnThis());
+				characteristicsNow.getCoveredState().analyzeWorking(field, characteristicsNow.returnThis());
 	}				
 				
-	public void passToProfileAnalyzeWorking() {
-		profile.analyzeWorking(this);
+	public void passToProfileAnalyzeWorking(Field field) {
+		profile.analyzeWorking(this , field);
 	}	
 				
-		
-		
 
 	public ExplosionState getExplosionState() {
 		return explosionState;

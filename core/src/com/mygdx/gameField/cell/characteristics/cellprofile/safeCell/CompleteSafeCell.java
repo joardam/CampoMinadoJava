@@ -1,5 +1,6 @@
 package com.mygdx.gameField.cell.characteristics.cellprofile.safeCell;
 
+import com.mygdx.gameField.Field;
 import com.mygdx.gameField.cell.FieldCell;
 import com.mygdx.gameField.cell.characteristics.Characteristics;
 import com.mygdx.gameField.cell.characteristics.cellprofile.CellProfile;
@@ -61,21 +62,25 @@ public class CompleteSafeCell extends SafeCell{
 
 	}
 
+	
+
+	
 	@Override
-	public void analyzeStart(Characteristics characteristics) {
-		characteristics.analyzeWorking();
+	public int getCellTextureId() {
+		return 0;
+	}
+
+	@Override
+	public void analyzeStart(Characteristics characteristics, Field field) {
+		characteristics.analyzeWorking(field);
 		
 	}
 
 	@Override
-	public void analyzeWorking(Characteristics characteristics) {
+	public void analyzeWorking(Characteristics characteristics, Field field) {
 		characteristics.uncover();
-		characteristics.analyzeWorking();
-	}
-
-	@Override
-	public int getCellTextureId() {
-		return 0;
+		characteristics.analyzeWorking(field);
+		
 	}
 
 	

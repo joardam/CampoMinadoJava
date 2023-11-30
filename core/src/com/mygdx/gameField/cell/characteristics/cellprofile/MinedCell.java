@@ -1,5 +1,6 @@
 package com.mygdx.gameField.cell.characteristics.cellprofile;
 
+import com.mygdx.gameField.Field;
 import com.mygdx.gameField.cell.FieldCell;
 import com.mygdx.gameField.cell.characteristics.Characteristics;
 import com.mygdx.gameField.cell.characteristics.explosionState.Exploded;
@@ -35,19 +36,8 @@ public class MinedCell extends CellProfile {
 		
 	}
 
-	@Override
-	public void analyzeStart(Characteristics characteristics) {
-		characteristics.startExplosionChain();
-		
-		return;
-		
-	}
 
-	@Override
-	public void analyzeWorking(Characteristics characteristics) {
-		return;
-		
-	}
+	
 
 	
 
@@ -60,6 +50,18 @@ public class MinedCell extends CellProfile {
 	@Override
 	public int getCellTextureId() {
 		return 9;
+	}
+
+	@Override
+	public void analyzeStart(Characteristics characteristics, Field field) {
+		characteristics.startExplosionChain();
+		
+	}
+
+	@Override
+	public void analyzeWorking(Characteristics characteristics, Field field) {
+		return;
+		
 	}
 
 	

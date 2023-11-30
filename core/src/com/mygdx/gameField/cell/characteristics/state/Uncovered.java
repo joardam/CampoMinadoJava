@@ -1,22 +1,17 @@
 package com.mygdx.gameField.cell.characteristics.state;
 
 
+import com.mygdx.gameField.Field;
+import com.mygdx.gameField.cell.FieldCell;
 import com.mygdx.gameField.cell.characteristics.Characteristics;
 import com.mygdx.gameField.gameplayManager.RoundPlayerManager;
 import com.mygdx.gameField.gameplayManager.gameStatus.GameStatus;
 
 public class Uncovered extends CoveredState {
 	
-	@Override
-	public void analyzeStart(Characteristics characteristics) {
-		super.analyzeStart(characteristics);
-	}
+	
 
-	@Override
-	public void analyzeWorking(Characteristics characteristics) {
-		return;
-		
-	}
+	
 
 	@Override
 	public void interactFlag(Characteristics characteristics) {
@@ -39,6 +34,23 @@ public class Uncovered extends CoveredState {
 	public int getCellTextureId(Characteristics characteristics) {
 		return characteristics.passToPofileGetCellTextureId();
 	}
+
+
+	@Override
+	public void analyzeStart(Characteristics characteristics, Field field) {
+		return;
+		
+	}
+
+	@Override
+	public void analyzeWorking(Field field, Characteristics characteristics) {
+		return;
+		
+	}
+
+	
+
+	
 
 	
 

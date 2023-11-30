@@ -35,7 +35,7 @@ public abstract class GameplayManager {
 		FieldCell cell = cells[posX][posY];
 		int count = 0;
 
-		cell.getCharacteristics().startAnalyzeInteraction();
+		cell.getCharacteristics().startAnalyzeInteraction(field);
 		cell.analyzeLoss(gameStatus);
 		cell.analyzeWin(field, gameStatus);
 		
