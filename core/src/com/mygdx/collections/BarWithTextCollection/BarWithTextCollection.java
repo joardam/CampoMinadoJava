@@ -1,5 +1,6 @@
 package com.mygdx.collections.BarWithTextCollection;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -11,14 +12,23 @@ import com.mygdx.utils.Region2d;
 
 public class BarWithTextCollection {
 	private HashMap<String, BarWithText> barMap = new HashMap<String, BarWithText>();
-	
+	ArrayList<String> barArray = new ArrayList<String>();
 	
 	public BarWithTextCollection(BarWithTextCollectionParameters... args) {
 		for(int i = 0; i < args.length ; i++) {
 			barMap.put(args[i].getStringId(),args[i].getBarWithText());
-			
+			barArray.add(args[i].getStringId()) ;
 		}
 	}
+	
+	
+	public void addBar(BarWithTextCollectionParameters...args) {
+		for(int i = 0; i < args.length ; i++) {
+			barMap.put(args[i].getStringId(),args[i].getBarWithText());
+			barArray.add(args[i].getStringId()) ;
+		}
+	}
+	
 	
 	
 	public void drawBars(SpriteBatch sprite, String... args) {
@@ -82,6 +92,8 @@ public class BarWithTextCollection {
 		return false;
 		
 	}
+	
+
 	
 	
 }

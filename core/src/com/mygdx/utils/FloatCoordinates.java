@@ -53,5 +53,11 @@ public class FloatCoordinates {
 	public static FloatCoordinates newCoordinates(Coordinates nameSpaceSides) {
 		return new FloatCoordinates((float)nameSpaceSides.getCoordinateX(),(float)nameSpaceSides.getCoordinateY());
 	}
+	
+	
+	public static FloatCoordinates newCoordinates(FloatCoordinates nameSpaceSides) {
+		return new FloatCoordinates((float)nameSpaceSides.getCoordinateX(),(float)nameSpaceSides.getCoordinateY());
+	}
+	
 }
 

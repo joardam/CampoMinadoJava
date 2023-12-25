@@ -11,6 +11,7 @@ import com.mygdx.collections.BarWithTextCollection.BarWithTextCollectionParamete
 import com.mygdx.config.SpriteConfig;
 import com.mygdx.config.VideoSettings;
 import com.mygdx.game.BarWithText;
+import com.mygdx.game.states.ScoreBoardState;
 import com.mygdx.game.states.State;
 import com.mygdx.game.states.StateManager;
 import com.mygdx.game.states.gameModeState.Game2PlayersModeState;
@@ -233,6 +234,14 @@ public class MenuState extends State {
 				}
 			
 				
+				
+				else if(GameUtils.isIn2DSpaceBound(
+						mouse.getMousePosition(),modeBars.getBar("scoreBoardBar").getBarRegion() )){
+					Gdx.graphics.setSystemCursor(Cursor.SystemCursor.Arrow);
+					gsm.push(new ScoreBoardState(gsm, mouse));
+				}
+				
+				
 				else if(GameUtils.isIn2DSpaceBound(
 						mouse.getMousePosition(),modeBars.getBar("2PlayersBar").getBarRegion() )){
 					renderInteraction.stopInteraction();
@@ -265,6 +274,8 @@ public class MenuState extends State {
 					menuDifficultyManager.decreaseDificultyIndex();
 					updateHandles();
 				}
+				
+			
 		
 			}	
 	}
