@@ -46,6 +46,12 @@ public class Playing extends GameStatus {
 		return;
 		
 	}
+
+	@Override
+	public void restartGame() {
+		return;
+		
+	}
 	
 
 }

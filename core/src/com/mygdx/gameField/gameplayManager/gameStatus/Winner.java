@@ -14,7 +14,6 @@ public class Winner extends GameStatus {
 
 	@Override
 	public void declareLoss() {
-		gameplayManager.declareLoss();
 		
 	}
 
@@ -40,7 +39,6 @@ public class Winner extends GameStatus {
 	public void winInEndlessInteraction(InteractionManager gamePointsInteraction, int gamePoints) {
 		if(!gamePointsInteraction.inAction()) {
 			gamePointsInteraction.startInteraction();
-			gamePoints++;
 		}
 		
 	}
@@ -49,6 +47,12 @@ public class Winner extends GameStatus {
 	public void looseInEndlessInteraction(InteractionManager addNameInteraction) {
 		return;
 		
+	}
+
+	@Override
+	public void restartGame() {
+		gameplayManager.restartGame();
+
 	}
 	
 	

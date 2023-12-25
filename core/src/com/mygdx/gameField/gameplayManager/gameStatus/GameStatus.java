@@ -16,6 +16,7 @@ public abstract class GameStatus {
 	
 	public abstract void declareLoss();
 	public abstract void declareWin();
+	public abstract void restartGame();
 
 
 

@@ -45,6 +45,7 @@ public class GameEndlessMode extends GameModeState {
 
 	private InteractionManager gamePointsInteraction = new InteractionManager();
 	private InteractionManager addNameInteraction = new InteractionManager();
+	private InteractionManager waitingToNextGameInteraction = new InteractionManager();
 
 	public GameEndlessMode(StateManager gsm, MouseTrack mouse) {
 		super(gsm, mouse);
@@ -149,7 +150,6 @@ public class GameEndlessMode extends GameModeState {
 		super.handleInput();
 
 		if (addNameInteraction.inAction()) {
-
 			if (nameSpaceBar.actorInListedBars(mouse.getMousePosition(), "add", "decline")) {
 				Gdx.graphics.setSystemCursor(Cursor.SystemCursor.Hand);
 
@@ -157,11 +157,10 @@ public class GameEndlessMode extends GameModeState {
 
 		}
 
-		if (gamePointsInteraction.inAction()) {
+		if (waitingToNextGameInteraction.inAction()) {
 			if (GameUtils.isIn2DSpaceBound(mouse.getMousePosition(), nextGameBar.getBar("nextBar").getBarRegion())) {
 				Gdx.graphics.setSystemCursor(Cursor.SystemCursor.Hand);
-
-			}
+				}
 
 		}
 
@@ -172,8 +171,14 @@ public class GameEndlessMode extends GameModeState {
 
 		((EndlessModeManager) gameplayManager).winInEndlessShowAddNameInteraction(gamePointsInteraction, gamePoints);
 		((EndlessModeManager) gameplayManager).looseInEndlessShowAddNameInteraction(addNameInteraction);
-
-
+		
+		if (gamePointsInteraction.inAction()) {
+			gamePoints++;
+			gamePointsInteraction.closeInteraction();
+			waitingToNextGameInteraction.startInteraction();
+			
+		}
+		
 		pointsBar.getBar("pointsBar").setStringText("PONTOS : " + gamePoints);
 		super.update(dt);
 
@@ -184,10 +189,12 @@ public class GameEndlessMode extends GameModeState {
 		super.render(sprite);
 
 		pointsBar.drawBars(sprite, "pointsBar");
-
-		if (gameplayManager.isWinStatus()) {
+		
+		if (waitingToNextGameInteraction.inAction()) {
 			nextGameBar.drawBars(sprite, "nextBar");
+			
 		}
+		
 
 		if (addNameInteraction.inAction()) {
 			nameSpaceBar.drawBars(sprite, "bigSquareBar", "addRequest", "add", "decline");
@@ -205,11 +212,10 @@ public class GameEndlessMode extends GameModeState {
 	}
 
 	// inside
-
+	
 	@Override
 	public void leftClickInteraction(int mouseFieldX, int mouseFieldY) {
 		super.leftClickInteraction(mouseFieldX, mouseFieldY);
-
 		if (addNameInteraction.inAction()) {
 
 			if (nameSpaceBar.actorInListedBars(mouse.getMousePosition(), "decline")) {
@@ -225,15 +231,19 @@ public class GameEndlessMode extends GameModeState {
 				saveManager.publishName(nameBar.getWritten(), difficulty, gamePoints);
 
 			}
-			if (gamePointsInteraction.inAction()) {
+		}
+			
+			if (waitingToNextGameInteraction.inAction()) {
 				if (GameUtils.isIn2DSpaceBound(mouse.getMousePosition(),
 						nextGameBar.getBar("nextBar").getBarRegion())) {
+					
 					((EndlessModeManager) gameplayManager).RebuildField((ClassicField) field);
-					gamePointsInteraction.stopInteraction();
+					waitingToNextGameInteraction.stopInteraction();
+					gamePointsInteraction.openInteraction();
 				}
 
 			}
 		}
 
 	}
-}
+

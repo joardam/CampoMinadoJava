@@ -63,7 +63,7 @@ public abstract class GameModeState extends State{
 			rows = 10;
 			cols = 10;
 			
-			bombsQuantity = 10;
+			bombsQuantity = 5;
 		}
 		else if(difficulty == 1){
 			rows = 15;
@@ -173,7 +173,6 @@ public abstract class GameModeState extends State{
 		
 		 if(mouse.eventMouseLeftClickOnce()) {
 			this.leftClickInteraction(mouseFieldX, mouseFieldY);
-			
 			
 		}
 		

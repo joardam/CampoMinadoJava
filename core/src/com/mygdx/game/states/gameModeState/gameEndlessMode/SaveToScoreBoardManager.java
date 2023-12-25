@@ -8,10 +8,17 @@ import com.badlogic.gdx.files.FileHandle;
 public class SaveToScoreBoardManager {
   
 
-    private String fileName = "scoreBoard.txt";
-    private FileHandle fileHandle = Gdx.files.local(fileName);
+    private String fileNameEazy = "scoreEazy.txt";
+    private String fileNameMedium = "scoreMedium.txt";
+    private String fileNameHard = "scoreHard.txt";
+    		
+    		
+    private FileHandle fileHandleEazy = Gdx.files.local(fileNameEazy);
+    private FileHandle fileHandleMedium = Gdx.files.local(fileNameMedium);
+    private FileHandle fileHandleHard = Gdx.files.local(fileNameHard);
+    
 
-    public void ifDontExistCreate() {
+    public void ifDontExistCreate(FileHandle fileHandle) {
     	if (!fileHandle.exists()) {
             fileHandle.writeString("", false);
             
@@ -25,30 +32,41 @@ public class SaveToScoreBoardManager {
     		username = "null";
     	}
     	
+    	FileHandle fileHandle = null;
+    	if(difficulty == 0) {
+    		fileHandle = this.fileHandleEazy;
+    	}
     	
-    	ifDontExistCreate();
-    	int counter = countLines();
+    	if(difficulty == 1) {
+    		fileHandle = this.fileHandleMedium;
+    	}
+    	
+    	if(difficulty == 2) {
+    		fileHandle = this.fileHandleHard;
+    	}
+    	ifDontExistCreate(fileHandle);
+    	
+    	int counter = countLines(fileHandle);
     	if(counter == 0) {
-    		 String newLine = String.format("%s %d %d", username, difficulty, points);
+    		 String newLine = String.format("%s %d", username, points);
     		 fileHandle.writeString(newLine + "\n", true);
     	}
     	else {
     		
-    		int usersSameDifficulty = countUsersSameDifficulty(difficulty);
-    		
+    		int usersSameDifficulty = countUsersSameDifficulty(fileHandle);
     		 if (usersSameDifficulty >= 5) {
-    			 if (isNewScoreGreater(difficulty, points)) {
+    			 if (isNewScoreGreater(points , fileHandle)) {
     	              
-    	                removeOldestLowestScore(difficulty);
+    	                removeOldestLowestScore(fileHandle);
     	              
-    	                String newLine = String.format("%s %d %d", username, difficulty, points);
+    	                String newLine = String.format("%s %d", username, points);
     	                fileHandle.writeString(newLine + "\n", true);
     	            
     			 }
     		 } 
     			 
     		 else {
-    			 String newLine = String.format("%s %d %d", username.strip(), difficulty, points);
+    			 String newLine = String.format("%s %d", username.strip(), difficulty, points);
     	         fileHandle.writeString(newLine + "\n", true);
     		 }
     		
@@ -59,7 +77,7 @@ public class SaveToScoreBoardManager {
     	
     }
     
-    private int countLines() {
+    private int countLines(FileHandle fileHandle) {
         int counter = 0;
         try {
             BufferedReader reader = new BufferedReader(fileHandle.reader());
@@ -73,22 +91,15 @@ public class SaveToScoreBoardManager {
         return counter;
     }
     
-    private int countUsersSameDifficulty(int difficulty) {
+    private int countUsersSameDifficulty(FileHandle fileHandle) {
         int counter = 0;
         try {
             BufferedReader reader = new BufferedReader(fileHandle.reader());
             String line;
             while ((line = reader.readLine()) != null) {
+                   counter++;
 
-                String[] parts = line.split(" ");
-                if (parts.length >= 2) {
-              
-                    int lineDifficulty = Integer.parseInt(parts[1]);
-               
-                    if (lineDifficulty == difficulty) {
-                        counter++;
-                    }
-                }
+                
             }
             reader.close();
         } catch (IOException | NumberFormatException e) {
@@ -99,17 +110,16 @@ public class SaveToScoreBoardManager {
     
     
     
-    private boolean isNewScoreGreater(int difficulty, int newScore) {
+    private boolean isNewScoreGreater(int newScore , FileHandle fileHandle) {
         try {
             BufferedReader reader = new BufferedReader(fileHandle.reader());
             String line;
             int lowestScore = Integer.MAX_VALUE;
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split(" ");
-                if (parts.length >= 3) {
-                    int lineDifficulty = Integer.parseInt(parts[1]);
-                    int score = Integer.parseInt(parts[2]);
-                    if (lineDifficulty == difficulty && score < lowestScore) {
+                if (parts.length >= 2) {
+                    int score = Integer.parseInt(parts[1]);
+                    if (score < lowestScore) {
                         lowestScore = score;
                     }
                 }
@@ -122,7 +132,7 @@ public class SaveToScoreBoardManager {
         }
     }
     
-    private void removeOldestLowestScore(int difficulty) {
+    private void removeOldestLowestScore(FileHandle fileHandle) {
         try {
             BufferedReader reader = new BufferedReader(fileHandle.reader());
             StringBuilder newContent = new StringBuilder();
@@ -131,10 +141,9 @@ public class SaveToScoreBoardManager {
             int lowestScore = Integer.MAX_VALUE;
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split(" ");
-                if (parts.length >= 3) {
-                    int lineDifficulty = Integer.parseInt(parts[1]);
-                    int score = Integer.parseInt(parts[2]);
-                    if (lineDifficulty == difficulty && score < lowestScore) {
+                if (parts.length >= 2) {
+                    int score = Integer.parseInt(parts[1]);
+                    if (score < lowestScore) {
                         lowestScore = score;
                         oldestLowestScoreLine = line;
                     }

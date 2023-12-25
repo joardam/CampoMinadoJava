@@ -6,11 +6,15 @@ import com.mygdx.utils.InteractionManager;
 public class EndlessModeManager extends ClassicManager {
 	
 	public void RebuildField(ClassicField field) {
+		
+		
 		field.fillCells(field.getCells().length, field.getCells()[0].length);
 		field.placeBombs();
+		field.placeNearCellInEachCell();
 		field.placeCountersInSafeCells();
+		this.restartGame();
 		
-		winStatus = false;
+		
 		
 		
 	}

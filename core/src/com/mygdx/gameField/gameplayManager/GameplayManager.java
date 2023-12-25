@@ -67,4 +67,9 @@ public abstract class GameplayManager {
 		this.gameStatus = new Looser(this);
 	}
 
+	public void restartGame() {
+			this.gameStatus = new Playing(this); 
+		
+	}
+
 }

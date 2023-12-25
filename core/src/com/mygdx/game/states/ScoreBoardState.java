@@ -12,6 +12,7 @@ import com.mygdx.game.states.menuState.MenuDifficultyManager.MenuDifficultyManag
 import com.mygdx.game.states.menuState.MenuDifficultyManager.MenuDifficultyManagerParameter;
 import com.mygdx.mouseTrack.MouseTrack;
 import com.mygdx.utils.FloatCoordinates;
+import com.mygdx.utils.GameUtils;
 
 
 
@@ -33,6 +34,13 @@ public class ScoreBoardState extends State {
 	private int spaceBetweenBars;
 	private float rectangleWidth;
     private float rectangleHeight;
+    
+    
+    private BarWithText backToMenu;
+    private int backToMenuRectangleWidth = 100;
+	private int backToMenuRectangleHeight = 30;
+    
+    
 	
 	
 	public ScoreBoardState(StateManager gsm, MouseTrack mouse) {
@@ -57,6 +65,20 @@ public class ScoreBoardState extends State {
 	@Override
 	public void create() {
 		
+		backToMenuRectangleWidth = 100;
+		backToMenuRectangleHeight = 30;
+		
+		backToMenu = new BarWithText(
+				FloatCoordinates.newCoordinates(backToMenuRectangleWidth,backToMenuRectangleHeight),
+				FloatCoordinates.newCoordinates(backToMenuRectangleWidth/2, screenHeight - backToMenuRectangleHeight/2),
+				"<- VOLTAR",
+				Color.GRAY,
+				Color.WHITE
+				);
+		
+		
+		
+		
 		rectangleWidth = 500; 
 		rectangleHeight  = 50;
 		
@@ -71,7 +93,7 @@ public class ScoreBoardState extends State {
 						"difficultyBar", 
 						BarWithText.newBarWithText(
 								FloatCoordinates.newCoordinates(selectorRectangleWidth,selectorRectangleHeight ) ,
-								FloatCoordinates.newCoordinates(screenWidth/2,screenHeight/2 - spaceBetweenBars*3),
+								FloatCoordinates.newCoordinates(screenWidth/2,screenHeight/2 + spaceBetweenBars*3),
 								menuDifficultyManager.getDifficultyStringNow(),
 								Color.DARK_GRAY,
 								menuDifficultyManager.getDifficultyColorNow()
@@ -83,7 +105,7 @@ public class ScoreBoardState extends State {
 						"increaseBar", 
 						BarWithText.newBarWithText(
 								FloatCoordinates.newCoordinates(selectorRectangleHeight,selectorRectangleHeight ) ,
-								FloatCoordinates.newCoordinates(screenWidth/2 + selectorRectangleWidth/2 + selectorRectangleHeight/2,screenHeight/2 - spaceBetweenBars*3),
+								FloatCoordinates.newCoordinates(screenWidth/2 + selectorRectangleWidth/2 + selectorRectangleHeight/2,screenHeight/2 + spaceBetweenBars*3),
 								">",
 								Color.GRAY,
 								Color.BLACK
@@ -93,7 +115,7 @@ public class ScoreBoardState extends State {
 						"decreaseBar", 
 						BarWithText.newBarWithText(
 								FloatCoordinates.newCoordinates(selectorRectangleHeight,selectorRectangleHeight ) ,
-								FloatCoordinates.newCoordinates(screenWidth/2 - selectorRectangleWidth/2 - selectorRectangleHeight/2 ,screenHeight/2 - spaceBetweenBars*3),
+								FloatCoordinates.newCoordinates(screenWidth/2 - selectorRectangleWidth/2 - selectorRectangleHeight/2 ,screenHeight/2 + spaceBetweenBars*3),
 								"<",
 								Color.GRAY,
 								Color.BLACK
@@ -105,11 +127,31 @@ public class ScoreBoardState extends State {
 
 	@Override
 	public void handleInput() {
-		if( difficultyBars.actorInListedBars(mouse.getMousePosition() , "increaseBar" , "decreaseBar")
+		if( difficultyBars.actorInListedBars(mouse.getMousePosition() , "increaseBar" , "decreaseBar") ||
+				GameUtils.isIn2DSpaceBound(mouse.getMousePosition(),backToMenu.getBarRegion())
 				) {
 			Gdx.graphics.setSystemCursor(Cursor.SystemCursor.Hand);
+		}else {
+			Gdx.graphics.setSystemCursor(Cursor.SystemCursor.Arrow);
 		}
 		
+		if (mouse.eventMouseLeftClickOnce())
+		{
+			if(GameUtils.isIn2DSpaceBound(mouse.getMousePosition(),difficultyBars.getBar("increaseBar").getBarRegion())){
+				menuDifficultyManager.increaseDificultyIndex();
+				updateHandles();
+			}
+			else if(GameUtils.isIn2DSpaceBound(mouse.getMousePosition(),difficultyBars.getBar("decreaseBar").getBarRegion() )){
+				menuDifficultyManager.decreaseDificultyIndex();
+				updateHandles();
+			}
+			else if(GameUtils.isIn2DSpaceBound(mouse.getMousePosition(),backToMenu.getBarRegion())) {
+				 gsm.pop();
+				 dispose();
+				 gsm.configure();
+				 return;
+			 }
+		}
 	}
 
 	@Override
@@ -125,20 +167,31 @@ public class ScoreBoardState extends State {
 		mouse.setMousePosition();
 		handleInput();
 	}
+	
+	public void updateHandles(){
+		difficultyBars.getBar("difficultyBar").setStringText(menuDifficultyManager.getDifficultyStringNow());
+		difficultyBars.getBar("difficultyBar").setColor(menuDifficultyManager.getDifficultyColorNow());
+	}
+	
+	
+	
 
 	@Override
 	public void render(SpriteBatch sprite) {
 		Gdx.gl.glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
 		SpriteConfig.setProjectionMatrix(sprite, videoConfig);
 		difficultyBars.drawBars(sprite,"difficultyBar" , "increaseBar" , "decreaseBar");
+		backToMenu.drawBar(sprite);
 		
 	}
 
+	
+	
+	
 	@Override
 	public void dispose() {
 		difficultyBars.disposeAll();
-		
-		
+		backToMenu.dispose();
 	}
 	
 

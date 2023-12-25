@@ -51,6 +51,12 @@ public class Looser extends GameStatus {
 		}
 		
 	}
+
+	@Override
+	public void restartGame() {
+		gameplayManager.restartGame();
+		
+	}
 	
 	
 }

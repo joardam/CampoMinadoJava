@@ -4,6 +4,7 @@ import com.mygdx.collections.TextCollection;
 import com.mygdx.gameField.ClassicField;
 import com.mygdx.gameField.Field;
 import com.mygdx.gameField.cell.FieldCell;
+import com.mygdx.gameField.gameplayManager.gameStatus.Playing;
 
 public class Mode2PlayersManager extends GameplayManager {
 	RoundPlayerManager roundManager ;
@@ -36,6 +37,11 @@ public class Mode2PlayersManager extends GameplayManager {
 	        
 	        
 	    }
+
+
+
+
+	
 
 	   
 	    
