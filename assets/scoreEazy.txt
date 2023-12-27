@@ -1,1 +1,4 @@
-p 0
+lepo 1
+cego 0
+axind 2
+sa 0

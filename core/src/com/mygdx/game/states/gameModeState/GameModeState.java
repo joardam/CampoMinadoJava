@@ -63,7 +63,7 @@ public abstract class GameModeState extends State{
 			rows = 10;
 			cols = 10;
 			
-			bombsQuantity = 5;
+			bombsQuantity = 3;
 		}
 		else if(difficulty == 1){
 			rows = 15;

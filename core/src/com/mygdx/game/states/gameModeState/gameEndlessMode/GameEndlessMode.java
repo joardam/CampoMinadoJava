@@ -15,6 +15,7 @@ import com.mygdx.game.writableBar.WritableBar;
 import com.mygdx.gameField.ClassicField;
 import com.mygdx.gameField.gameplayManager.EndlessModeManager;
 import com.mygdx.mouseTrack.MouseTrack;
+import com.mygdx.scoreBoardManager.ScoreBoardManager;
 import com.mygdx.utils.Coordinates;
 import com.mygdx.utils.FloatCoordinates;
 import com.mygdx.utils.GameUtils;
@@ -226,7 +227,7 @@ public class GameEndlessMode extends GameModeState {
 			if (nameSpaceBar.actorInListedBars(mouse.getMousePosition(), "add")) {
 				addNameInteraction.closeInteraction();
 
-				SaveToScoreBoardManager saveManager = new SaveToScoreBoardManager();
+				ScoreBoardManager saveManager = new ScoreBoardManager();
 
 				saveManager.publishName(nameBar.getWritten(), difficulty, gamePoints);
 

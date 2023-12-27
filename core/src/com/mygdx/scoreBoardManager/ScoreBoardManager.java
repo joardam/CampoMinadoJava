@@ -1,13 +1,12 @@
-package com.mygdx.game.states.gameModeState.gameEndlessMode;
+package com.mygdx.scoreBoardManager;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 
-public class SaveToScoreBoardManager {
-  
-
+public class ScoreBoardManager {
+	
     private String fileNameEazy = "scoreEazy.txt";
     private String fileNameMedium = "scoreMedium.txt";
     private String fileNameHard = "scoreHard.txt";
@@ -66,7 +65,7 @@ public class SaveToScoreBoardManager {
     		 } 
     			 
     		 else {
-    			 String newLine = String.format("%s %d", username.strip(), difficulty, points);
+    			 String newLine = String.format("%s %d", username.strip(), points);
     	         fileHandle.writeString(newLine + "\n", true);
     		 }
     		

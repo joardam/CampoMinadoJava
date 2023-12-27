@@ -11,7 +11,6 @@ import com.mygdx.collections.BarWithTextCollection.BarWithTextCollectionParamete
 import com.mygdx.config.SpriteConfig;
 import com.mygdx.config.VideoSettings;
 import com.mygdx.game.BarWithText;
-import com.mygdx.game.states.ScoreBoardState;
 import com.mygdx.game.states.State;
 import com.mygdx.game.states.StateManager;
 import com.mygdx.game.states.gameModeState.Game2PlayersModeState;
@@ -20,6 +19,7 @@ import com.mygdx.game.states.gameModeState.GameCrazyModeState;
 import com.mygdx.game.states.gameModeState.gameEndlessMode.GameEndlessMode;
 import com.mygdx.game.states.menuState.MenuDifficultyManager.MenuDifficultyManager;
 import com.mygdx.game.states.menuState.MenuDifficultyManager.MenuDifficultyManagerParameter;
+import com.mygdx.game.states.scoreBoardState.ScoreBoardState;
 import com.mygdx.utils.RgbaColor;
 import com.mygdx.utils.FloatCoordinates;
 import com.mygdx.utils.GameUtils;

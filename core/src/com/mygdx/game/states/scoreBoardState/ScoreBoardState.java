@@ -1,4 +1,7 @@
-package com.mygdx.game.states;
+package com.mygdx.game.states.scoreBoardState;
+
+import java.util.LinkedList;
+import java.util.List;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -8,9 +11,12 @@ import com.mygdx.collections.BarWithTextCollection.BarWithTextCollection;
 import com.mygdx.collections.BarWithTextCollection.BarWithTextCollectionParameters;
 import com.mygdx.config.SpriteConfig;
 import com.mygdx.game.BarWithText;
+import com.mygdx.game.states.State;
+import com.mygdx.game.states.StateManager;
 import com.mygdx.game.states.menuState.MenuDifficultyManager.MenuDifficultyManager;
 import com.mygdx.game.states.menuState.MenuDifficultyManager.MenuDifficultyManagerParameter;
 import com.mygdx.mouseTrack.MouseTrack;
+import com.mygdx.scoreBoardManager.ScoreBoardManager;
 import com.mygdx.utils.FloatCoordinates;
 import com.mygdx.utils.GameUtils;
 
@@ -23,11 +29,17 @@ public class ScoreBoardState extends State {
 	private int screenWidth;
 	private int screenHeight;
 	
+	 List<LinkedList<PlayerInfo>> scoreBoard = new LinkedList<>();
+	 
+	
 	private MenuDifficultyManager menuDifficultyManager = new MenuDifficultyManager(
 			new MenuDifficultyManagerParameter("FACIL", Color.GREEN ),
 			new MenuDifficultyManagerParameter("MEDIO", Color.YELLOW ),
 			new MenuDifficultyManagerParameter("DIFICIL", Color.RED )
 			);
+	
+	
+	
 	private BarWithTextCollection difficultyBars;
 	private float selectorRectangleWidth; 
 	private float selectorRectangleHeight;
@@ -64,6 +76,15 @@ public class ScoreBoardState extends State {
 
 	@Override
 	public void create() {
+		
+		for (int i = 0; i < 3; i++) {
+            scoreBoard.add(new LinkedList<PlayerInfo>());
+        }
+		
+		for (int i = 0; i < 3; i++) {
+            
+        }
+		
 		
 		backToMenuRectangleWidth = 100;
 		backToMenuRectangleHeight = 30;
