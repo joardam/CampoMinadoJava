@@ -1,4 +1,5 @@
 lepo 1
-cego 0
 axind 2
 sa 0
+jabu 4
+flape 3

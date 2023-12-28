@@ -81,16 +81,52 @@ public class ScoreBoardState extends State {
 		}
 		
 		
+		
+		List<LinkedList<PlayerInfo>> scoreBoardCopy = new LinkedList<>();
 		for (int i = 0; i < 3; i++) {
-					for (int j = 0; j < 5; j++) {
-						
-						if(scoreBoard.get(i).get(j) == null) {
-							System.out.println("deu não mofi");
-						}else {
-							System.out.println(scoreBoard.get(i).get(j).getName());
+			scoreBoardCopy.add(new LinkedList<PlayerInfo>());
+		}
+		
+		for (int i = 0; i < 3; i++) {
+			for (int j = 0; j < 5; j++) {
+				PlayerInfo playerAnalyzed = scoreBoard.get(i).get(j);
+				
+				if(playerAnalyzed == null) {
+					scoreBoardCopy.get(i).add(null);
+					continue;
+				}
+				
+				if(j == 0) {
+					scoreBoardCopy.get(i).add(playerAnalyzed);
+				}
+				else {
+					int counter = 0;
+					for(PlayerInfo playerInCopy : scoreBoardCopy.get(i)) {
+						if (playerAnalyzed.getPoints() > playerInCopy.getPoints()) {
+							counter++;
 						}
 					}
+					scoreBoardCopy.get(i).add(counter,playerAnalyzed);
 				}
+			}
+			
+		}
+		
+		scoreBoard = scoreBoardCopy;
+		
+		for (int i = 0; i < 3; i++) {
+			for (int j = 0; j < 5; j++) {
+				if(scoreBoard.get(i).get(j) == null) {
+					//pass 
+				}else {
+					System.out.println("Nome: " + scoreBoard.get(i).get(j).getName());
+					System.out.println("Pontos: " + scoreBoard.get(i).get(j).getPoints());
+				}
+			}
+		}
+
+		
+		
 		
 		
 		
