@@ -20,41 +20,31 @@ import com.mygdx.scoreBoardManager.ScoreBoardManager;
 import com.mygdx.utils.FloatCoordinates;
 import com.mygdx.utils.GameUtils;
 
-
-
-
-
 public class ScoreBoardState extends State {
 
 	private int screenWidth;
 	private int screenHeight;
-	
-	 List<LinkedList<PlayerInfo>> scoreBoard = new LinkedList<>();
-	 
-	
+
+	private ScoreBoardManager scoreBoardManager = new ScoreBoardManager();
+
+	List<LinkedList<PlayerInfo>> scoreBoard = new LinkedList<>();
+
 	private MenuDifficultyManager menuDifficultyManager = new MenuDifficultyManager(
-			new MenuDifficultyManagerParameter("FACIL", Color.GREEN ),
-			new MenuDifficultyManagerParameter("MEDIO", Color.YELLOW ),
-			new MenuDifficultyManagerParameter("DIFICIL", Color.RED )
-			);
-	
-	
-	
+			new MenuDifficultyManagerParameter("FACIL", Color.GREEN),
+			new MenuDifficultyManagerParameter("MEDIO", Color.YELLOW),
+			new MenuDifficultyManagerParameter("DIFICIL", Color.RED));
+
 	private BarWithTextCollection difficultyBars;
-	private float selectorRectangleWidth; 
+	private float selectorRectangleWidth;
 	private float selectorRectangleHeight;
 	private int spaceBetweenBars;
 	private float rectangleWidth;
-    private float rectangleHeight;
-    
-    
-    private BarWithText backToMenu;
-    private int backToMenuRectangleWidth = 100;
+	private float rectangleHeight;
+
+	private BarWithText backToMenu;
+	private int backToMenuRectangleWidth = 100;
 	private int backToMenuRectangleHeight = 30;
-    
-    
-	
-	
+
 	public ScoreBoardState(StateManager gsm, MouseTrack mouse) {
 		super(gsm, mouse);
 		configure();
@@ -69,7 +59,7 @@ public class ScoreBoardState extends State {
 		videoConfig.setWindowedMode();
 		videoConfig.setResizable(false);
 		videoConfig.setTitle("Menu");
-		
+
 		screenWidth = Gdx.graphics.getWidth();
 		screenHeight = Gdx.graphics.getHeight();
 	}
@@ -78,107 +68,107 @@ public class ScoreBoardState extends State {
 	public void create() {
 		
 		for (int i = 0; i < 3; i++) {
-            scoreBoard.add(new LinkedList<PlayerInfo>());
-        }
+			scoreBoard.add(new LinkedList<PlayerInfo>());
+		}
+		
 		
 		for (int i = 0; i < 3; i++) {
-            
-        }
+			PlayerInfo[] players = scoreBoardManager.getPlayersByDifficulty(i);
+			
+			for (int j = 0; j < 5; j++) {
+				scoreBoard.get(i).add(players[j]);
+			}
+		}
 		
 		
+		for (int i = 0; i < 3; i++) {
+					for (int j = 0; j < 5; j++) {
+						
+						if(scoreBoard.get(i).get(j) == null) {
+							System.out.println("deu não mofi");
+						}else {
+							System.out.println(scoreBoard.get(i).get(j).getName());
+						}
+					}
+				}
+		
+		
+		
+
 		backToMenuRectangleWidth = 100;
 		backToMenuRectangleHeight = 30;
-		
+
 		backToMenu = new BarWithText(
-				FloatCoordinates.newCoordinates(backToMenuRectangleWidth,backToMenuRectangleHeight),
-				FloatCoordinates.newCoordinates(backToMenuRectangleWidth/2, screenHeight - backToMenuRectangleHeight/2),
-				"<- VOLTAR",
-				Color.GRAY,
-				Color.WHITE
-				);
-		
-		
-		
-		
-		rectangleWidth = 500; 
-		rectangleHeight  = 50;
-		
-		selectorRectangleWidth = rectangleWidth - rectangleHeight*2; 
-		selectorRectangleHeight  = rectangleHeight;
-		
-		
+				FloatCoordinates.newCoordinates(backToMenuRectangleWidth, backToMenuRectangleHeight), FloatCoordinates
+						.newCoordinates(backToMenuRectangleWidth / 2, screenHeight - backToMenuRectangleHeight / 2),
+				"<- VOLTAR", Color.GRAY, Color.WHITE);
+
+		rectangleWidth = 500;
+		rectangleHeight = 50;
+
+		selectorRectangleWidth = rectangleWidth - rectangleHeight * 2;
+		selectorRectangleHeight = rectangleHeight;
+
 		spaceBetweenBars = 70;
-		
-		difficultyBars = new BarWithTextCollection(
-				BarWithTextCollectionParameters.getParameters(
-						"difficultyBar", 
+
+		difficultyBars = new BarWithTextCollection(BarWithTextCollectionParameters.getParameters("difficultyBar",
+				BarWithText.newBarWithText(
+						FloatCoordinates.newCoordinates(selectorRectangleWidth, selectorRectangleHeight),
+						FloatCoordinates.newCoordinates(screenWidth / 2, screenHeight / 2 + spaceBetweenBars * 3),
+						menuDifficultyManager.getDifficultyStringNow(), Color.DARK_GRAY,
+						menuDifficultyManager.getDifficultyColorNow())
+
+		),
+
+				BarWithTextCollectionParameters.getParameters("increaseBar",
 						BarWithText.newBarWithText(
-								FloatCoordinates.newCoordinates(selectorRectangleWidth,selectorRectangleHeight ) ,
-								FloatCoordinates.newCoordinates(screenWidth/2,screenHeight/2 + spaceBetweenBars*3),
-								menuDifficultyManager.getDifficultyStringNow(),
-								Color.DARK_GRAY,
-								menuDifficultyManager.getDifficultyColorNow()
-								)
-					
-						),
-				
-				BarWithTextCollectionParameters.getParameters(
-						"increaseBar", 
+								FloatCoordinates.newCoordinates(selectorRectangleHeight, selectorRectangleHeight),
+								FloatCoordinates.newCoordinates(
+										screenWidth / 2 + selectorRectangleWidth / 2 + selectorRectangleHeight / 2,
+										screenHeight / 2 + spaceBetweenBars * 3),
+								">", Color.GRAY, Color.BLACK)),
+				BarWithTextCollectionParameters.getParameters("decreaseBar",
 						BarWithText.newBarWithText(
-								FloatCoordinates.newCoordinates(selectorRectangleHeight,selectorRectangleHeight ) ,
-								FloatCoordinates.newCoordinates(screenWidth/2 + selectorRectangleWidth/2 + selectorRectangleHeight/2,screenHeight/2 + spaceBetweenBars*3),
-								">",
-								Color.GRAY,
-								Color.BLACK
-								)
-						),
-				BarWithTextCollectionParameters.getParameters(
-						"decreaseBar", 
-						BarWithText.newBarWithText(
-								FloatCoordinates.newCoordinates(selectorRectangleHeight,selectorRectangleHeight ) ,
-								FloatCoordinates.newCoordinates(screenWidth/2 - selectorRectangleWidth/2 - selectorRectangleHeight/2 ,screenHeight/2 + spaceBetweenBars*3),
-								"<",
-								Color.GRAY,
-								Color.BLACK
-								)
-						)
-				
-				);		
+								FloatCoordinates.newCoordinates(selectorRectangleHeight, selectorRectangleHeight),
+								FloatCoordinates.newCoordinates(
+										screenWidth / 2 - selectorRectangleWidth / 2 - selectorRectangleHeight / 2,
+										screenHeight / 2 + spaceBetweenBars * 3),
+								"<", Color.GRAY, Color.BLACK))
+
+		);
 	}
 
 	@Override
 	public void handleInput() {
-		if( difficultyBars.actorInListedBars(mouse.getMousePosition() , "increaseBar" , "decreaseBar") ||
-				GameUtils.isIn2DSpaceBound(mouse.getMousePosition(),backToMenu.getBarRegion())
-				) {
+		if (difficultyBars.actorInListedBars(mouse.getMousePosition(), "increaseBar", "decreaseBar")
+				|| GameUtils.isIn2DSpaceBound(mouse.getMousePosition(), backToMenu.getBarRegion())) {
 			Gdx.graphics.setSystemCursor(Cursor.SystemCursor.Hand);
-		}else {
+		} else {
 			Gdx.graphics.setSystemCursor(Cursor.SystemCursor.Arrow);
 		}
-		
-		if (mouse.eventMouseLeftClickOnce())
-		{
-			if(GameUtils.isIn2DSpaceBound(mouse.getMousePosition(),difficultyBars.getBar("increaseBar").getBarRegion())){
+
+		if (mouse.eventMouseLeftClickOnce()) {
+			if (GameUtils.isIn2DSpaceBound(mouse.getMousePosition(),
+					difficultyBars.getBar("increaseBar").getBarRegion())) {
 				menuDifficultyManager.increaseDificultyIndex();
 				updateHandles();
-			}
-			else if(GameUtils.isIn2DSpaceBound(mouse.getMousePosition(),difficultyBars.getBar("decreaseBar").getBarRegion() )){
+			} else if (GameUtils.isIn2DSpaceBound(mouse.getMousePosition(),
+					difficultyBars.getBar("decreaseBar").getBarRegion())) {
 				menuDifficultyManager.decreaseDificultyIndex();
 				updateHandles();
+			} else if (GameUtils.isIn2DSpaceBound(mouse.getMousePosition(), backToMenu.getBarRegion())) {
+				gsm.pop();
+				dispose();
+				gsm.configure();
+				return;
 			}
-			else if(GameUtils.isIn2DSpaceBound(mouse.getMousePosition(),backToMenu.getBarRegion())) {
-				 gsm.pop();
-				 dispose();
-				 gsm.configure();
-				 return;
-			 }
 		}
 	}
 
 	@Override
 	public void resize(int width, int height) {
 		super.resize(width, height);
-		
+
 	}
 
 	@Override
@@ -188,32 +178,25 @@ public class ScoreBoardState extends State {
 		mouse.setMousePosition();
 		handleInput();
 	}
-	
-	public void updateHandles(){
+
+	public void updateHandles() {
 		difficultyBars.getBar("difficultyBar").setStringText(menuDifficultyManager.getDifficultyStringNow());
 		difficultyBars.getBar("difficultyBar").setColor(menuDifficultyManager.getDifficultyColorNow());
 	}
-	
-	
-	
 
 	@Override
 	public void render(SpriteBatch sprite) {
 		Gdx.gl.glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
 		SpriteConfig.setProjectionMatrix(sprite, videoConfig);
-		difficultyBars.drawBars(sprite,"difficultyBar" , "increaseBar" , "decreaseBar");
+		difficultyBars.drawBars(sprite, "difficultyBar", "increaseBar", "decreaseBar");
 		backToMenu.drawBar(sprite);
-		
+
 	}
 
-	
-	
-	
 	@Override
 	public void dispose() {
 		difficultyBars.disposeAll();
 		backToMenu.dispose();
 	}
-	
 
 }

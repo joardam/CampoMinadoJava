@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
+import com.mygdx.game.states.scoreBoardState.PlayerInfo;
 
 public class ScoreBoardManager {
 	
@@ -65,6 +66,7 @@ public class ScoreBoardManager {
     		 } 
     			 
     		 else {
+    			 
     			 String newLine = String.format("%s %d", username.strip(), points);
     	         fileHandle.writeString(newLine + "\n", true);
     		 }
@@ -157,6 +159,50 @@ public class ScoreBoardManager {
         }
     }
     
+    
+    public PlayerInfo[] getPlayersByDifficulty(int difficultyIndex){
+    	 try {
+    		 PlayerInfo[] players = new PlayerInfo[5];
+    		 FileHandle fileHandle = null;
+    	    	if(difficultyIndex == 0) {
+    	    		fileHandle = this.fileHandleEazy;
+    	    	}
+    	    	
+    	    	if(difficultyIndex == 1) {
+    	    		fileHandle = this.fileHandleMedium;
+    	    	}
+    	    	
+    	    	if(difficultyIndex == 2) {
+    	    		fileHandle = this.fileHandleHard;
+    	    	}
+    	    	ifDontExistCreate(fileHandle);
+    		 
+    		 
+    		 
+    		 BufferedReader reader = new BufferedReader(fileHandle.reader());
+             String line;
+             
+             
+             int counter = 0;
+             while ((line = reader.readLine()) != null) {
+                 String[] parts = line.split(" ");
+                 if (parts.length >= 2) {
+                     players[counter] = new PlayerInfo();
+                     players[counter].setName(parts[0]);
+                     players[counter].setPoints(Integer.parseInt(parts[1]));
+                     counter++;
+                     
+                 }
+             }
+             reader.close();
+             return players;
+             
+         } catch (IOException | NumberFormatException e) {
+             e.printStackTrace();
+             return null;
+         }
+
+     }
     
     
     
