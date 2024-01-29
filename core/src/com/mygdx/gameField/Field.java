@@ -100,6 +100,18 @@ public abstract class Field implements FieldInterface{
 	        }
 	    }
 	
+	public void replaceCountersInSafeCells() {
+	    for (int i = 0; i < cells.length; i++) {
+	        for (int j = 0; j < cells[i].length; j++) {
+	            FieldCell currentCell = cells[i][j];
+
+	            currentCell.getProfile().resetNearbyBombs(currentCell);
+	            
+	            }
+	        }
+	    }
+	
+	
 
 	public int countNearbyBombs(int x, int y) {
 	    int bombCount = 0;

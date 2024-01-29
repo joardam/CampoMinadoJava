@@ -3,6 +3,7 @@ package com.mygdx.text;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 import com.mygdx.utils.*;
@@ -69,7 +70,17 @@ public class Text {
     	return this.textString;
     }
 
-
+    
+    public void draw(SpriteBatch sprite) {
+    	BitmapFont font  = this.getFont();
+    	String textString = this.getTextString();
+    	int coordinateX = (int) this.getTextPosition().getCoordinateX();
+    	int coordinateY = (int) this.getTextPosition().getCoordinateY();
+    	
+    	font.draw(sprite, textString, coordinateX, coordinateY);
+    	
+    	
+    }
 	
     
     

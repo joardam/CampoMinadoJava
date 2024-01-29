@@ -7,6 +7,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Cursor;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.mygdx.collections.TextCollection;
 import com.mygdx.collections.BarWithTextCollection.BarWithTextCollection;
 import com.mygdx.collections.BarWithTextCollection.BarWithTextCollectionParameters;
 import com.mygdx.config.SpriteConfig;
@@ -17,6 +18,7 @@ import com.mygdx.game.states.menuState.MenuDifficultyManager.MenuDifficultyManag
 import com.mygdx.game.states.menuState.MenuDifficultyManager.MenuDifficultyManagerParameter;
 import com.mygdx.mouseTrack.MouseTrack;
 import com.mygdx.scoreBoardManager.ScoreBoardManager;
+import com.mygdx.text.Text;
 import com.mygdx.utils.FloatCoordinates;
 import com.mygdx.utils.GameUtils;
 
@@ -25,6 +27,8 @@ public class ScoreBoardState extends State {
 	private int screenWidth;
 	private int screenHeight;
 
+	
+	
 	private ScoreBoardManager scoreBoardManager = new ScoreBoardManager();
 
 	List<LinkedList<PlayerInfo>> scoreBoard = new LinkedList<>();
@@ -35,12 +39,15 @@ public class ScoreBoardState extends State {
 			new MenuDifficultyManagerParameter("DIFICIL", Color.RED));
 
 	private BarWithTextCollection difficultyBars;
+	private Text[][] playersTexts = new Text[3][5];
+	
 	private float selectorRectangleWidth;
 	private float selectorRectangleHeight;
 	private int spaceBetweenBars;
 	private float rectangleWidth;
 	private float rectangleHeight;
 
+		
 	private BarWithText backToMenu;
 	private int backToMenuRectangleWidth = 100;
 	private int backToMenuRectangleHeight = 30;
@@ -66,6 +73,7 @@ public class ScoreBoardState extends State {
 
 	@Override
 	public void create() {
+		spaceBetweenBars = 70;
 		
 		for (int i = 0; i < 3; i++) {
 			scoreBoard.add(new LinkedList<PlayerInfo>());
@@ -114,17 +122,26 @@ public class ScoreBoardState extends State {
 		
 		scoreBoard = scoreBoardCopy;
 		
+		
 		for (int i = 0; i < 3; i++) {
+			playersTexts[i] = new Text[5];
 			for (int j = 0; j < 5; j++) {
 				if(scoreBoard.get(i).get(j) == null) {
-					//pass 
-				}else {
-					System.out.println("Nome: " + scoreBoard.get(i).get(j).getName());
-					System.out.println("Pontos: " + scoreBoard.get(i).get(j).getPoints());
+					continue;
 				}
+				playersTexts[i][j] = new Text();
+				playersTexts[i][j].setSize(32);
+				
+				playersTexts[i][j].initialize();
+				
+				playersTexts[i][j].setTextString(scoreBoard.get(i).get(j).getName() +" " + scoreBoard.get(i).get(j).getPoints() );;
+				playersTexts[i][j].setColor(Color.WHITE);;
+				playersTexts[i][j].setTextPosition(screenWidth/2 - 32, -(j)*spaceBetweenBars + screenHeight/2 + 32*3);
 			}
-		}
-
+			
+			}
+		
+		
 		
 		
 		
@@ -226,8 +243,23 @@ public class ScoreBoardState extends State {
 		SpriteConfig.setProjectionMatrix(sprite, videoConfig);
 		difficultyBars.drawBars(sprite, "difficultyBar", "increaseBar", "decreaseBar");
 		backToMenu.drawBar(sprite);
-
+		
+		sprite.begin();
+		int indexNow = menuDifficultyManager.getDifficultyIndexNow();
+		
+		for (int j = 0; j < 5; j++) {
+			if(playersTexts[indexNow][j] == null) {
+				continue;
+			}
+			
+			playersTexts[indexNow][j].draw(sprite);
+		}
+		sprite.end();
+		
 	}
+		
+		
+	
 
 	@Override
 	public void dispose() {

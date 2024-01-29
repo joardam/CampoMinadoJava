@@ -22,7 +22,8 @@ public class WarningSafeCell extends SafeCell {
 	}
 
 	
-	public void setNearbyBombs(int counter) {
+	
+	public void setNearbyBombsCounter(int counter) {
 		this.nearbyBombs = counter;
 	}
 
@@ -50,7 +51,33 @@ public class WarningSafeCell extends SafeCell {
 		
 	}
 
-	
+	@Override
+	public void setNearbyBombs(FieldCell cell) {
+		return;
+	}
+
+	@Override
+	public void resetNearbyBombs(FieldCell cell) {
+		int counterBombs = 0;
+		for (int i = 0; i <= 7; i++) {
+			if (cell.getNearCells().getNearCellsArray()[i] == null) {
+				// pass
+			} else {
+				counterBombs = cell.getNearCells().getNearCellsArray()[i].getProfile().countBomb(counterBombs);
+			}
+
+			if (counterBombs > 0) {
+				cell.setCellProfileCompleteSafeCell();
+				cell.getProfile().setNearbyBombs(cell);
+
+				((WarningSafeCell) cell.getProfile()).setNearbyBombsCounter(counterBombs);
+
+			}
+			else {
+				
+			}
+		}
+	}
 	
 	
 

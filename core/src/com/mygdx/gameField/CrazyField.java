@@ -6,6 +6,18 @@ import com.mygdx.utils.GameUtils;
 public class CrazyField extends Field{
 	private int crazyCellsQuantity = 10;
 	
+	public int getCrazyCellsQuantity() {
+		return crazyCellsQuantity;
+	}
+
+
+
+	public void setCrazyCellsQuantity(int crazyCellsQuantity) {
+		this.crazyCellsQuantity = crazyCellsQuantity;
+	}
+
+
+
 	@Override
 	public void fillCells(int cols, int rows) {
 	    cells = new CrazyModeCell[cols][rows];

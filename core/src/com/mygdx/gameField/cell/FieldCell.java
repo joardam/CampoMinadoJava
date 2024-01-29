@@ -58,9 +58,15 @@ public abstract class FieldCell implements TwoPlayersModeCellMethods{
 		this.characteristics.setCoveredState(new NotFlagged());
 	}
 	
+	
 	public void setCellProfileWarningSafeCell() {
 		this.characteristics.setProfile(new WarningSafeCell()); 
 	}
+	
+	public void setCellProfileCompleteSafeCell() {
+		this.characteristics.setProfile(new CompleteSafeCell()); 
+	}
+	
 	
 	public void interactFlag() {
 		this.characteristics.interactFlag();

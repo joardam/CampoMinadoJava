@@ -42,7 +42,7 @@ public class CrazyManager extends GameplayManager {
 	        	cell.setProfile(new MinedCell());
 	        	cell.activate();
 	        	((CrazyField) field).increaseBombsQuantity();
-	        	 field.placeCountersInSafeCells();
+	        	 field.replaceCountersInSafeCells();
 	        	
 	        	
 	        }
@@ -50,7 +50,7 @@ public class CrazyManager extends GameplayManager {
 	        	cell.setProfile(new CompleteSafeCell());
 	        	cell.activate();
 	        	((CrazyField) field).decreaseBombsQuantity();
-	        	 field.placeCountersInSafeCells();
+	        	 field.replaceCountersInSafeCells();
 	        	 super.tryToToggleFlagThisCell(posX, posY, field);
 	        	 super.tryToUncoverThisCell(posX, posY, field);
 	        }

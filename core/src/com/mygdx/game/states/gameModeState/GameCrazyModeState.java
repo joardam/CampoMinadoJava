@@ -31,11 +31,10 @@ public class GameCrazyModeState extends GameModeState{
 	
 	@Override
 	public void create() {
-		
-		
 		super.create();
-		
+		((CrazyField) field).setCrazyCellsQuantity(bombsQuantity);;
 		((CrazyField) field).placeCrazyness();
+		
 	}
 
 	@Override

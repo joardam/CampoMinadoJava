@@ -64,5 +64,10 @@ public class MinedCell extends CellProfile {
 		
 	}
 
+	@Override
+	public void resetNearbyBombs(FieldCell cell) {
+		return;
+	}
+
 	
 }

@@ -12,18 +12,12 @@ public abstract class CellProfile implements CellProfileInterface{
 	}
 	
 	@Override
-	public void setNearbyBombs(FieldCell cell) {
-		return;
-		
-	}
-
+	public abstract void setNearbyBombs(FieldCell cell) ;
 	public abstract void passRoundFilter(Characteristics characteristics, RoundPlayerManager roundManager);
-
 	public abstract int getCellTextureId();
-
 	public abstract void analyzeStart(Characteristics characteristics, Field field);
-
 	public abstract void analyzeWorking(Characteristics characteristics, Field field);
+	public abstract void resetNearbyBombs(FieldCell cell) ;
 
 
 }

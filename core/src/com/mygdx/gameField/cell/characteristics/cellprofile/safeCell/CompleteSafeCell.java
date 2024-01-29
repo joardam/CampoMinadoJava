@@ -24,21 +24,12 @@ public class CompleteSafeCell extends SafeCell{
 		
 		
 	}
-	
-	
-	
-
-	
-
-	
-	
+		
 	
 	
 	@Override
 	public void setNearbyBombs(FieldCell cell) {
 		int counterBombs = 0;
-		
-		
 			for(int i = 0 ; i <= 7 ;i++){
 				if (cell.getNearCells().getNearCellsArray()[i] == null) {
 					//pass
@@ -46,14 +37,11 @@ public class CompleteSafeCell extends SafeCell{
 					counterBombs = cell.getNearCells().getNearCellsArray()[i].getProfile().countBomb(counterBombs);
 				}
 		
-				
-    				
-		
 		
 		if(counterBombs > 0) {
 			cell.setCellProfileWarningSafeCell();
 			cell.getProfile().setNearbyBombs(cell);
-			((WarningSafeCell)cell.getProfile()).setNearbyBombs(counterBombs);
+			((WarningSafeCell)cell.getProfile()).setNearbyBombsCounter(counterBombs);
 		}
 		
 		
@@ -80,6 +68,12 @@ public class CompleteSafeCell extends SafeCell{
 	public void analyzeWorking(Characteristics characteristics, Field field) {
 		characteristics.uncover();
 		characteristics.analyzeWorking(field);
+		
+	}
+
+	@Override
+	public void resetNearbyBombs(FieldCell cell) {
+		setNearbyBombs(cell);
 		
 	}
 

@@ -1,5 +1,5 @@
-lepo 1
 axind 2
-sa 0
 jabu 4
 flape 3
+sabi 1
+jojo 9
