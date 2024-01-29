@@ -13,7 +13,7 @@ public class TextCollection {
 
     }
 
-    public TextCollection(Object... args) {
+    public TextCollection(Object... args) throws CollectionException {
         
 
     	try {
@@ -24,7 +24,7 @@ public class TextCollection {
 	        	
 	        	
 	        	if(!(args[argIndexNow] instanceof String)) {
-	        		throw new IllegalArgumentException("(wrong Parameter , must me String)");
+	        		throw new CollectionException("(wrong Parameter , must me String)");
 	        	}
 	        	
 	   
@@ -54,14 +54,14 @@ public class TextCollection {
 	        	
 	        	
 	        	if(argIndexNow + 1 >= args.length ) {
-	        		throw new IllegalArgumentException("String Parameter cannot be alone");
+	        		throw new CollectionException("String Parameter cannot be alone");
 	        		
 	        	}
 	        	
 	        	if(condition2Parameters && (argIndexNow + 3 >= args.length ) && !(args[argIndexNow + 3] instanceof RgbaColor)) {
 	        		
 	        		if(!(args[argIndexNow + 1] instanceof Integer)) {
-	        			throw new IllegalArgumentException("(When using 2 parameters must be (String ,Integer)");
+	        			throw new CollectionException("(When using 2 parameters must be (String ,Integer)");
 
 	        		}
 	        		String stringId = (String) args[argIndexNow];
@@ -78,7 +78,7 @@ public class TextCollection {
 	        				!(args[argIndexNow + 1] instanceof Integer) || 
 	        				!(args[argIndexNow + 2] instanceof String)
 	        				) {
-	        			throw new IllegalArgumentException("(When using 3 parameters must be (String ,Integer ,String)");
+	        			throw new CollectionException("(When using 3 parameters must be (String ,Integer ,String)");
 	        		}
 	        		
 	        		String stringId = (String) args[argIndexNow];
@@ -97,7 +97,7 @@ public class TextCollection {
 	    	        				!(args[argIndexNow + 2] instanceof String) ||
 	        						!(args[argIndexNow + 3] instanceof RgbaColor)
 	        				) {
-	        			throw new IllegalArgumentException("(When using 4 parameters must be (String ,Integer ,String , RgbaColor)");
+	        			throw new CollectionException("(When using 4 parameters must be (String ,Integer ,String , RgbaColor)");
 	        			
 	        		}
 	        		String stringId = (String) args[argIndexNow];
@@ -120,7 +120,7 @@ public class TextCollection {
 	        						!(args[argIndexNow + 4] instanceof FloatCoordinates)
 	        					
 	        				) {
-	        			throw new IllegalArgumentException("(When using 5 parameters must be (String ,Integer ,String , RgbaColor, FloatCoordinates)");
+	        			throw new CollectionException("(When using 5 parameters must be (String ,Integer ,String , RgbaColor, FloatCoordinates)");
 	        		}
 	        	
 	        		
@@ -150,7 +150,7 @@ public class TextCollection {
 	        		
 	        	}
 	        	else {
-	        		throw new IllegalArgumentException("Wrong Parameters");
+	        		throw new CollectionException("Wrong Parameters");
 	        	}
 	        		        	
 	        	
@@ -159,7 +159,7 @@ public class TextCollection {
 	        
 	       
             
-        } catch (IllegalArgumentException e) {
+        } catch (CollectionException e) {
             System.err.println("Error: " + e.getMessage());
         }
     }
@@ -184,16 +184,16 @@ public class TextCollection {
     	text.setTextString(textString);
     }
 
-    public Text getText(String stringId) {
+    public Text getText(String stringId) throws CollectionException {
         try {
             Text text = textMap.get(stringId);
 
             if (text == null) {
-                throw new IllegalArgumentException("stringId not found: " + stringId);
+                throw new CollectionException("stringId not found: " + stringId);
             }
 
             return text;
-        } catch (IllegalArgumentException e) {
+        } catch (CollectionException e) {
             System.err.println("Error: " + e.getMessage());
             return null; 
         }
@@ -203,10 +203,10 @@ public class TextCollection {
         return this.textMap;
     }
 
-    public void setColors(Object... args) {
+    public void setColors(Object... args) throws CollectionException {
         try {
             if (args.length % 5 != 0) {
-                throw new IllegalArgumentException("Not enough parameters per key. Each group of parameters should consist of a String and four float values.");
+                throw new CollectionException("Not enough parameters per key. Each group of parameters should consist of a String and four float values.");
             }
 
             for (int i = 0; i < args.length; i += 5) {
@@ -215,7 +215,7 @@ public class TextCollection {
                     !(args[i + 2] instanceof Float) ||
                     !(args[i + 3] instanceof Float) ||
                     !(args[i + 4] instanceof Float)) {
-                    throw new IllegalArgumentException("Wrong type. Each group of parameters should consist of a String and four float values.");
+                    throw new CollectionException("Wrong type. Each group of parameters should consist of a String and four float values.");
                 }
 
                 String stringId = (String) args[i];
@@ -228,15 +228,15 @@ public class TextCollection {
 
                 text.setColor(x1, x2, x3, x4);
             }
-        } catch (IllegalArgumentException e) {
+        } catch (CollectionException e) {
             System.err.println("Error: " + e.getMessage());
         }
     }
 
-    public void setTextPositions(Object... args) {
+    public void setTextPositions(Object... args) throws CollectionException {
         try {
             if (args.length % 3 != 0) {
-                throw new IllegalArgumentException("Not enough parameters per key. Each group of parameters should consist of a String, a float for x, and a float for y.");
+                throw new CollectionException("Not enough parameters per key. Each group of parameters should consist of a String, a float for x, and a float for y.");
             }
 
             for (int i = 0; i < args.length; i += 3) {
@@ -255,7 +255,7 @@ public class TextCollection {
 
                 text.setTextPosition(x, y);
             }
-        } catch (IllegalArgumentException e) {
+        } catch (CollectionException e) {
             System.err.println("Error: " + e.getMessage());
         }
     }

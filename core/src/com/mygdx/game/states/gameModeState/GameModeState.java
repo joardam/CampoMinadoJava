@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.mygdx.collections.CollectionException;
 import com.mygdx.collections.TextCollection;
 import com.mygdx.config.SpriteConfig;
 import com.mygdx.config.VideoSettings;
@@ -137,15 +138,19 @@ public abstract class GameModeState extends State{
 	
 		
 		
-		booleanEndStatus = new TextCollection(
-				"loose", 32,"Perdeu",
-				new RgbaColor("red") ,
-				new FloatCoordinates(booleanEndStatusPosition , spriteSize/2),
-				
-				"win", 32 ,"Ganhou" ,
-				new RgbaColor("green") ,
-				new FloatCoordinates(booleanEndStatusPosition , spriteSize/2)
-				);	
+		try {
+			booleanEndStatus = new TextCollection(
+					"loose", 32,"Perdeu",
+					new RgbaColor("red") ,
+					new FloatCoordinates(booleanEndStatusPosition , spriteSize/2),
+					
+					"win", 32 ,"Ganhou" ,
+					new RgbaColor("green") ,
+					new FloatCoordinates(booleanEndStatusPosition , spriteSize/2)
+					);
+		} catch (CollectionException e) {
+			e.printStackTrace();
+		}	
 	}
 
 
@@ -236,11 +241,21 @@ public abstract class GameModeState extends State{
 	//inside
 	
 	public void drawLossCase(SpriteBatch sprite) {
-		TextDraw.draw(sprite, booleanEndStatus.getText("loose"));
+		try {
+			TextDraw.draw(sprite, booleanEndStatus.getText("loose"));
+		} catch (CollectionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public void drawWinCase(SpriteBatch sprite) {
-		TextDraw.draw(sprite, booleanEndStatus.getText("win"));
+		try {
+			TextDraw.draw(sprite, booleanEndStatus.getText("win"));
+		} catch (CollectionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	

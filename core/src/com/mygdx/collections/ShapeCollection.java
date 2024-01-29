@@ -23,7 +23,7 @@ public class ShapeCollection {
 	}
 	
 	
-	public ShapeCollection(Object... args) {
+	public ShapeCollection(Object... args) throws CollectionException {
         try {
             if (args.length % 2 != 0) {
                 throw new IllegalArgumentException("Parameters pattern must be (String, RgbaColor)");
@@ -33,7 +33,7 @@ public class ShapeCollection {
 
             for (int i = 0; i < args.length; i += 2) {
                 if (!(args[i] instanceof String) || !(args[i + 1] instanceof RgbaColor)) {
-                	throw new IllegalArgumentException("Parameters types must be (String, RgbaColor)");
+                	throw new CollectionException("Parameters types must be (String, RgbaColor)");
                 
                 }
                 String stringId = (String) args[i];
@@ -68,10 +68,10 @@ public class ShapeCollection {
 		
 	}
 	
-	public void setRect(Object ... args) {
+	public void setRect(Object ... args) throws CollectionException {
 		try {
 			 if (args.length % 3 != 0) {
-	                throw new IllegalArgumentException("Parameters pattern must be (String, FloatCoordinates , FloatCoordinates)");
+	                throw new CollectionException("Parameters pattern must be (String, FloatCoordinates , FloatCoordinates)");
 	            }
 			 
 			 for (int i = 0; i < args.length; i += 3) {
@@ -90,7 +90,7 @@ public class ShapeCollection {
 			
 			
 			
-		} catch (IllegalArgumentException e) {
+		} catch (CollectionException e) {
             System.err.println("Error: " + e.getMessage());
         }
 		
